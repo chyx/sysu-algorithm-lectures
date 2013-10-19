@@ -86,9 +86,52 @@ var paper = Raphael('board1', 100, 50);
 MagicBoard.createNew(paper, 0, 0, 100, 50, [1,2,3,4,8,7,6,5]);
 </script>
 
-## ![*康托展开]()
+## [*康托展开](http://zh.wikipedia.org/wiki/%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80)
 
+康托展开是一个全排列到一个自然数的双射，常用于构建哈希表时的空间压缩
 
+N位的十进制整数可以由N个$<10$的数字表示
 
+$X = a_n 10^{n-1} + a_{n-1} 10^{n-2} + ... + a_i 10^{i-1} + ... + a_1 10^{0}$
 
+类似的，N个数字的排列可以由N个$<N$的数字表示
+
+$X = a_n (n-1)! + a_{n-1} (n-2)! + ... + a_i (i-1)! + ... + a_1 0!$
+
+$a_i$表示，在全排列$\pi$中，比$\pi_i$大而且位于$\pi_i$前面的数字的个数。
+
+## Code
+~~~{.cpp}
+int const kMaxState = 40320;
+bool visit[kMaxState];  // 8!
+int parent[kMaxState];
+int operation[kMaxState];
+
+queue<State> que;
+void update(const State& state, const State& new_state, char op) {
+  que.push(new_state);
+  visit[new_state.hash_value] = true;
+  parent[new_state.hash_value] = state.hash_value;
+  operation[new_state.hash_value] = op;
+}
+
+void bfs(State start) {
+  memset(visit, 0, sizeof (visit));
+  que.push(start);
+  visit[start.hash_value] = true;
+  while (!que.empty()) {
+    State state = que.front();
+    que.pop();
+
+    State new_state = state; new_state.transformA();
+    if (!visit[new_state.hash_value]) update(state, new_state, 'A');
+
+    new_state = state; new_state.transformB();
+    if (!visit[new_state.hash_value]) update(state, new_state, 'B');
+
+    new_state = state; new_state.transformC();
+    if (!visit[new_state.hash_value]) update(state, new_state, 'C');
+  }
+}
+~~~
 
