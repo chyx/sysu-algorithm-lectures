@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>周练1（9月28日，3小时）</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">周练1（9月28日，3小时）</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="ural-1001" class="slide section level1">
+<h1>URAL 1001</h1>
+<div class="incremental">
+<ul class="incremental">
+<li><p>题意：求整数(<span class="math">\(\le 10^{18}\)</span>)的开方</p></li>
+<li><p>解法：用double的sqrt函数即可，精度是足够的。</p></li>
+<li><p>注意：数据是反向输出的，有很多组数据。</p></li>
+</ul>
+</div>
+<div class="incremental">
+<p>double的读入应该使用：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">scanf(<span class="st">&quot;%lf&quot;</span>, ...)</code></pre>
+<p>而不是</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">scanf(<span class="st">&quot;%f&quot;</span>, ...)</code></pre>
+</div>
+</div>
+<div id="ural-1005-stone-pile" class="slide section level1">
+<h1>URAL 1005 Stone Pile</h1>
+<div class="incremental">
+<ul class="incremental">
+<li><p>题意：有最多20个石子，请分成两堆，使得两堆石子的重量差最小</p></li>
+<li><p>石子重量不超过<span class="math">\(10^5\)</span></p></li>
+</ul>
+</div>
+<div class="incremental">
+<p><a href="http://en.wikipedia.org/wiki/Partition_problem">划分问题</a>是NP完全问题， 一般用暴力或者动态规划的方法解决</p>
+</div>
+</div>
+<div id="ural-1005-stone-pile-解法1" class="slide section level1">
+<h1>URAL 1005 Stone Pile 解法1</h1>
+<div class="incremental">
+<p><span class="math">\(2^n\)</span>枚举第一堆中的石子</p>
+<p>用一个0 ~ <span class="math">\(2^n - 1\)</span>的二进制数来表示选择哪些石子</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> msk = <span class="dv">0</span>; msk &lt; (<span class="dv">1</span> &lt;&lt; n); ++msk) {
+  <span class="dt">int</span> sum1 = <span class="dv">0</span>, sum2 = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    <span class="kw">if</span> (msk &amp; (<span class="dv">1</span> &lt;&lt; i)) {
+      sum1 += weight[i];
+    } <span class="kw">else</span> {
+      sum2 += weight[i];
+    }
+  }
+}</code></pre>
+</div>
+<div class="incremental">
+<p>复杂度<span class="math">\(O(n 2^n)\)</span></p>
+</div>
+</div>
+<div id="ural-1005-stone-pile-解法2" class="slide section level1">
+<h1>URAL 1005 Stone Pile 解法2</h1>
+<p>用0/1背包算法来解</p>
+<p>复杂度<span class="math">\(O(nW)\)</span>，W是总重量的最大值</p>
+</div>
+<div id="ural-1005-stone-pile-解法3" class="slide section level1">
+<h1>URAL 1005 Stone Pile 解法3</h1>
+<div class="incremental">
+<p>拆半枚举，先把石子分成两堆，每一堆进行<span class="math">\(2^{n/2}\)</span>的枚举</p>
+<p>这两堆的枚举可以分别得到两个差值的集合，设为<span class="math">\(D_1\)</span>, <span class="math">\(D_2\)</span></p>
+<p>那么，最后差值为<span class="math">\(d = d_1 + d_2, d_1 \in D_1, d_2 \in D_2\)</span></p>
+<p>可以给<span class="math">\(D_1\)</span>，<span class="math">\(D_2\)</span>分别排序，然后用移动指针的方法枚举得到最小值</p>
+</div>
+<div class="incremental">
+<p>复杂度<span class="math">\(O(2^{n/2}n)\)</span></p>
+</div>
+</div>
+<div id="ural-1014-product-of-digits" class="slide section level1">
+<h1>URAL 1014 Product of Digits</h1>
+<p>求一个最小的数字Q，满足它的每一位数字的乘积等于N</p>
+<p>如：10对应的数字为25，因为2 <span class="math">\(\times\)</span> 5 = 10</p>
+</div>
+<div id="ural-1014-product-of-digits-解法" class="slide section level1">
+<h1>URAL 1014 Product of Digits 解法</h1>
+<div class="incremental">
+<p>对0和1做特殊处理：</p>
+</div>
+<div class="incremental">
+<p>0 -&gt; 10, 1 -&gt; 1</p>
+</div>
+<div class="incremental">
+<p>对一般情况：</p>
+<p>N的因子必须只由2,3,5,7组成</p>
+<p>其中，5和7的处理比较简单，我们知道这些数字必然直接出现在Q的十进制表示中</p>
+<p>2和3比较复杂，它们的出现可能是由于2,3,4,6,8,9等数字导致的</p>
+<p>但是，注意到我们的目标是让生成的数字尽量的少，而3个2可以组成8，2个3可以组成9，2和3可以组成6</p>
+<p>所以，我们只需要从9到1，贪心地把数字配出来即可</p>
+<p>最后需要将数字排序输出，因为我们需要的是最小的Q</p>
+</div>
+</div>
+<div id="ural-1020-rope" class="slide section level1">
+<h1>URAL 1020 Rope</h1>
+</div>
+</body>
+</html>
