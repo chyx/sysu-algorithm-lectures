@@ -131,7 +131,7 @@ for (map<string, string>::iterator it = majia.begin(); it != majia.end(); ++it) 
 
 # 1035 DNA matching
 
-给定n $(n \le 100)$ 条DNA单链，求出最多能产生多少条DNA双链
+给定n $(n \le 100)$ 条DNA单链，求最多能产生多少条DNA双链
 
 其中每条单链只能使用一次
 

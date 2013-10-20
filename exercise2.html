@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第二章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第二章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div class="slide section level1">
+
+<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
+<script type="text/javascript">
+Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
+</script>
+
+</div>
+<div id="魔板-题目大意" class="slide section level1">
+<h1>1150 1151 1515 魔板 题目大意</h1>
+<p>给出魔板的起始状态，三种基本操作，步数上限和目标状态， 求从起始状态到目标状态的操作序列，长度不得超过上限。</p>
+</div>
+<div id="魔板-三种基本操作" class="slide section level1">
+<h1>1150 1151 1515 魔板 三种基本操作</h1>
+<ul class="incremental">
+<li>上下互换
+<div id="way1">
+
+</div></li>
+<li>循环右移
+<div id="way2">
+
+</div></li>
+<li>中间四块顺时针转
+<div id="way3">
+
+</div></li>
+</ul>
+<script src="raphael.js"></script>
+<script src="lecture.js"></script>
+<script>
+var paper = Raphael('way1', 500, 100);
+var w = 200;
+var h = 100;
+MagicBoard.createNew(paper, 0, 0, w, h, [1,2,3,4,8,7,6,5]);
+MagicBoard.createNew(paper, 300, 0, w, h, [8,7,6,5,1,2,3,4]);
+
+paper = Raphael('way2', 500, 100);
+MagicBoard.createNew(paper, 0, 0, w, h, [1,2,3,4,8,7,6,5]);
+MagicBoard.createNew(paper, 300, 0, w, h, [4,1,2,3,5,8,7,6]);
+
+paper = Raphael('way3', 500, 100);
+MagicBoard.createNew(paper, 0, 0, w, h, [1,2,3,4,8,7,6,5]);
+MagicBoard.createNew(paper, 300, 0, w, h, [1,7,2,4,8,6,3,5]);
+</script>
+
+</div>
+<div id="魔板-解题思路" class="slide section level1">
+<h1>1150 1151 1515 魔板 解题思路</h1>
+<ul class="incremental">
+<li>对模板进行状态搜索</li>
+<li>由一种状态可以转移到另外三种状态，搜索树为一棵三叉树</li>
+<li>在这棵三叉树上搜索，目的是求出最优解。</li>
+</ul>
+</div>
+<div id="魔板-算法一dfs深度优先搜索" class="slide section level1">
+<h1>1150 1151 1515 魔板 算法一：DFS(深度优先搜索)</h1>
+<ul class="incremental">
+<li>对这棵三叉树进行DFS</li>
+<li>缺点：若想求得最优解，需要遍历整棵树，会遍历很多重复的节点</li>
+<li>优化：若已找到一个可行解，可剪去大于等于这个深度的所有子树</li>
+<li>效果：勉强可过1150</li>
+<li>评价：很傻很天真</li>
+</ul>
+</div>
+<div id="魔板-算法二bfs广度优先搜索" class="slide section level1">
+<h1>1150 1151 1515 魔板 算法二：BFS(广度优先搜索)</h1>
+<ul class="incremental">
+<li>对这棵三叉树进行BFS</li>
+<li>第一个可行解即是最优解</li>
+<li>效果：轻松切掉1150，但过不了1151</li>
+<li>评价：很慢很暴力</li>
+</ul>
+</div>
+<div id="魔板-算法三bfs-判重" class="slide section level1">
+<h1>1150 1151 1515 魔板 算法三：BFS + 判重</h1>
+<div class="incremental">
+<ul class="incremental">
+<li>对这棵三叉树进行BFS</li>
+<li>第一个可行解即是最优解</li>
+<li>判重</li>
+</ul>
+</div>
+<div class="incremental">
+<p>BFS每经过一个节点，就把它放进已搜索列表中</p>
+<p>如果节点在已搜索列表存在，则不再扩展该节点</p>
+<p>共有8!=40320个节点</p>
+<ul class="incremental">
+<li>节点编码</li>
+</ul>
+<ol class="incremental" style="list-style-type: decimal">
+<li>康托展开</li>
+<li>自定义编码，如把状态
+<div id="board1">
+
+</div>
+编码为整数12348765</li>
+</ol>
+<script>
+var paper = Raphael('board1', 100, 50);
+MagicBoard.createNew(paper, 0, 0, 100, 50, [1,2,3,4,8,7,6,5]);
+</script>
+
+</div>
+</div>
+<div id="魔板-康托展开" class="slide section level1">
+<h1>1150 1151 1515 魔板 <a href="http://zh.wikipedia.org/wiki/%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80">*康托展开</a></h1>
+<p>康托展开是一个全排列到一个自然数的双射，常用于构建哈希表时的空间压缩</p>
+<p>N位的十进制整数可以由N个<span class="math">\(&lt;10\)</span>的数字表示</p>
+<p><span class="math">\(X = a_n 10^{n-1} + a_{n-1} 10^{n-2} + ... + a_i 10^{i-1} + ... + a_1 10^{0}\)</span></p>
+<p>类似的，N个数字的排列可以由N个<span class="math">\(&lt;N\)</span>的数字表示</p>
+<p><span class="math">\(X = a_n (n-1)! + a_{n-1} (n-2)! + ... + a_i (i-1)! + ... + a_1 0!\)</span></p>
+<p><span class="math">\(a_i\)</span>表示，在全排列<span class="math">\(\pi\)</span>中，比<span class="math">\(\pi_i\)</span>大而且位于<span class="math">\(\pi_i\)</span>前面的数字的个数。</p>
+</div>
+<div id="魔板-代码" class="slide section level1">
+<h1>1150 1151 1515 魔板 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> <span class="dt">const</span> kMaxState = <span class="dv">40320</span>;
+<span class="dt">bool</span> visit[kMaxState];  <span class="co">// 8!</span>
+<span class="dt">int</span> parent[kMaxState];
+<span class="dt">int</span> operation[kMaxState];
+
+queue&lt;State&gt; que;
+<span class="dt">void</span> update(<span class="dt">const</span> State&amp; state, <span class="dt">const</span> State&amp; new_state, <span class="dt">char</span> op) {
+  que.push(new_state);
+  visit[new_state.hash_value] = <span class="kw">true</span>;
+  parent[new_state.hash_value] = state.hash_value;
+  operation[new_state.hash_value] = op;
+}
+
+<span class="dt">void</span> bfs(State start) {
+  memset(visit, <span class="dv">0</span>, <span class="kw">sizeof</span> (visit));
+  que.push(start);
+  visit[start.hash_value] = <span class="kw">true</span>;
+  <span class="kw">while</span> (!que.empty()) {
+    State state = que.front();
+    que.pop();
+
+    State new_state = state; new_state.transformA();
+    <span class="kw">if</span> (!visit[new_state.hash_value]) update(state, new_state, &#39;A&#39;);
+
+    new_state = state; new_state.transformB();
+    <span class="kw">if</span> (!visit[new_state.hash_value]) update(state, new_state, &#39;B&#39;);
+
+    new_state = state; new_state.transformC();
+    <span class="kw">if</span> (!visit[new_state.hash_value]) update(state, new_state, &#39;C&#39;);
+  }
+}</code></pre>
+</div>
+<div id="to-and-fro" class="slide section level1">
+<h1>1007 To and Fro</h1>
+<p>给出一种加密方式，把一个字符串按列写成二维形式，再逐行从左到右或从右到左交替输出</p>
+<p>给出加密后的字符串，还原本来的字符串。</p>
+<pre><code>theresnoplacelikehomeonasnowynightx
+
+toioy
+hpknn
+eleai
+rahsg
+econh
+semot
+nlewx
+
+toioynnkpheleaigshareconhtomesnlewx</code></pre>
+</div>
+<div id="to-and-fro-解题思路" class="slide section level1">
+<h1>1007 To and Fro 解题思路</h1>
+<p>按照解密规则把输入字符串写在二维数组上，再输出。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> pos = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; j++) {
+    <span class="kw">if</span>(i % <span class="dv">2</span> != <span class="dv">0</span>) {
+      ans[i][m - <span class="dv">1</span> - j] = enc[pos];
+    } <span class="kw">else</span> {
+      ans[i][j] = enc[pos];
+    }
+    pos++;
+  }
+}</code></pre>
+</div>
+<div id="crypto-columns" class="slide section level1">
+<h1>1036 Crypto Columns</h1>
+<p>加密方式：</p>
+<ul class="incremental">
+<li><p>给定一个Keyword</p></li>
+<li><p>把一个字符串按行写成二维形式</p></li>
+<li><p>按照Keyword的字符大小顺序逐列输出</p></li>
+<li><p>给出加密后的字符串，还原本来的字符串。</p></li>
+</ul>
+<pre><code>BATBOY
+MEETMEBYTHEOLDOAKTREENTH
+
+MEETME
+BYTHEO
+LDOAKT
+REENTH
+
+B A T B O Y
+M E E T M E
+B Y T H E O
+L D O A K T
+R E E N T H
+
+EYDEMBLRTHANMEKTETOEEOTH</code></pre>
+</div>
+<div id="crypto-columns-解题思路" class="slide section level1">
+<h1>1036 Crypto Columns 解题思路</h1>
+<p>按照解密规则把输入字符串写在二维数组上，再输出。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> m = keyword.size();
+vector&lt;pair&lt;<span class="dt">char</span>, <span class="dt">int</span>&gt; &gt; order;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; m; ++i) {
+  order.push_back(make_pair(keyword[i], i));
+}
+sort(order.begin(), order.end());  <span class="co">//得到keyword的字母顺序</span>
+<span class="dt">int</span> n = enc.size() / m;
+vector&lt;vector&lt;<span class="dt">char</span>&gt; &gt; matrix(n, vector&lt;<span class="dt">char</span>&gt;(m, <span class="dv">0</span>));
+<span class="dt">int</span> pos = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; ++j) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    matrix[i][order[j].second] = enc[pos];
+    ++pos;
+  }
+}</code></pre>
+</div>
+<div id="team-rankings" class="slide section level1">
+<h1>1006 Team Rankings</h1>
+<div class="incremental">
+<p>对于两个排列<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>，定义 distance(<span class="math">\(\pi_1\)</span>, <span class="math">\(\pi_2\)</span>)为在<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>中出现的相对次序不同的元素的对数</p>
+<p>相当于以<span class="math">\(\pi_1\)</span>为基准，求<span class="math">\(\pi_2\)</span>的逆序数。</p>
+</div>
+<div class="incremental">
+<p>如：<span class="math">\(\pi_1\)</span> = 2, 1, 3, 4</p>
+<p><span class="math">\(\pi_2\)</span> = 1, 3, 2, 4</p>
+<p>不同的对有：(1,2), (2,3)，所以距离为2</p>
+<p>如果以<span class="math">\(\pi_1\)</span>为基准调整<span class="math">\(\pi_2\)</span>，则<span class="math">\(\pi_2\)</span>变为：</p>
+<p>2, 3, 1, 4</p>
+<p>它的逆序数也为2</p>
+</div>
+</div>
+<div id="team-rankings-1" class="slide section level1">
+<h1>1006 Team Rankings</h1>
+<p>对于两个排列<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>，定义 distance(<span class="math">\(\pi_1\)</span>, <span class="math">\(\pi_2\)</span>)为在<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>中出现的相对次序不同的元素的对数</p>
+<p>相当于以<span class="math">\(\pi_1\)</span>为基准，求<span class="math">\(\pi_2\)</span>的逆序数</p>
+<p>现在给出n(n <span class="math">\(\le\)</span> 100)个5元排列，要求构造一个排列，使得该排列对n个排列的distance之和最小</p>
+</div>
+<div id="team-rankings-逆序数" class="slide section level1">
+<h1>1006 Team Rankings <a href="http://en.wikipedia.org/wiki/Inversion_(discrete_mathematics)">逆序数</a></h1>
+<div class="figure">
+<img src="http://upload.wikimedia.org/wikipedia/commons/6/62/Inversion_set_and_vector_of_a_permutation.svg" />
+</div>
+</div>
+<div id="team-rankings-解题思路" class="slide section level1">
+<h1>1006 Team Rankings 解题思路</h1>
+<ul class="incremental">
+<li>可以使用深度(或宽度)优先法生成排列。</li>
+<li>求逆序数的算法</li>
+<li>平方级枚举 <span class="math">\(O(n^2)\)</span></li>
+<li>规模较大时可采用归并排序 <span class="math">\(O(n \log n)\)</span></li>
+</ul>
+</div>
+<div id="team-rankings-代码" class="slide section level1">
+<h1>1006 Team Rankings 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> <span class="dt">const</span> kMaxDigit = <span class="dv">5</span>;
+<span class="dt">bool</span> visit[kMaxDigit];
+
+<span class="dt">int</span> get_distance(string sa, string sb) {
+  <span class="dt">static</span> <span class="dt">int</span> posa[<span class="dv">128</span>], posb[<span class="dv">128</span>];
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; kMaxDigit; ++i) {
+    posa[sa[i]] = i;
+    posb[sb[i]] = i;
+  }
+  <span class="dt">int</span> inv = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">char</span> c1 = &#39;A&#39;; c1 &lt;= &#39;E&#39;; ++c1) {
+    <span class="kw">for</span> (<span class="dt">char</span> c2 = c1 + <span class="dv">1</span>; c2 &lt;= &#39;E&#39;; ++c2) {  <span class="co">//不同的对</span>
+      <span class="kw">if</span> ((posa[c1] - posa[c2]) * (posb[c1] - posb[c2]) &lt; <span class="dv">0</span>) {
+        inv++;
+      }
+    }
+  }
+  <span class="kw">return</span> inv;
+}
+
+string perm;
+pair&lt;<span class="dt">int</span>, string&gt; best_perm;
+<span class="dt">void</span> Solve() {
+  <span class="dt">int</span> sum = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    sum += get_distance(perm, ranks[i]);
+  }
+  best_perm = min(best_perm, make_pair(sum, perm));
+}
+
+
+<span class="dt">void</span> dfs(<span class="dt">int</span> pos) {
+  <span class="kw">if</span> (pos == kMaxDigit) {
+    Solve();
+    <span class="kw">return</span>;
+  }
+  <span class="kw">for</span> (<span class="dt">int</span> x = <span class="dv">0</span>; x &lt; kMaxDigit; ++x) <span class="kw">if</span> (!visit[x]){
+    perm[pos] = &#39;A&#39; + x;
+    visit[x] = <span class="kw">true</span>;
+    dfs(pos + <span class="dv">1</span>);
+    visit[x] = <span class="kw">false</span>;
+  }
+}</code></pre>
+</div>
+<div id="mersenne-composite-n" class="slide section level1">
+<h1>1009 Mersenne Composite N</h1>
+<ul class="incremental">
+<li><p>梅森素数<span class="math">\(M_p\)</span>：形如<span class="math">\(2^p-1\)</span>的素数，其中p也必须为素数</p></li>
+<li><p>给定k，求出所有素数<span class="math">\(n \le k\)</span>，满足条件：<span class="math">\(2^n-1\)</span>不是梅森素数，并要求对这些形如<span class="math">\(2^n-1\)</span>的数字进行因子分解。</p></li>
+<li><p><span class="math">\(k \le 63 \)</span></p></li>
+</ul>
+</div>
+<div id="mersenne-composite-n-解题思路" class="slide section level1">
+<h1>1009 Mersenne Composite N 解题思路</h1>
+<div class="incremental">
+<p>方法一：</p>
+<p>通过网络查找梅森素数的性质：</p>
+<p>对<span class="math">\(M_q\)</span>（q是素数）有：</p>
+<p>若a是Mq的因数，则a有如下性质：</p>
+<ul class="incremental">
+<li><span class="math">\(a \equiv 1 \pmod{2q}\)</span></li>
+<li><span class="math">\(a \equiv \pm 1 \pmod 8\)</span></li>
+</ul>
+</div>
+<div class="incremental">
+<p>对每个数，枚举所有可能的因数，测试是否能分解。</p>
+<p>方法二：</p>
+<p>查找资料可知在<span class="math">\(n \le 63\)</span>内有以下<span class="math">\(M_n\)</span>满足答案</p>
+<p>11,23,29,37,41,43,47,53,59</p>
+<p>只对这些数进行分解即可。</p>
+</div>
+</div>
+<div id="mersenne-composite-n-代码" class="slide section level1">
+<h1>1009 Mersenne Composite N 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factor(<span class="dt">long</span> <span class="dt">long</span> x) {
+  vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factor;
+  <span class="dt">long</span> <span class="dt">long</span> n = (1LL &lt;&lt; x) - <span class="dv">1</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i * i &lt;= n; i += <span class="dv">2</span>) {
+    <span class="dt">long</span> <span class="dt">long</span> cnt = <span class="dv">0</span>;
+    <span class="kw">while</span> (n % i == <span class="dv">0</span>) {
+      n /= i;
+      ++cnt;
+    }
+    <span class="kw">if</span> (cnt != <span class="dv">0</span>) factor.push_back(make_pair(i, cnt));
+  }
+  <span class="kw">return</span> factor;
+}</code></pre>
+</div>
+<div id="numbers-letters" class="slide section level1">
+<h1>1050 Numbers &amp; Letters</h1>
+<p>给出5个数和一个目标数，从5个数中选出一部分数通过加减乘除运算得到小于等于目标数的最大数。</p>
+</div>
+<div id="numbers-letters-解题思路" class="slide section level1">
+<h1>1050 Numbers &amp; Letters 解题思路</h1>
+<p>DFS求出所有可能的运算组合和顺序，得到最接近目标数的答案。</p>
+</div>
+<div id="numbers-letters-代码" class="slide section level1">
+<h1>1050 Numbers &amp; Letters 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> dfs(<span class="dt">const</span> vector&lt;<span class="dt">int</span>&gt;&amp; arr) {
+  <span class="kw">if</span> (arr.size() &lt;= <span class="dv">1</span>) <span class="kw">return</span>;
+
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; arr.size(); ++i) {
+    <span class="kw">for</span> (<span class="dt">int</span> j = i + <span class="dv">1</span>; j &lt; arr.size(); ++j) {
+      vector&lt;<span class="dt">int</span>&gt; new_arr;
+      <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; arr.size(); ++k) <span class="kw">if</span> (i != k &amp;&amp; j != k) {
+        new_arr.push_back(arr[k]);
+      }
+      new_arr.push_back(-<span class="dv">1</span>); <span class="co">// to be modified</span>
+
+      new_arr.back() = arr[i] + arr[j]; update(new_arr.back()); dfs(new_arr);
+      new_arr.back() = abs(arr[i] - arr[j]); update(new_arr.back()); dfs(new_arr);
+      new_arr.back() = arr[i] * arr[j]; update(new_arr.back()); dfs(new_arr);
+
+      <span class="kw">if</span> (arr[j] != <span class="dv">0</span> &amp;&amp; arr[i] % arr[j] == <span class="dv">0</span>) {
+        new_arr.back() = arr[i] / arr[j]; update(new_arr.back()); dfs(new_arr);
+      }
+      <span class="kw">if</span> (arr[i] != <span class="dv">0</span> &amp;&amp; arr[j] % arr[i] == <span class="dv">0</span>) {
+        new_arr.back() = arr[j] / arr[i]; update(new_arr.back()); dfs(new_arr);
+      }
+    }
+  }
+}</code></pre>
+<p>陷阱：#3注意目标数字的范围。</p>
+</div>
+<div id="printer-queue" class="slide section level1">
+<h1>1443 Printer Queue</h1>
+<div class="incremental">
+<p>有一个长度为n的打印任务队列，每个任务有优先级</p>
+<p>每次从队列头得到一个任务，如果它是剩余任务中优先级最高的，则打印它，否则放到队列尾</p>
+<p>问其中某个任务是第几个被打印的。</p>
+</div>
+<div class="incremental">
+<p>n <span class="math">\(\le\)</span> 100</p>
+</div>
+</div>
+<div id="printer-queue-解题思路" class="slide section level1">
+<h1>1443 Printer Queue 解题思路</h1>
+<p>使用队列直接模拟</p>
+<p>取出队列头判断是否打印，如果打印则已打印任务数加一</p>
+<p>直到特定的任务完成，输出答案</p>
+</div>
+<div id="printer-queue-代码" class="slide section level1">
+<h1>1443 Printer Queue 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">map&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; cnt_priority;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  cnt_priority[priority[i]]++;
+}
+<span class="dt">int</span> minute = <span class="dv">0</span>;
+<span class="kw">for</span> (; ;) {
+  <span class="dt">int</span> highest = cnt_priority.rbegin()-&gt;first;
+  <span class="kw">while</span> (priority[que.front()] != highest) {
+    que.push(que.front());
+    que.pop();
+  }
+  ++minute;
+  <span class="kw">if</span> (que.front() == target) {
+    <span class="kw">break</span>;
+  }
+  <span class="kw">if</span> (--cnt_priority[highest] == <span class="dv">0</span>) {
+    cnt_priority.erase(highest);
+  }
+  que.pop();
+}</code></pre>
+</div>
+<div id="binary-tree" class="slide section level1">
+<h1>1156 Binary tree</h1>
+<pre><code>3
+4 C 1 3
+1 A 0 0
+3 B 0 0</code></pre>
+<p>给出一棵二叉树每个节点的编号，内容以及左右子节点的编号</p>
+<p>要求对二叉树进行先序遍历，输出每个节点的内容。</p>
+</div>
+<div id="binary-tree-解题思路" class="slide section level1">
+<h1>1156 Binary tree 解题思路</h1>
+<div class="incremental">
+<ul class="incremental">
+<li><p>先序遍历：先输出当前节点的内容，然后遍历左子树，最后遍历右子树。</p></li>
+<li><p>先找出没有父节点的节点，即根。</p></li>
+<li><p>从根开始遍历进行先序遍历。</p></li>
+</ul>
+</div>
+<div class="incremental">
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> Preorder(Node *s) {
+  Visit(s);
+  Preorder(s-&gt;leftchild);
+  Preorder(s-&gt;rightchild);
+}</code></pre>
+</div>
+</div>
+<div id="whos-the-boss" class="slide section level1">
+<h1>1063 Who's the Boss</h1>
+</div>
+<div id="magic-island" class="slide section level1">
+<h1>1024 Magic Island</h1>
+</div>
+</body>
+</html>

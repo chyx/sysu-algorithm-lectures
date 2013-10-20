@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第一章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第一章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div class="slide section level1">
+
+<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
+<script type="text/javascript">
+Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
+</script>
+
+</div>
+<div id="big-integer" class="slide section level1">
+<h1>1020 Big Integer</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="left">输入</th>
+<th align="left">输出</th>
+<th align="left">要计算的内容</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">4</td>
+<td align="left">1 1 3 6</td>
+<td align="left"><span class="math">\(13 \equiv 1 \pmod 2\)</span></td>
+</tr>
+<tr class="even">
+<td align="left">2 3 5 7</td>
+<td align="left"></td>
+<td align="left"><span class="math">\(13 \equiv 1 \pmod 3\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="left"></td>
+<td align="left"><span class="math">\(13 \equiv 3 \pmod 5\)</span></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><span class="math">\(13 \equiv 6 \pmod 7\)</span></td>
+</tr>
+<tr class="odd">
+<td align="left">（样例二）</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="big-integer-对一个大整数求模" class="slide section level1">
+<h1>1020 Big Integer 对一个大整数求模</h1>
+<div class="incremental">
+<p><span class="math">\(12345678901234567890 \equiv ? \pmod m\)</span></p>
+</div>
+<div class="incremental">
+<p>12345678901234567890 % m</p>
+</div>
+<div class="incremental">
+<table>
+<thead>
+<tr class="header">
+<th align="left">12345 % m</th>
+<th align="left">= (1234 * 10 + 5) % m</th>
+<th align="left">= (1234 % m * 10 + 5) % m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1234 % m</td>
+<td align="left">= (123 * 10 + 4) % m</td>
+<td align="left">= (123 % m * 10 + 4) % m</td>
+</tr>
+<tr class="even">
+<td align="left">123 % m</td>
+<td align="left">= (12 * 10 + 3) % m</td>
+<td align="left">= (12 % m * 10 + 3) % m</td>
+</tr>
+<tr class="odd">
+<td align="left">12 % m</td>
+<td align="left">= (1 * 10 + 2) % m</td>
+<td align="left">= (1 % m * 10 + 2) % m</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="big-integer-代码" class="slide section level1">
+<h1>1020 Big Integer 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> GetRemainder(string input, <span class="dt">int</span> m) {
+  <span class="dt">int</span> res = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; input.size(); ++i) {
+    res = (res * <span class="dv">10</span> + (input[i] - &#39;<span class="dv">0</span>&#39;)) % m;
+  }
+  <span class="kw">return</span> res;
+}</code></pre>
+</div>
+<div id="couple" class="slide section level1">
+<h1>1021 Couple</h1>
+<p>N对夫妇站成一圈，如果某对夫妇站在相邻位置，则从圈中移走，问最后能不能把人全部移走。</p>
+</div>
+<div id="couple-转化问题" class="slide section level1">
+<h1>1021 Couple 转化问题</h1>
+<p>把每对夫妇用1-N的整数表示。</p>
+</div>
+<div id="couple-用栈来解决" class="slide section level1">
+<h1>1021 Couple 用栈来解决</h1>
+<div id="raphael1">
+
+</div>
+<script src="raphael.js"></script>
+<script src="tmp.js"></script>
+
+</div>
+<div id="couple-代码" class="slide section level1">
+<h1>1021 Couple 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">stack&lt;<span class="dt">int</span>&gt; st;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n + n; ++i) {
+  <span class="kw">if</span> (!st.empty() &amp;&amp; st.top() == couple_id[i]) {
+    st.pop();
+  } <span class="kw">else</span> {
+    st.push(couple_id[i]);
+  }
+}
+puts(st.empty() ? <span class="st">&quot;Yes&quot;</span> : <span class="st">&quot;No&quot;</span>);</code></pre>
+</div>
+<div id="mj-nowhere-to-hide" class="slide section level1">
+<h1>1027 MJ, Nowhere to Hide</h1>
+<pre><code>8
+inkfish 192.168.29.24
+zhi 192.168.29.235
+magicpig 192.168.50.170
+pegasus 192.168.29.235
+iamcs 202.116.77.131
+finalBob 192.168.29.24
+tomek 202.116.77.131
+magicduck 192.168.50.170
+4
+mmmmmm 172.16.72.126
+kkkkkk 192.168.49.161
+llllll 192.168.49.161
+nnnnnn 172.16.72.126
+0</code></pre>
+<p>给出N对BBS ID和IP Address，求出IP Address相同的BBS ID。</p>
+</div>
+<div id="mj-nowhere-to-hide-按ip地址分类" class="slide section level1">
+<h1>1027 MJ, Nowhere to Hide 按IP地址分类</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left"></th>
+<th align="left"></th>
+<th align="center">inkfish 192.168.29.24</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">zhi 192.168.29.235</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">magicpig 192.168.50.170</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">pegasus 192.168.29.235</td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">iamcs 202.116.77.131</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="center">finalBob 192.168.29.24</td>
+</tr>
+<tr class="even">
+<td align="left">tomek 202.116.77.131</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">magicduck 192.168.50.170</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mj-nowhere-to-hide-代码" class="slide section level1">
+<h1>1027 MJ, Nowhere to Hide 代码</h1>
+<div class="incremental">
+<pre class="sourceCode cpp"><code class="sourceCode cpp">map&lt;string, vector&lt;string&gt; &gt; record;
+map&lt;string, string&gt; majia;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  string ip, id;
+  cin &gt;&gt; id &gt;&gt; ip;
+  record[ip].push_back(id);
+  <span class="kw">if</span> (record[ip].size() == <span class="dv">2</span>) {
+    majia[record[ip][<span class="dv">0</span>]] = record[ip][<span class="dv">1</span>];
+  }
+}
+<span class="kw">for</span> (map&lt;string, string&gt;::iterator it = majia.begin(); it != majia.end(); ++it) {
+  ...
+}</code></pre>
+</div>
+<div class="incremental">
+<p>此题是多组数据，输出答案时题目要求每个数据后要输出空行，如果最后少一个空行会得到Presentation Error！</p>
+<p>虽然答案可能是正确的，但是考试遇到这种情况是按答案错误来计算的</p>
+</div>
+</div>
+<div id="dna-matching" class="slide section level1">
+<h1>1035 DNA matching</h1>
+<div class="incremental">
+<p>给定n <span class="math">\((n \le 100)\)</span> 条DNA单链，求出最多能产生多少条DNA双链</p>
+<p>其中每条单链只能使用一次</p>
+<p>两条单链能组成一双链当且仅当这牠们长度相同，并且对应位置上为A/T, G/C的配对</p>
+</div>
+<div class="incremental">
+<p>ATTCGAC 和 TAAGCTG 能组成双链</p>
+<pre><code>ATTCGAC
+|||||||
+TAAGCTG</code></pre>
+<p>但 CAGCTTA 和 TAAGCTG 就不可以</p>
+<pre><code>CAGCTTA
+   |
+TAAGCTG</code></pre>
+</div>
+</div>
+<div id="dna-matching-匹配问题" class="slide section level1">
+<h1>1035 DNA matching 匹配问题？</h1>
+<p><a href="http://en.wikipedia.org/wiki/Edmonds%27s_matching_algorithm">任意图的最大匹配</a>，复杂度<span class="math">\(O(|E||V|^{1/2})\)</span></p>
+</div>
+<div id="dna-matching-贪心" class="slide section level1">
+<h1>1035 DNA matching 贪心</h1>
+<p>发现每条单链最多只能与一种单链匹配，<span class="math">\(O(N^2)\)</span></p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; N; i++) <span class="kw">if</span> (!visit[i]) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = i + <span class="dv">1</span>; j &lt; N; j++) <span class="kw">if</span> (!visit[j]) {
+    <span class="kw">if</span> (match(dna[i], dna[j])) {
+      ans++;
+      visit[i] = visit[j] = <span class="kw">true</span>;
+      <span class="kw">break</span>;
+    }
+  }
+}</code></pre>
+</div>
+<div id="plane-spotting" class="slide section level1">
+<h1>1046 Plane Spotting</h1>
+<ul class="incremental">
+<li>Craig喜欢为飞机拍照</li>
+<li>飞机的出现序列为<span class="math">\(p_i\)</span>(表示第i时间内出现了多少飞机)</li>
+<li>Craig希望在这个序列中选取连续的一段，即子序列，希望：</li>
+</ul>
+<ol class="incremental" style="list-style-type: decimal">
+<li>子序列平均值越大越好</li>
+<li>如果平均值一样，则长度大的子序列好</li>
+<li>如果长度也一样，则结束位置靠前的子序列好</li>
+</ol>
+</div>
+<div id="plane-spotting-用结构体表示一个子序列" class="slide section level1">
+<h1>1046 Plane Spotting 用结构体表示一个子序列</h1>
+<p>重写比较操作&lt;</p>
+<p>对所有可能的子序列进行排序。</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Period {
+  <span class="dt">double</span> average_planes;
+  <span class="dt">int</span> length, last_position;
+};
+
+<span class="dt">bool</span> <span class="kw">operator</span>&lt;(<span class="dt">const</span> Period&amp; a, <span class="dt">const</span> Period&amp; b) {
+  <span class="kw">if</span> (abs(a.average_planes - b.average_planes) &gt; <span class="fl">1e-6</span>) {
+    <span class="kw">return</span> a.average_planes &gt; b.average_planes;
+  }
+  <span class="kw">if</span> (a.length != b.length) <span class="kw">return</span> a.length &gt; b.length;
+  <span class="kw">if</span> (a.last_position != b.last_position) {
+    <span class="kw">return</span> a.last_position &lt; b.last_position;
+  }
+}</code></pre>
+</div>
+<div id="plane-spotting-枚举并排序所有的合法区间" class="slide section level1">
+<h1>1046 Plane Spotting 枚举并排序所有的合法区间</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> num_period = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  <span class="dt">int</span> num_planes = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> j = i; j &lt; n; ++j) {
+    num_planes += quarter[j];
+    <span class="dt">int</span> num_quarters = j - i + <span class="dv">1</span>;
+    <span class="kw">if</span> (num_quarters &gt;= min_size) {
+      period[num_period].average_planes = num_planes * <span class="fl">1.0</span> / num_quarters;
+      period[num_period].length = num_quarters;
+      period[num_period].last_position = j;
+      ++num_period;
+    }
+  }
+}
+sort(period, period + num_period);</code></pre>
+</div>
+<div id="bikers-trip-odomete" class="slide section level1">
+<h1>1051 Biker's Trip Odomete</h1>
+<p>diameter revolutions time</p>
+<p>车前轮的直径 转圈数 时间</p>
+<p>求车行走的路程和平均速度</p>
+</div>
+<div id="bikers-trip-odomete-解法" class="slide section level1">
+<h1>1051 Biker's Trip Odomete 解法</h1>
+<p>车轮周长 = <span class="math">\(\pi\)</span> 直径</p>
+<p>路程 = 周长 <span class="math">\(\times\)</span> 转圈数</p>
+<p>平均速度 = 路程 / 时间</p>
+</div>
+<div id="substring" class="slide section level1">
+<h1>1198 Substring</h1>
+<div class="incremental">
+<p>用N个字符串拼成一个新的字符串</p>
+<p>要求新字符串字典序最小</p>
+</div>
+<div class="incremental">
+<p>如：a ac ab 则答案为：aabac</p>
+</div>
+</div>
+<div id="substring-解法一贪心" class="slide section level1">
+<h1>1198 Substring 解法一：贪心</h1>
+<div class="incremental">
+<p>先对N个字符串按字典序排序</p>
+<p>后从小到大拼在一起</p>
+<p>如：a ac ab 排序后就是 a ab ac</p>
+<p>最后的字符串即是 aabac</p>
+<p>又如：b ac bd abc 排序后是 abc ac b bd</p>
+<p>最后的字符串即是 abcacbbd</p>
+</div>
+<div class="incremental">
+<h1>
+错误！
+</h1>
+
+</div>
+</div>
+<div id="substring-解法一贪心-反例" class="slide section level1">
+<h1>1198 Substring 解法一：贪心 反例？</h1>
+<div class="incremental">
+<p>先对N个字符串按字典序排序</p>
+<p>后从小到大拼在一起</p>
+</div>
+<div class="incremental">
+<p>b ba</p>
+<p>bba?</p>
+<p>bab!</p>
+</div>
+</div>
+<div id="substring-真解法一枚举" class="slide section level1">
+<h1>1198 Substring 真・解法一：枚举</h1>
+<p>N <span class="math">\(\le\)</span> 8, 8! = 40320</p>
+<p>KISS = Keep It Simple and Stupid</p>
+<p>直接枚举所有8！种组合，从中找最优的</p>
+<p>正确性：所有方案都枚举了，所以绝对正确</p>
+<p>效率：8! * 100 * 8 = 32032000 可以应付</p>
+</div>
+<div id="substring-真解法一枚举-代码" class="slide section level1">
+<h1>1198 Substring 真・解法一：枚举 代码</h1>
+<p>用DFS的方法枚举8!个排列？</p>
+<p>直接用STL中的next_permutation更方便！</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;algorithm&gt;</span>
+string sub[<span class="dv">8</span>];
+<span class="dt">void</span> Solve() {
+  sort(sub, sub + n);
+  <span class="kw">do</span> {
+    string total;
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+      total += sub[i];
+    }
+    ans = min(ans, total);
+  } <span class="kw">while</span>(std::next_permutation(sub, sub + n));
+}</code></pre>
+</div>
+<div id="substring-解法二排序" class="slide section level1">
+<h1>1198 Substring 解法二：排序</h1>
+<p>将比较函数</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> cmp(string a, string b) {
+  <span class="kw">return</span> a &lt; b;
+}</code></pre>
+<p>修正为：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> cmp(string a, string b) {
+  <span class="kw">return</span> a + b &lt; b + a;
+}</code></pre>
+<p>证明提示：</p>
+<p>证明比较函数的传递性：</p>
+<p>a <span class="math">\(\le_{cmp}\)</span> b &amp;&amp; b <span class="math">\(\le_{cmp}\)</span> c</p>
+<p>&lt;=&gt; ab <span class="math">\(\le\)</span> ba &amp;&amp; bc <span class="math">\(\le\)</span> cb</p>
+<p>&lt;=&gt; ac <span class="math">\(\le\)</span> ca</p>
+<p>&lt;=&gt; a <span class="math">\(\le_{cmp}\)</span> c</p>
+</div>
+<div id="section" class="slide section level1">
+<h1>1176</h1>
+</div>
+</body>
+</html>
