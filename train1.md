@@ -1,7 +1,7 @@
 % 周练1（9月28日，3小时）
 % chyx111@qq.com
 
-# URAL 1001
+# URAL 1001 Reverse Root
 
 * 题意：求整数($\le 10^{18}$)的开方
 
@@ -78,14 +78,14 @@ for (int msk = 0; msk < (1 << n); ++msk) {
 
 复杂度$O(2^{n/2}n)$
 
-# URAL 1014   Product of Digits
+# URAL 1014 Product of Digits
 
 求一个最小的数字Q，满足它的每一位数字的乘积等于N
 
 如：10对应的数字为25，因为2 $\times$ 5 = 10
 
 
-# URAL 1014   Product of Digits   解法
+# URAL 1014 Product of Digits   解法
 
 对0和1做特殊处理：
 
@@ -109,7 +109,67 @@ N的因子必须只由2,3,5,7组成
 
 最后需要将数字排序输出，因为我们需要的是最小的Q
 
-
 # URAL 1020 Rope
+
+绳子在n个钉子上绕了一圈，求绳子的长度
+
+![http://acm.timus.ru/problem.aspx?space=1&num=1020](http://acm.timus.ru/image/get.aspx/5efad458-3218-423f-b3f6-685fc554139f)
+
+. . .
+
+总长度 = 所有线段的长度 + 一个圆的长度
+
+# URAL 1021 Sacrament of the Sum
+
+给两个数的集合$A_1, A_2$，问是否有$a_1 \in A_1, a+2 \in A_2$，满足$a_1 + a_2 = 10000$
+
+. . .
+
+用hash来做，枚举$a_1$，查询$10000 - a_1$在不在集合$A_2$中
+
+
+# URAL 1022 Genealogical Tree
+
+N个火星人，有些火星人是某些火星人的祖先，要求给出一个座位顺序，使得长辈总是坐在后辈的前面
+
+. . .
+
+有向无环图
+
+. . .
+
+图的拓扑排序
+
+# URAL 1025 Democracy in Danger
+
+样例        解释
+--------   ---------
+3          投票人被分成K个组
+5 7 5      每个组有若干个人
+
+超过半数的组投赞成票，即可通过决议
+
+一个组有超过半数的人投赞成票，该组就投赞成票
+
+问通过决议至少需要多少人赞成
+
+. . .
+
+解法：贪心人数少的组
+
+# URAL 1083 Factorials!!!
+
+9!! = 1 × 3 × 5 × 7 × 9
+
+又称[Multifactorials](http://en.wikipedia.org/wiki/Factorial#Multifactorials)
+
+. . .
+
+直接算
+
+# URAL 1409 Two Gangsters
+
+将两个输入调换位置，再同时减去1，最后输出
+
 
 

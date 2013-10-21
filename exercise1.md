@@ -1,12 +1,7 @@
 % 算法分析习题选讲(第一章)
 % chyx111@qq.com
 
-<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
-<script type="text/javascript">
-Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
-</script>
-
-# 1020 Big Integer
+# 1020 Big Integer    题目大意
 
 输入     输出      要计算的内容
 ----     --------  ------------------------
@@ -18,6 +13,7 @@ Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
 
 # 1020 Big Integer    对一个大整数求模
 
+解法一：推公式
 
 $12345678901234567890 \equiv ? \pmod m$
 
@@ -33,6 +29,10 @@ $12345678901234567890 \equiv ? \pmod m$
 123 % m    = (12 * 10 + 3) % m      = (12 % m * 10 + 3) % m
 12 % m     = (1 * 10 + 2) % m       = (1 % m * 10 + 2) % m
 
+# 1020 Big Integer    对一个大整数求模
+
+解法二：模拟算式除法
+
 # 1020 Big Integer    代码
 
 ~~~ {.cpp}
@@ -45,18 +45,77 @@ int GetRemainder(string input, int m) {
 }
 ~~~
 
-# 1021 Couple
+# 1020 Big Integer    附加练习
+
+准备一份大整数的模板，支持加减乘除操作。
+
+# 1021 Couple   题目大意
 
 N对夫妇站成一圈，如果某对夫妇站在相邻位置，则从圈中移走，问最后能不能把人全部移走。
+
+~~~
+1 - 2 - 3
+|       |
+8       4
+|       |
+7 - 6 - 5
+
+1 4
+2 3
+5 6
+7 8
+~~~
 
 # 1021 Couple   转化问题
 
 把每对夫妇用1-N的整数表示。
 
+~~~
+1 - 2 - 2
+|       |
+4       1
+|       |
+4 - 3 - 3
+~~~
+
+任选一对夫妇，如1，可以发现，如果要移除他们，则必须满足条件：
+
+他们两侧的夫妇都可以单独移掉
+
+于是可以把环随意拆解成一条链：
+
+1 2 2 1 3 3 4 4
+
 # 1021 Couple   用栈来解决
-<div id="raphael1"></div>
-<script src="raphael.js"></script>
-<script src="tmp.js"></script>
+
+* []........1 2 2 1 3 3 4 4
+* [1].........2 2 1 3 3 4 4
+* [1,2].........2 1 3 3 4 4
+* [1,2,2].........1 3 3 4 4
+* [1,x,x].........1 3 3 4 4
+* [1].............1 3 3 4 4
+* [1,1].............3 3 4 4
+* [x,x].............3 3 4 4
+* []................3 3 4 4
+* [3].................3 4 4
+* [3,3].................4 4
+* []....................4 4
+* [4].....................4
+* [4,4]
+* []
+
+成功！
+
+# 1021 Couple   用栈来解决
+
+失败的例子：
+
+* []        1 2 1 2
+* [1]         2 1 2
+* [1,2]         1 2
+* [1,2,1]         2
+* [1,2,1,2]
+
 
 # 1021 Couple   代码
 ~~~ {.cpp}
@@ -71,7 +130,9 @@ for (int i = 0; i < n + n; ++i) {
 puts(st.empty() ? "Yes" : "No");
 ~~~
 
-# 1027 MJ, Nowhere to Hide
+类似问题：括号匹配问题
+
+# 1027 MJ, Nowhere to Hide    题目大意
 
 ~~~
 8
@@ -127,9 +188,9 @@ for (map<string, string>::iterator it = majia.begin(); it != majia.end(); ++it) 
 
 此题是多组数据，输出答案时题目要求每个数据后要输出空行，如果最后少一个空行会得到Presentation Error！
 
-虽然答案可能是正确的，但是考试遇到这种情况是按答案错误来计算的
+虽然答案可能正确，但是考试遇到这种情况是按答案错误来计分的
 
-# 1035 DNA matching
+# 1035 DNA matching   题目大意
 
 给定n $(n \le 100)$ 条DNA单链，求最多能产生多少条DNA双链
 
@@ -175,7 +236,7 @@ for (int i = 0; i < N; i++) if (!visit[i]) {
 }
 ~~~
 
-# 1046 Plane Spotting
+# 1046 Plane Spotting   题目大意
 
 * Craig喜欢为飞机拍照
 * 飞机的出现序列为$p_i$(表示第i时间内出现了多少飞机)
@@ -227,7 +288,7 @@ for (int i = 0; i < n; ++i) {
 sort(period, period + num_period);
 ~~~
 
-# 1051 Biker's Trip Odomete
+# 1051 Biker's Trip Odomete   题目大意
 
 diameter revolutions time
 
@@ -243,7 +304,7 @@ diameter revolutions time
 
 平均速度 = 路程 / 时间
 
-# 1198 Substring
+# 1198 Substring    题目大意
 
 用N个字符串拼成一个新的字符串
 
@@ -253,6 +314,15 @@ diameter revolutions time
 
 如：a ac ab
 则答案为：aabac
+
+# 1198 Substring    字典序
+
+a < b
+
+abca < abcc
+
+a < ab
+
 
 # 1198 Substring    解法一：贪心
 
@@ -346,11 +416,72 @@ bool cmp(string a, string b) {
 
 a $\le_{cmp}$ b && b $\le_{cmp}$ c
 
-<=> ab $\le$ ba && bc $\le$ cb
+$\iff$ ab $\le$ ba && bc $\le$ cb
 
-<=> ac $\le$ ca
+$\implies$ ac $\le$ ca
 
-<=> a $\le_{cmp}$ c
+$\iff$ a $\le_{cmp}$ c
 
-# 1176
+
+
+# 1176 Two Ends   题目大意
+
+n个正整数排成一列，A和B轮流取数，只能取两端的数，最后取到的数的和较大的人胜利，A和B之间的差为分值
+
+A可以自由选择策略，B的策略是每次都取两端中较大的数，如果相等则取左边的数
+
+. . .
+
+问A赢B的分值最大为多少。
+
+n $\le$ 1000, n为偶数
+
+# 1176 Two Ends   题目大意
+
+![第一个样例](1176.svg)
+
+# 1176 Two Ends   搜索
+
+~~~{.cpp}
+int rec(int left, int right) {
+  if (right == left) return -arr[left];
+
+  if ((right - left + 1) % 2 == 1) {  // B's turn
+    if (arr[left] < arr[right]) {
+      return rec(left, right - 1) - arr[right];
+    } else {
+      return rec(left + 1, right) - arr[left];
+    }
+  } else {  // A's turn
+    return max(rec(left, right - 1) + arr[right],
+        rec(left + 1, right) + arr[left]);
+  }
+}
+~~~
+指数级算法
+
+# 1176 Two Ends   动态规划(记忆化搜索)
+
+~~~{.cpp}
+int rec(int left, int right) {
+  if (right == left) return -arr[left];
+  if (done[left][right]) return ans[left][right];
+
+  if ((right - left + 1) % 2 == 1) {  // B's turn
+    if (arr[left] < arr[right]) {
+      ans[left][right] = rec(left, right - 1) - arr[right];
+    } else {
+      ans[left][right] = rec(left + 1, right) - arr[left];
+    }
+  } else {  // A's turn
+    ans[left][right] = max(rec(left, right - 1) + arr[right],
+        rec(left + 1, right) + arr[left]);
+  }
+  done[left][right] = true;
+  return ans[left][right] = max(ans_left,ans_right);
+}
+~~~
+
+加了个简单的优化，但效果显著，复杂度降到了$O(n^2)$
+
 
