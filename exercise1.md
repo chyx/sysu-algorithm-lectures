@@ -416,11 +416,13 @@ bool cmp(string a, string b) {
 
 a $\le_{cmp}$ b && b $\le_{cmp}$ c
 
-\iff ab $\le$ ba && bc $\le$ cb
+$\iff$ ab $\le$ ba && bc $\le$ cb
 
-\implies ac $\le$ ca
+$\implies$ ac $\le$ ca
 
-\iff a $\le_{cmp}$ c
+$\iff$ a $\le_{cmp}$ c
+
+
 
 # 1176 Two Ends   题目大意
 
