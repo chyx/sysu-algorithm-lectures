@@ -3,13 +3,20 @@
 
 # 1020 Big Integer    题目大意
 
+中国剩余定理
+
 输入     输出      要计算的内容
 ----     --------  ------------------------
 4        1 1 3 6    $13 \equiv 1 \pmod 2$
 2 3 5 7             $13 \equiv 1 \pmod 3$
 13                  $13 \equiv 3 \pmod 5$
                     $13 \equiv 6 \pmod 7$
-（样例二）
+
+. . .
+
+给出n个整数$b_1,b_2,...,b_n$，和一个大整数x，求x对每个数$b_i$取模的结果
+
+$n \le 100$，$1 \lt b_i \le 1000$, x的位数不超过400
 
 # 1020 Big Integer    对一个大整数求模
 
@@ -186,6 +193,15 @@ for (map<string, string>::iterator it = majia.begin(); it != majia.end(); ++it) 
 
 . . .
 
+~~~{.cpp}
+// Not supported by sicily...
+for (auto entry : majia) {
+  ...
+}
+~~~
+
+. . .
+
 此题是多组数据，输出答案时题目要求每个数据后要输出空行，如果最后少一个空行会得到Presentation Error！
 
 虽然答案可能正确，但是考试遇到这种情况是按答案错误来计分的
@@ -275,7 +291,7 @@ int num_period = 0;
 for (int i = 0; i < n; ++i) {
   int num_planes = 0;
   for (int j = i; j < n; ++j) {
-    num_planes += quarter[j];
+    num_planes += p[j];
     int num_quarters = j - i + 1;
     if (num_quarters >= min_size) {
       period[num_period].average_planes = num_planes * 1.0 / num_quarters;
