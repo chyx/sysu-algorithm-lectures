@@ -41,16 +41,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 chyx111@qq.com
   </p>
 </div>
-<div class="slide section level1">
-
-<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
-<script type="text/javascript">
-Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
-</script>
-
-</div>
-<div id="big-integer" class="slide section level1">
-<h1>1020 Big Integer</h1>
+<div id="big-integer-题目大意" class="slide section level1">
+<h1>1020 Big Integer 题目大意</h1>
 <table>
 <thead>
 <tr class="header">
@@ -91,6 +83,7 @@ Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
 <div id="big-integer-对一个大整数求模" class="slide section level1">
 <h1>1020 Big Integer 对一个大整数求模</h1>
 <div class="incremental">
+<p>解法一：推公式</p>
 <p><span class="math">\(12345678901234567890 \equiv ? \pmod m\)</span></p>
 </div>
 <div class="incremental">
@@ -125,6 +118,10 @@ Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
 </table>
 </div>
 </div>
+<div id="big-integer-对一个大整数求模-1" class="slide section level1">
+<h1>1020 Big Integer 对一个大整数求模</h1>
+<p>解法二：模拟算式除法</p>
+</div>
 <div id="big-integer-代码" class="slide section level1">
 <h1>1020 Big Integer 代码</h1>
 <pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> GetRemainder(string input, <span class="dt">int</span> m) {
@@ -135,22 +132,68 @@ Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
   <span class="kw">return</span> res;
 }</code></pre>
 </div>
-<div id="couple" class="slide section level1">
-<h1>1021 Couple</h1>
+<div id="big-integer-附加练习" class="slide section level1">
+<h1>1020 Big Integer 附加练习</h1>
+<p>准备一份大整数的模板，支持加减乘除操作。</p>
+</div>
+<div id="couple-题目大意" class="slide section level1">
+<h1>1021 Couple 题目大意</h1>
 <p>N对夫妇站成一圈，如果某对夫妇站在相邻位置，则从圈中移走，问最后能不能把人全部移走。</p>
+<pre><code>1 - 2 - 3
+|       |
+8       4
+|       |
+7 - 6 - 5
+
+1 4
+2 3
+5 6
+7 8</code></pre>
 </div>
 <div id="couple-转化问题" class="slide section level1">
 <h1>1021 Couple 转化问题</h1>
 <p>把每对夫妇用1-N的整数表示。</p>
+<pre><code>1 - 2 - 2
+|       |
+4       1
+|       |
+4 - 3 - 3</code></pre>
+<p>任选一对夫妇，如1，可以发现，如果要移除他们，则必须满足条件：</p>
+<p>他们两侧的夫妇都可以单独移掉</p>
+<p>于是可以把环随意拆解成一条链：</p>
+<p>1 2 2 1 3 3 4 4</p>
 </div>
 <div id="couple-用栈来解决" class="slide section level1">
 <h1>1021 Couple 用栈来解决</h1>
-<div id="raphael1">
-
+<ul class="incremental">
+<li>[]........1 2 2 1 3 3 4 4</li>
+<li>[1].........2 2 1 3 3 4 4</li>
+<li>[1,2].........2 1 3 3 4 4</li>
+<li>[1,2,2].........1 3 3 4 4</li>
+<li>[1,x,x].........1 3 3 4 4</li>
+<li>[1].............1 3 3 4 4</li>
+<li>[1,1].............3 3 4 4</li>
+<li>[x,x].............3 3 4 4</li>
+<li>[]................3 3 4 4</li>
+<li>[3].................3 4 4</li>
+<li>[3,3].................4 4</li>
+<li>[]....................4 4</li>
+<li>[4].....................4</li>
+<li>[4,4]</li>
+<li>[]</li>
+</ul>
+<p>成功！</p>
 </div>
-<script src="raphael.js"></script>
-<script src="tmp.js"></script>
-
+<div id="couple-用栈来解决-1" class="slide section level1">
+<h1>1021 Couple 用栈来解决</h1>
+<p>失败的例子：</p>
+<ul class="incremental">
+<li>[] 1 2 1 2</li>
+<li>[1] 2 1 2</li>
+<li>[1,2] 1 2</li>
+<li>[1,2,1] 2</li>
+<li>[1,2,1,2]</li>
+</ul>
 </div>
 <div id="couple-代码" class="slide section level1">
 <h1>1021 Couple 代码</h1>
@@ -163,9 +206,10 @@ Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
   }
 }
 puts(st.empty() ? <span class="st">&quot;Yes&quot;</span> : <span class="st">&quot;No&quot;</span>);</code></pre>
+<p>类似问题：括号匹配问题</p>
 </div>
-<div id="mj-nowhere-to-hide" class="slide section level1">
-<h1>1027 MJ, Nowhere to Hide</h1>
+<div id="mj-nowhere-to-hide-题目大意" class="slide section level1">
+<h1>1027 MJ, Nowhere to Hide 题目大意</h1>
 <pre><code>8
 inkfish 192.168.29.24
 zhi 192.168.29.235
@@ -259,13 +303,13 @@ map&lt;string, string&gt; majia;
 </div>
 <div class="incremental">
 <p>此题是多组数据，输出答案时题目要求每个数据后要输出空行，如果最后少一个空行会得到Presentation Error！</p>
-<p>虽然答案可能是正确的，但是考试遇到这种情况是按答案错误来计算的</p>
+<p>虽然答案可能正确，但是考试遇到这种情况是按答案错误来计分的</p>
 </div>
 </div>
-<div id="dna-matching" class="slide section level1">
-<h1>1035 DNA matching</h1>
+<div id="dna-matching-题目大意" class="slide section level1">
+<h1>1035 DNA matching 题目大意</h1>
 <div class="incremental">
-<p>给定n <span class="math">\((n \le 100)\)</span> 条DNA单链，求出最多能产生多少条DNA双链</p>
+<p>给定n <span class="math">\((n \le 100)\)</span> 条DNA单链，求最多能产生多少条DNA双链</p>
 <p>其中每条单链只能使用一次</p>
 <p>两条单链能组成一双链当且仅当这牠们长度相同，并且对应位置上为A/T, G/C的配对</p>
 </div>
@@ -297,8 +341,8 @@ TAAGCTG</code></pre>
   }
 }</code></pre>
 </div>
-<div id="plane-spotting" class="slide section level1">
-<h1>1046 Plane Spotting</h1>
+<div id="plane-spotting-题目大意" class="slide section level1">
+<h1>1046 Plane Spotting 题目大意</h1>
 <ul class="incremental">
 <li>Craig喜欢为飞机拍照</li>
 <li>飞机的出现序列为<span class="math">\(p_i\)</span>(表示第i时间内出现了多少飞机)</li>
@@ -347,8 +391,8 @@ TAAGCTG</code></pre>
 }
 sort(period, period + num_period);</code></pre>
 </div>
-<div id="bikers-trip-odomete" class="slide section level1">
-<h1>1051 Biker's Trip Odomete</h1>
+<div id="bikers-trip-odomete-题目大意" class="slide section level1">
+<h1>1051 Biker's Trip Odomete 题目大意</h1>
 <p>diameter revolutions time</p>
 <p>车前轮的直径 转圈数 时间</p>
 <p>求车行走的路程和平均速度</p>
@@ -359,8 +403,8 @@ sort(period, period + num_period);</code></pre>
 <p>路程 = 周长 <span class="math">\(\times\)</span> 转圈数</p>
 <p>平均速度 = 路程 / 时间</p>
 </div>
-<div id="substring" class="slide section level1">
-<h1>1198 Substring</h1>
+<div id="substring-题目大意" class="slide section level1">
+<h1>1198 Substring 题目大意</h1>
 <div class="incremental">
 <p>用N个字符串拼成一个新的字符串</p>
 <p>要求新字符串字典序最小</p>
@@ -368,6 +412,12 @@ sort(period, period + num_period);</code></pre>
 <div class="incremental">
 <p>如：a ac ab 则答案为：aabac</p>
 </div>
+</div>
+<div id="substring-字典序" class="slide section level1">
+<h1>1198 Substring 字典序</h1>
+<p>a &lt; b</p>
+<p>abca &lt; abcc</p>
+<p>a &lt; ab</p>
 </div>
 <div id="substring-解法一贪心" class="slide section level1">
 <h1>1198 Substring 解法一：贪心</h1>
@@ -436,12 +486,65 @@ string sub[<span class="dv">8</span>];
 <p>证明提示：</p>
 <p>证明比较函数的传递性：</p>
 <p>a <span class="math">\(\le_{cmp}\)</span> b &amp;&amp; b <span class="math">\(\le_{cmp}\)</span> c</p>
-<p>&lt;=&gt; ab <span class="math">\(\le\)</span> ba &amp;&amp; bc <span class="math">\(\le\)</span> cb</p>
-<p>&lt;=&gt; ac <span class="math">\(\le\)</span> ca</p>
-<p>&lt;=&gt; a <span class="math">\(\le_{cmp}\)</span> c</p>
+<p>ab <span class="math">\(\le\)</span> ba &amp;&amp; bc <span class="math">\(\le\)</span> cb</p>
+<p>ac <span class="math">\(\le\)</span> ca</p>
+<p>a <span class="math">\(\le_{cmp}\)</span> c</p>
 </div>
-<div id="section" class="slide section level1">
-<h1>1176</h1>
+<div id="two-ends-题目大意" class="slide section level1">
+<h1>1176 Two Ends 题目大意</h1>
+<div class="incremental">
+<p>n个正整数排成一列，A和B轮流取数，只能取两端的数，最后取到的数的和较大的人胜利，A和B之间的差为分值</p>
+<p>A可以自由选择策略，B的策略是每次都取两端中较大的数，如果相等则取左边的数</p>
+</div>
+<div class="incremental">
+<p>问A赢B的分值最大为多少。</p>
+<p>n <span class="math">\(\le\)</span> 1000, n为偶数</p>
+</div>
+</div>
+<div id="two-ends-题目大意-1" class="slide section level1">
+<h1>1176 Two Ends 题目大意</h1>
+<div class="figure">
+<img src="1176.svg" alt="第一个样例" /><p class="caption">第一个样例</p>
+</div>
+</div>
+<div id="two-ends-搜索" class="slide section level1">
+<h1>1176 Two Ends 搜索</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> rec(<span class="dt">int</span> left, <span class="dt">int</span> right) {
+  <span class="kw">if</span> (right == left) <span class="kw">return</span> -arr[left];
+
+  <span class="kw">if</span> ((right - left + <span class="dv">1</span>) % <span class="dv">2</span> == <span class="dv">1</span>) {  <span class="co">// B&#39;s turn</span>
+    <span class="kw">if</span> (arr[left] &lt; arr[right]) {
+      <span class="kw">return</span> rec(left, right - <span class="dv">1</span>) - arr[right];
+    } <span class="kw">else</span> {
+      <span class="kw">return</span> rec(left + <span class="dv">1</span>, right) - arr[left];
+    }
+  } <span class="kw">else</span> {  <span class="co">// A&#39;s turn</span>
+    <span class="kw">return</span> max(rec(left, right - <span class="dv">1</span>) + arr[right],
+        rec(left + <span class="dv">1</span>, right) + arr[left]);
+  }
+}</code></pre>
+<p>指数级算法</p>
+</div>
+<div id="two-ends-动态规划记忆化搜索" class="slide section level1">
+<h1>1176 Two Ends 动态规划(记忆化搜索)</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> rec(<span class="dt">int</span> left, <span class="dt">int</span> right) {
+  <span class="kw">if</span> (right == left) <span class="kw">return</span> -arr[left];
+  <span class="kw">if</span> (done[left][right]) <span class="kw">return</span> ans[left][right];
+
+  <span class="kw">if</span> ((right - left + <span class="dv">1</span>) % <span class="dv">2</span> == <span class="dv">1</span>) {  <span class="co">// B&#39;s turn</span>
+    <span class="kw">if</span> (arr[left] &lt; arr[right]) {
+      ans[left][right] = rec(left, right - <span class="dv">1</span>) - arr[right];
+    } <span class="kw">else</span> {
+      ans[left][right] = rec(left + <span class="dv">1</span>, right) - arr[left];
+    }
+  } <span class="kw">else</span> {  <span class="co">// A&#39;s turn</span>
+    ans[left][right] = max(rec(left, right - <span class="dv">1</span>) + arr[right],
+        rec(left + <span class="dv">1</span>, right) + arr[left]);
+  }
+  done[left][right] = <span class="kw">true</span>;
+  <span class="kw">return</span> ans[left][right] = max(ans_left,ans_right);
+}</code></pre>
+<p>加了个简单的优化，但是复杂度降到了<span class="math">\(O(n^2)\)</span></p>
 </div>
 </body>
 </html>

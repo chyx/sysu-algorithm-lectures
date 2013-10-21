@@ -1,0 +1,25 @@
+digraph G {
+
+  d11 [label = "[3] A - B = -3", shape=box];
+  d22 [label = "[2] A - B = -2", shape=box];
+  d33 [label = "[10] A - B = -10", shape=box];
+  d44 [label = "[4] A - B = -4", shape=box];
+
+  d12 [label = "[3 2] A - B = 1", shape=box];
+  d23 [label = "[2 10] A - B = 8", shape=box];
+  d34 [label = "[10 4] A - B = 6", shape=box];
+
+  d13 [label = "[3 2 10] A - B = -9", shape=box];
+  d24 [label = "[2 10 4] A - B = 4", shape=box];
+
+  d14 [label = "[3 2 10 4] A - B = 7", shape=box];
+
+  d14 -> d24; d14 -> d13;
+
+  d24 -> d23;
+  d13 -> d12;
+
+  d12 -> d11; d12 -> d22;
+  d23 -> d22; d23 -> d33;
+  d34 -> d33; d34 -> d44;
+}

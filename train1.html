@@ -41,8 +41,8 @@ code > span.er { color: #ff0000; font-weight: bold; }
 chyx111@qq.com
   </p>
 </div>
-<div id="ural-1001" class="slide section level1">
-<h1>URAL 1001</h1>
+<div id="ural-1001-reverse-root" class="slide section level1">
+<h1>URAL 1001 Reverse Root</h1>
 <div class="incremental">
 <ul class="incremental">
 <li><p>题意：求整数(<span class="math">\(\le 10^{18}\)</span>)的开方</p></li>
@@ -131,6 +131,79 @@ chyx111@qq.com
 </div>
 <div id="ural-1020-rope" class="slide section level1">
 <h1>URAL 1020 Rope</h1>
+<div class="incremental">
+<p>绳子在n个钉子上绕了一圈，求绳子的长度</p>
+<div class="figure">
+<img src="http://acm.timus.ru/image/get.aspx/5efad458-3218-423f-b3f6-685fc554139f" alt="http://acm.timus.ru/problem.aspx?space=1&amp;num=1020" /><p class="caption">http://acm.timus.ru/problem.aspx?space=1&amp;num=1020</p>
+</div>
+</div>
+<div class="incremental">
+<p>总长度 = 所有线段的长度 + 一个圆的长度</p>
+</div>
+</div>
+<div id="ural-1021-sacrament-of-the-sum" class="slide section level1">
+<h1>URAL 1021 Sacrament of the Sum</h1>
+<div class="incremental">
+<p>给两个数的集合<span class="math">\(A_1, A_2\)</span>，问是否有<span class="math">\(a_1 \in A_1, a+2 \in A_2\)</span>，满足<span class="math">\(a_1 + a_2 = 10000\)</span></p>
+</div>
+<div class="incremental">
+<p>用hash来做，枚举<span class="math">\(a_1\)</span>，查询<span class="math">\(10000 - a_1\)</span>在不在集合<span class="math">\(A_2\)</span>中</p>
+</div>
+</div>
+<div id="ural-1022-genealogical-tree" class="slide section level1">
+<h1>URAL 1022 Genealogical Tree</h1>
+<div class="incremental">
+<p>N个火星人，有些火星人是某些火星人的祖先，要求给出一个座位顺序，使得长辈总是坐在后辈的前面</p>
+</div>
+<div class="incremental">
+<p>有向无环图</p>
+</div>
+<div class="incremental">
+<p>图的拓扑排序</p>
+</div>
+</div>
+<div id="ural-1025-democracy-in-danger" class="slide section level1">
+<h1>URAL 1025 Democracy in Danger</h1>
+<div class="incremental">
+<table>
+<thead>
+<tr class="header">
+<th align="left">样例</th>
+<th align="center">解释</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">3</td>
+<td align="center">投票人被分成K个组</td>
+</tr>
+<tr class="even">
+<td align="left">5 7 5</td>
+<td align="center">每个组有若干个人</td>
+</tr>
+</tbody>
+</table>
+<p>超过半数的组投赞成票，即可通过决议</p>
+<p>一个组有超过半数的人投赞成票，该组就投赞成票</p>
+<p>问通过决议至少需要多少人赞成</p>
+</div>
+<div class="incremental">
+<p>解法：贪心人数少的组</p>
+</div>
+</div>
+<div id="ural-1083-factorials" class="slide section level1">
+<h1>URAL 1083 Factorials!!!</h1>
+<div class="incremental">
+<p>9!! = 1 × 3 × 5 × 7 × 9</p>
+<p>又称<a href="http://en.wikipedia.org/wiki/Factorial#Multifactorials">Multifactorials</a></p>
+</div>
+<div class="incremental">
+<p>直接算</p>
+</div>
+</div>
+<div id="ural-1409-two-gangsters" class="slide section level1">
+<h1>URAL 1409 Two Gangsters</h1>
+<p>将两个输入调换位置，再同时减去1，最后输出</p>
 </div>
 </body>
 </html>

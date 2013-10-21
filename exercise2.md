@@ -1,11 +1,6 @@
 % 算法分析习题选讲(第二章)
 % chyx111@qq.com
 
-<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
-<script type="text/javascript">
-Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
-</script>
-
 # 1150 1151 1515 魔板   题目大意
 
 给出魔板的起始状态，三种基本操作，步数上限和目标状态，
@@ -133,7 +128,7 @@ void bfs(State start) {
 }
 ~~~
 
-# 1007 To and Fro
+# 1007 To and Fro   题目大意
 
 给出一种加密方式，把一个字符串按列写成二维形式，再逐行从左到右或从右到左交替输出
 
@@ -171,7 +166,7 @@ for (int i = 0; i < n; i++) {
 }
 ~~~
 
-# 1036 Crypto Columns
+# 1036 Crypto Columns   题目大意
 
 加密方式：
 
@@ -223,7 +218,7 @@ for (int j = 0; j < m; ++j) {
 }
 ~~~
 
-# 1006 Team Rankings
+# 1006 Team Rankings    题目大意
 
 对于两个排列$\pi_1$，$\pi_2$，定义 distance($\pi_1$, $\pi_2$)为在$\pi_1$，$\pi_2$中出现的相对次序不同的元素的对数
 
@@ -243,7 +238,7 @@ $\pi_2$ = 1, 3, 2, 4
 
 它的逆序数也为2
 
-# 1006 Team Rankings
+# 1006 Team Rankings    题目大意
 
 对于两个排列$\pi_1$，$\pi_2$，定义 distance($\pi_1$, $\pi_2$)为在$\pi_1$，$\pi_2$中出现的相对次序不同的元素的对数
 
@@ -312,7 +307,7 @@ void dfs(int pos) {
 }
 ~~~
 
-# 1009 Mersenne Composite N
+# 1009 Mersenne Composite N   题目大意
 
 * 梅森素数$M_p$：形如$2^p-1$的素数，其中p也必须为素数
 
@@ -364,7 +359,7 @@ vector<pair<long long, int> > factor(long long x) {
 }
 ~~~
 
-# 1050 Numbers & Letters
+# 1050 Numbers & Letters    题目大意
 
 给出5个数和一个目标数，从5个数中选出一部分数通过加减乘除运算得到小于等于目标数的最大数。
 
@@ -403,7 +398,7 @@ void dfs(const vector<int>& arr) {
 
 陷阱：#3注意目标数字的范围。
 
-# 1443 Printer Queue
+# 1443 Printer Queue    题目大意
 
 有一个长度为n的打印任务队列，每个任务有优先级
 
@@ -447,7 +442,7 @@ for (; ;) {
 }
 ~~~
 
-# 1156 Binary tree
+# 1156 Binary tree    题目大意
 
 ~~~
 3
