@@ -396,6 +396,7 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 <div id="numbers-letters-题目大意" class="slide section level1">
 <h1>1050 Numbers &amp; Letters 题目大意</h1>
 <p>给出5个数和一个目标数，从5个数中选出一部分数通过加减乘除运算得到小于等于目标数的最大数。</p>
+<p>类似的题目：24点，从52张牌中抽4张，使得其加减乘除得24</p>
 </div>
 <div id="numbers-letters-解题思路" class="slide section level1">
 <h1>1050 Numbers &amp; Letters 解题思路</h1>
@@ -541,7 +542,68 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 </table>
 </div>
 <div class="incremental">
+<table>
+<thead>
+<tr class="header">
+<th align="left">工资</th>
+<th align="center">25</th>
+<th align="center">20</th>
+<th align="center">15</th>
+<th align="center">10</th>
+<th align="center">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">身高</td>
+<td align="center">180</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">身高</td>
+<td align="center"><strong>180</strong></td>
+<td align="center"><em>160</em></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">身高</td>
+<td align="center"><strong>180</strong></td>
+<td align="center">160</td>
+<td align="center"><em>170</em></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">身高</td>
+<td align="center">180</td>
+<td align="center">160</td>
+<td align="center"><strong>170</strong></td>
+<td align="center"><em>165</em></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">身高</td>
+<td align="center"><strong>180</strong></td>
+<td align="center">160</td>
+<td align="center">170</td>
+<td align="center">165</td>
+<td align="center"><em>175</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="whos-the-boss-解法一-1" class="slide section level1">
+<h1>1063 Who's the Boss 解法一</h1>
 <p>维护一个单调递减的栈</p>
+<p><a href="http://en.wikipedia.org/wiki/Stack_(abstract_data_type)#The_Stock_Span_Problem">http://en.wikipedia.org/wiki/Stack_(abstract_data_type)#The_Stock_Span_Problem</a></p>
+<div class="figure">
+<img src="http://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Stockspan.pdf/page1-800px-Stockspan.pdf.jpg" />
 </div>
 </div>
 <div id="whos-the-boss-解法二" class="slide section level1">
@@ -573,9 +635,66 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 </table>
 </div>
 <div class="incremental">
+<table>
+<thead>
+<tr class="header">
+<th align="left">身高</th>
+<th align="left">180</th>
+<th align="center">175</th>
+<th align="center">170</th>
+<th align="center">165</th>
+<th align="center">160</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">工资</td>
+<td align="left">25</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">工资</td>
+<td align="left"><strong>25</strong></td>
+<td align="center"><em>5</em></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">工资</td>
+<td align="left"><strong>25</strong></td>
+<td align="center">5</td>
+<td align="center"><em>15</em></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="left">工资</td>
+<td align="left">25</td>
+<td align="center">5</td>
+<td align="center"><strong>15</strong></td>
+<td align="center"><em>10</em></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="left">工资</td>
+<td align="left"><strong>25</strong></td>
+<td align="center">5</td>
+<td align="center">15</td>
+<td align="center">10</td>
+<td align="center"><em>20</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="whos-the-boss-解法二-1" class="slide section level1">
+<h1>1063 Who's the Boss 解法二</h1>
 <p>用set查找集合中比某个元素大的最小的元素</p>
 <p>upper_bound</p>
-</div>
 </div>
 <div id="whos-the-boss-代码" class="slide section level1">
 <h1>1063 Who's the Boss 代码</h1>

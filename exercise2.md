@@ -372,6 +372,8 @@ vector<pair<long long, int> > factor(long long x) {
 
 给出5个数和一个目标数，从5个数中选出一部分数通过加减乘除运算得到小于等于目标数的最大数。
 
+类似的题目：24点，从52张牌中抽4张，使得其加减乘除得24
+
 # 1050 Numbers & Letters   解题思路
 
 DFS求出所有可能的运算组合和顺序，得到最接近目标数的答案。
@@ -516,7 +518,23 @@ void Preorder(Node *s) {
 
 . . .
 
+工资      25      20        15        10         5
+---- ---------- ------- ---------- -------- ----------
+身高    180
+身高  **180**     *160*
+身高  **180**      160     *170*
+身高    180        160    **170**    *165*
+身高  **180**      160      170       165    *175*
+
+
+# 1063 Who's the Boss   解法一
+
+
 维护一个单调递减的栈
+
+<http://en.wikipedia.org/wiki/Stack_(abstract_data_type)#The_Stock_Span_Problem>
+
+![](http://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Stockspan.pdf/page1-800px-Stockspan.pdf.jpg)
 
 # 1063 Who's the Boss   解法二
 
@@ -529,6 +547,17 @@ void Preorder(Node *s) {
 身高 180 175 170 165 160
 
 . . .
+
+身高 180           175         170       165         160
+---- ---------- ---------- ---------- ---------- ----------
+工资    25
+工资  **25**       *5*
+工资  **25**        5           *15*
+工资    25          5         **15**      *10*
+工资  **25**        5           15        10         *20*
+
+
+# 1063 Who's the Boss   解法二
 
 用set查找集合中比某个元素大的最小的元素
 
