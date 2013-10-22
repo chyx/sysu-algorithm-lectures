@@ -484,11 +484,101 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 }</code></pre>
 </div>
 </div>
-<div id="whos-the-boss" class="slide section level1">
-<h1>1063 Who's the Boss</h1>
+<div id="whos-the-boss-题目大意" class="slide section level1">
+<h1>1063 Who's the Boss 题目大意</h1>
+<div class="incremental">
+<p>有n个人的编号，身高和工资</p>
+<p>一个人的直接上司是身高不比他小且工资比他高最少的人</p>
+<p>而一个的下属不止是他的直接下属，还包含他的下属的下属，等等</p>
 </div>
-<div id="magic-island" class="slide section level1">
-<h1>1024 Magic Island</h1>
+<div class="incremental">
+<p>现在有q个询问，你需要输出询问到的人的直接上司，以及他的下属的数量</p>
+</div>
+</div>
+<div id="whos-the-boss-解题思路" class="slide section level1">
+<h1>1063 Who's the Boss 解题思路</h1>
+<p>人数较多<span class="math">\(\le 30000\)</span></p>
+<p>必须构思比<span class="math">\(O(n^2)\)</span>快的算法</p>
+<p>排序 两个变量：身高，工资</p>
+</div>
+<div id="whos-the-boss-解法一" class="slide section level1">
+<h1>1063 Who's the Boss 解法一</h1>
+<div class="incremental">
+<p>先按工资排序</p>
+<p>假设排完序后的身高依次为：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">工资</th>
+<th align="left">25</th>
+<th align="left">20</th>
+<th align="left">15</th>
+<th align="left">10</th>
+<th align="left">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">身高</td>
+<td align="left">180</td>
+<td align="left">160</td>
+<td align="left">170</td>
+<td align="left">165</td>
+<td align="left">175</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="incremental">
+<p>维护一个单调递减的栈</p>
+</div>
+</div>
+<div id="whos-the-boss-解法二" class="slide section level1">
+<h1>1063 Who's the Boss 解法二</h1>
+<div class="incremental">
+<p>先按身高排序</p>
+<p>假设排完序后的身高依次为：</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">工资</th>
+<th align="left">25</th>
+<th align="left">5</th>
+<th align="left">15</th>
+<th align="left">10</th>
+<th align="left">20</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">身高</td>
+<td align="left">180</td>
+<td align="left">175</td>
+<td align="left">170</td>
+<td align="left">165</td>
+<td align="left">160</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="incremental">
+<p>用set查找集合中比某个元素大的最小的元素</p>
+<p>upper_bound</p>
+</div>
+</div>
+<div id="whos-the-boss-代码" class="slide section level1">
+<h1>1063 Who's the Boss 代码</h1>
+</div>
+<div id="magic-island-解题思路" class="slide section level1">
+<h1>1024 Magic Island 解题思路</h1>
+<p>两个节点不经过重复边的路径有且只有一条</p>
+<p>树</p>
+<p>问从某个点出发最远可以走多远</p>
+</div>
+<div id="magic-island-解法" class="slide section level1">
+<h1>1024 Magic Island 解法</h1>
+<p>从该点开始做DFS或BFS，取最大路径长度即可</p>
+<p>树的DFS的一般写法： <sub><del>{.cpp} struct Node { int to, length; }; vector<Node> G[kMaxNumNode]; void dfs(int x, int parent, int length) { ans = max(length, ans); for (int i = 0; i &lt; G[x].size(); ++i) { if (G[x][i].to != parent) { dfs(G[x][i], x, length + G[x][i].length); } } }</del></sub></p>
 </div>
 </body>
 </html>

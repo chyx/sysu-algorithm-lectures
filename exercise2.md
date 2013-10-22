@@ -474,7 +474,83 @@ void Preorder(Node *s) {
 }
 ~~~
 
-# 1063 Who's the Boss
+# 1063 Who's the Boss   题目大意
 
-# 1024 Magic Island
+有n个人的编号，身高和工资
 
+一个人的直接上司是身高不比他小且工资比他高最少的人
+
+而一个的下属不止是他的直接下属，还包含他的下属的下属，等等
+
+. . .
+
+现在有q个询问，你需要输出询问到的人的直接上司，以及他的下属的数量
+
+
+# 1063 Who's the Boss   解题思路
+
+人数较多$\le 30000$
+
+必须构思比$O(n^2)$快的算法
+
+排序 两个变量：身高，工资
+
+# 1063 Who's the Boss   解法一
+
+先按工资排序
+
+假设排完序后的身高依次为：
+
+工资 25  20  15  10  5
+---- --- --- --- --- ---
+身高 180 160 170 165 175
+
+. . .
+
+维护一个单调递减的栈
+
+# 1063 Who's the Boss   解法二
+
+先按身高排序
+
+假设排完序后的身高依次为：
+
+工资 25  5   15  10  20
+---- --- --- --- --- ---
+身高 180 175 170 165 160
+
+. . .
+
+用set查找集合中比某个元素大的最小的元素
+
+upper_bound
+
+# 1063 Who's the Boss   代码
+
+# 1024 Magic Island   解题思路
+
+两个节点不经过重复边的路径有且只有一条
+
+树
+
+问从某个点出发最远可以走多远
+
+# 1024 Magic Island   解法
+
+从该点开始做DFS或BFS，取最大路径长度即可
+
+树的DFS的一般写法：
+~~~{.cpp}
+struct Node {
+  int to, length;
+};
+vector<Node> G[kMaxNumNode];
+void dfs(int x, int parent, int length) {
+  ans = max(length, ans);
+  for (int i = 0; i < G[x].size(); ++i) {
+    if (G[x][i].to != parent) {
+      dfs(G[x][i], x, length + G[x][i].length);
+    }
+  }
+}
+~~~
