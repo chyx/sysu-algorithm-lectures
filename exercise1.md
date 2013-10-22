@@ -52,10 +52,6 @@ int GetRemainder(string input, int m) {
 }
 ~~~
 
-# 1020 Big Integer    附加练习
-
-准备一份大整数的模板，支持加减乘除操作。
-
 # 1021 Couple   题目大意
 
 N对夫妇站成一圈，如果某对夫妇站在相邻位置，则从圈中移走，问最后能不能把人全部移走。
