@@ -48,15 +48,15 @@ chyx111@qq.com
 <div id="魔板-三种基本操作" class="slide section level1">
 <h1>1150 1151 1515 魔板 三种基本操作</h1>
 <ul class="incremental">
-<li>上下互换
+<li>A:上下互换
 <div id="way1">
 
 </div></li>
-<li>循环右移
+<li>B:循环右移
 <div id="way2">
 
 </div></li>
-<li>中间四块顺时针转
+<li>C:中间四块顺时针转
 <div id="way3">
 
 </div></li>
@@ -82,11 +82,18 @@ MagicBoard.createNew(paper, 300, 0, w, h, [1,7,2,4,8,6,3,5]);
 </div>
 <div id="魔板-解题思路" class="slide section level1">
 <h1>1150 1151 1515 魔板 解题思路</h1>
+<div class="incremental">
 <ul class="incremental">
 <li>对模板进行状态搜索</li>
 <li>由一种状态可以转移到另外三种状态，搜索树为一棵三叉树</li>
 <li>在这棵三叉树上搜索，目的是求出最优解。</li>
 </ul>
+</div>
+<div class="incremental">
+<div class="figure">
+<img src="1150_1.svg" alt="三叉树" /><p class="caption">三叉树</p>
+</div>
+</div>
 </div>
 <div id="魔板-算法一dfs深度优先搜索" class="slide section level1">
 <h1>1150 1151 1515 魔板 算法一：DFS(深度优先搜索)</h1>
@@ -120,9 +127,14 @@ MagicBoard.createNew(paper, 300, 0, w, h, [1,7,2,4,8,6,3,5]);
 <p>BFS每经过一个节点，就把它放进已搜索列表中</p>
 <p>如果节点在已搜索列表存在，则不再扩展该节点</p>
 <p>共有8!=40320个节点</p>
-<ul class="incremental">
-<li>节点编码</li>
-</ul>
+<div class="figure">
+<img src="1150_2.svg" alt="三叉树" /><p class="caption">三叉树</p>
+</div>
+</div>
+</div>
+<div id="魔板-算法三bfs-判重-1" class="slide section level1">
+<h1>1150 1151 1515 魔板 算法三：BFS + 判重</h1>
+<p>节点编码</p>
 <ol class="incremental" style="list-style-type: decimal">
 <li>康托展开</li>
 <li>自定义编码，如把状态
@@ -136,7 +148,6 @@ var paper = Raphael('board1', 100, 50);
 MagicBoard.createNew(paper, 0, 0, 100, 50, [1,2,3,4,8,7,6,5]);
 </script>
 
-</div>
 </div>
 <div id="魔板-康托展开" class="slide section level1">
 <h1>1150 1151 1515 魔板 <a href="http://zh.wikipedia.org/wiki/%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80">*康托展开</a></h1>
