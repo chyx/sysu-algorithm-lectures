@@ -579,6 +579,41 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 </div>
 <div id="whos-the-boss-代码" class="slide section level1">
 <h1>1063 Who's the Boss 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> employee {
+  <span class="dt">int</span> height, id, earn, number, manager, sub;
+};
+<span class="dt">bool</span> cmp(<span class="dt">const</span> employee &amp;a,<span class="dt">const</span> employee &amp;b) {
+  <span class="kw">if</span> (a.height != b.height) {
+    <span class="kw">return</span> a.height &lt; b.height;
+  } <span class="kw">else</span> {
+    <span class="kw">return</span> a.earn &lt; b.earn;
+  }
+}
+<span class="dt">bool</span> cmp2(<span class="dt">const</span> employee &amp;a,<span class="dt">const</span> employee &amp;b) {
+    <span class="kw">return</span> a.id&lt;b.id;
+}
+set&lt;employee&gt; h;</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">sort(a, a + n, cmp);
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+  a[i].number = i;
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = n - <span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--) {
+  set&lt;employee&gt;::iterator it = h.upper_bound(a[i]);
+  <span class="kw">if</span> (it == h.end()) {
+    a[i].manager = -<span class="dv">1</span>;
+  } <span class="kw">else</span> {
+    a[i].manager = it-&gt;number;
+  }
+  h.insert(a[i]);
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+  <span class="kw">if</span> (a[i].manager != -<span class="dv">1</span>) {
+    a[a[i].manager].sub += a[i].sub + <span class="dv">1</span>;
+    a[i].manager = a[a[i].manager].id;
+  } <span class="kw">else</span> {
+    a[i].manager = <span class="dv">0</span>;
+  }
+}</code></pre>
 </div>
 <div id="magic-island-解题思路" class="slide section level1">
 <h1>1024 Magic Island 解题思路</h1>

@@ -536,6 +536,47 @@ upper_bound
 
 # 1063 Who's the Boss   代码
 
+~~~{.cpp}
+struct employee {
+  int height, id, earn, number, manager, sub;
+};
+bool cmp(const employee &a,const employee &b) {
+  if (a.height != b.height) {
+    return a.height < b.height;
+  } else {
+    return a.earn < b.earn;
+  }
+}
+bool cmp2(const employee &a,const employee &b) {
+    return a.id<b.id;
+}
+set<employee> h;
+~~~
+
+~~~{.cpp}
+sort(a, a + n, cmp);
+for (int i = 0; i < n; i++) {
+  a[i].number = i;
+}
+for (int i = n - 1; i >= 0; i--) {
+  set<employee>::iterator it = h.upper_bound(a[i]);
+  if (it == h.end()) {
+    a[i].manager = -1;
+  } else {
+    a[i].manager = it->number;
+  }
+  h.insert(a[i]);
+}
+for (int i = 0; i < n; i++) {
+  if (a[i].manager != -1) {
+    a[a[i].manager].sub += a[i].sub + 1;
+    a[i].manager = a[a[i].manager].id;
+  } else {
+    a[i].manager = 0;
+  }
+}
+~~~
+
 # 1024 Magic Island   解题思路
 
 两个节点不经过重复边的路径有且只有一条
