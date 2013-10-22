@@ -578,7 +578,19 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 <div id="magic-island-解法" class="slide section level1">
 <h1>1024 Magic Island 解法</h1>
 <p>从该点开始做DFS或BFS，取最大路径长度即可</p>
-<p>树的DFS的一般写法： <sub><del>{.cpp} struct Node { int to, length; }; vector<Node> G[kMaxNumNode]; void dfs(int x, int parent, int length) { ans = max(length, ans); for (int i = 0; i &lt; G[x].size(); ++i) { if (G[x][i].to != parent) { dfs(G[x][i], x, length + G[x][i].length); } } }</del></sub></p>
+<p>树的DFS的一般写法：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
+  <span class="dt">int</span> to, length;
+};
+vector&lt;Node&gt; G[kMaxNumNode];
+<span class="dt">void</span> dfs(<span class="dt">int</span> x, <span class="dt">int</span> parent, <span class="dt">int</span> length) {
+  ans = max(length, ans);
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; G[x].size(); ++i) {
+    <span class="kw">if</span> (G[x][i].to != parent) {
+      dfs(G[x][i], x, length + G[x][i].length);
+    }
+  }
+}</code></pre>
 </div>
 </body>
 </html>

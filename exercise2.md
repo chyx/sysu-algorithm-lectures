@@ -540,6 +540,7 @@ upper_bound
 从该点开始做DFS或BFS，取最大路径长度即可
 
 树的DFS的一般写法：
+
 ~~~{.cpp}
 struct Node {
   int to, length;
@@ -554,3 +555,4 @@ void dfs(int x, int parent, int length) {
   }
 }
 ~~~
+
