@@ -30,7 +30,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
   </style>
   <link rel="stylesheet" type="text/css" media="screen, projection, print"
     href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
-  <script src="MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
     charset="utf-8" type="text/javascript"></script>
 </head>
@@ -43,6 +43,8 @@ chyx111@qq.com
 </div>
 <div id="big-integer-题目大意" class="slide section level1">
 <h1>1020 Big Integer 题目大意</h1>
+<div class="incremental">
+<p>中国剩余定理</p>
 <table>
 <thead>
 <tr class="header">
@@ -72,13 +74,13 @@ chyx111@qq.com
 <td align="left"></td>
 <td align="left"><span class="math">\(13 \equiv 6 \pmod 7\)</span></td>
 </tr>
-<tr class="odd">
-<td align="left">（样例二）</td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
 </tbody>
 </table>
+</div>
+<div class="incremental">
+<p>给出n个整数<span class="math">\(b_1,b_2,...,b_n\)</span>，和一个大整数x，求x对每个数<span class="math">\(b_i\)</span>取模的结果</p>
+<p><span class="math">\(n \le 100\)</span>，<span class="math">\(1 \lt b_i \le 1000\)</span>, x的位数不超过400</p>
+</div>
 </div>
 <div id="big-integer-对一个大整数求模" class="slide section level1">
 <h1>1020 Big Integer 对一个大整数求模</h1>
@@ -302,6 +304,12 @@ map&lt;string, string&gt; majia;
 }</code></pre>
 </div>
 <div class="incremental">
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// Not supported by sicily...</span>
+<span class="kw">for</span> (<span class="dt">auto</span> entry : majia) {
+  ...
+}</code></pre>
+</div>
+<div class="incremental">
 <p>此题是多组数据，输出答案时题目要求每个数据后要输出空行，如果最后少一个空行会得到Presentation Error！</p>
 <p>虽然答案可能正确，但是考试遇到这种情况是按答案错误来计分的</p>
 </div>
@@ -379,7 +387,7 @@ TAAGCTG</code></pre>
 <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
   <span class="dt">int</span> num_planes = <span class="dv">0</span>;
   <span class="kw">for</span> (<span class="dt">int</span> j = i; j &lt; n; ++j) {
-    num_planes += quarter[j];
+    num_planes += p[j];
     <span class="dt">int</span> num_quarters = j - i + <span class="dv">1</span>;
     <span class="kw">if</span> (num_quarters &gt;= min_size) {
       period[num_period].average_planes = num_planes * <span class="fl">1.0</span> / num_quarters;

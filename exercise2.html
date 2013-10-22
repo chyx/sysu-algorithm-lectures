@@ -41,14 +41,6 @@ code > span.er { color: #ff0000; font-weight: bold; }
 chyx111@qq.com
   </p>
 </div>
-<div class="slide section level1">
-
-<style type="text/css"> .reveal h1 { font-size: 2em; } .reveal h2 {font-size: 1.5em;} table {margin: auto!important; }</style>
-<script type="text/javascript">
-Reveal.configure({width: 1024, height: 768, maxScale: 2.0, center: false});
-</script>
-
-</div>
 <div id="魔板-题目大意" class="slide section level1">
 <h1>1150 1151 1515 魔板 题目大意</h1>
 <p>给出魔板的起始状态，三种基本操作，步数上限和目标状态， 求从起始状态到目标状态的操作序列，长度不得超过上限。</p>
@@ -189,8 +181,8 @@ queue&lt;State&gt; que;
   }
 }</code></pre>
 </div>
-<div id="to-and-fro" class="slide section level1">
-<h1>1007 To and Fro</h1>
+<div id="to-and-fro-题目大意" class="slide section level1">
+<h1>1007 To and Fro 题目大意</h1>
 <p>给出一种加密方式，把一个字符串按列写成二维形式，再逐行从左到右或从右到左交替输出</p>
 <p>给出加密后的字符串，还原本来的字符串。</p>
 <pre><code>theresnoplacelikehomeonasnowynightx
@@ -220,8 +212,8 @@ toioynnkpheleaigshareconhtomesnlewx</code></pre>
   }
 }</code></pre>
 </div>
-<div id="crypto-columns" class="slide section level1">
-<h1>1036 Crypto Columns</h1>
+<div id="crypto-columns-题目大意" class="slide section level1">
+<h1>1036 Crypto Columns 题目大意</h1>
 <p>加密方式：</p>
 <ul class="incremental">
 <li><p>给定一个Keyword</p></li>
@@ -264,8 +256,8 @@ vector&lt;vector&lt;<span class="dt">char</span>&gt; &gt; matrix(n, vector&lt;<s
   }
 }</code></pre>
 </div>
-<div id="team-rankings" class="slide section level1">
-<h1>1006 Team Rankings</h1>
+<div id="team-rankings-题目大意" class="slide section level1">
+<h1>1006 Team Rankings 题目大意</h1>
 <div class="incremental">
 <p>对于两个排列<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>，定义 distance(<span class="math">\(\pi_1\)</span>, <span class="math">\(\pi_2\)</span>)为在<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>中出现的相对次序不同的元素的对数</p>
 <p>相当于以<span class="math">\(\pi_1\)</span>为基准，求<span class="math">\(\pi_2\)</span>的逆序数。</p>
@@ -279,8 +271,8 @@ vector&lt;vector&lt;<span class="dt">char</span>&gt; &gt; matrix(n, vector&lt;<s
 <p>它的逆序数也为2</p>
 </div>
 </div>
-<div id="team-rankings-1" class="slide section level1">
-<h1>1006 Team Rankings</h1>
+<div id="team-rankings-题目大意-1" class="slide section level1">
+<h1>1006 Team Rankings 题目大意</h1>
 <p>对于两个排列<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>，定义 distance(<span class="math">\(\pi_1\)</span>, <span class="math">\(\pi_2\)</span>)为在<span class="math">\(\pi_1\)</span>，<span class="math">\(\pi_2\)</span>中出现的相对次序不同的元素的对数</p>
 <p>相当于以<span class="math">\(\pi_1\)</span>为基准，求<span class="math">\(\pi_2\)</span>的逆序数</p>
 <p>现在给出n(n <span class="math">\(\le\)</span> 100)个5元排列，要求构造一个排列，使得该排列对n个排列的distance之和最小</p>
@@ -346,8 +338,8 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
   }
 }</code></pre>
 </div>
-<div id="mersenne-composite-n" class="slide section level1">
-<h1>1009 Mersenne Composite N</h1>
+<div id="mersenne-composite-n-题目大意" class="slide section level1">
+<h1>1009 Mersenne Composite N 题目大意</h1>
 <ul class="incremental">
 <li><p>梅森素数<span class="math">\(M_p\)</span>：形如<span class="math">\(2^p-1\)</span>的素数，其中p也必须为素数</p></li>
 <li><p>给定k，求出所有素数<span class="math">\(n \le k\)</span>，满足条件：<span class="math">\(2^n-1\)</span>不是梅森素数，并要求对这些形如<span class="math">\(2^n-1\)</span>的数字进行因子分解。</p></li>
@@ -390,8 +382,8 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
   <span class="kw">return</span> factor;
 }</code></pre>
 </div>
-<div id="numbers-letters" class="slide section level1">
-<h1>1050 Numbers &amp; Letters</h1>
+<div id="numbers-letters-题目大意" class="slide section level1">
+<h1>1050 Numbers &amp; Letters 题目大意</h1>
 <p>给出5个数和一个目标数，从5个数中选出一部分数通过加减乘除运算得到小于等于目标数的最大数。</p>
 </div>
 <div id="numbers-letters-解题思路" class="slide section level1">
@@ -426,8 +418,8 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 }</code></pre>
 <p>陷阱：#3注意目标数字的范围。</p>
 </div>
-<div id="printer-queue" class="slide section level1">
-<h1>1443 Printer Queue</h1>
+<div id="printer-queue-题目大意" class="slide section level1">
+<h1>1443 Printer Queue 题目大意</h1>
 <div class="incremental">
 <p>有一个长度为n的打印任务队列，每个任务有优先级</p>
 <p>每次从队列头得到一个任务，如果它是剩余任务中优先级最高的，则打印它，否则放到队列尾</p>
@@ -466,8 +458,8 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
   que.pop();
 }</code></pre>
 </div>
-<div id="binary-tree" class="slide section level1">
-<h1>1156 Binary tree</h1>
+<div id="binary-tree-题目大意" class="slide section level1">
+<h1>1156 Binary tree 题目大意</h1>
 <pre><code>3
 4 C 1 3
 1 A 0 0
