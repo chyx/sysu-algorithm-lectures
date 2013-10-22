@@ -1,0 +1,23 @@
+digraph G {
+  n11 [label = "start", shape=box];
+
+  n21 [label = "A", shape=box];
+  n22 [label = "B", shape=box];
+  n23 [label = "C", shape=box];
+
+  n31 [label = "AA", shape=box];
+  n32 [label = "AB", shape=box];
+  n33 [label = "AC", shape=box];
+  n34 [label = "BA", shape=box];
+  n35 [label = "BB", shape=box];
+  n36 [label = "BC", shape=box];
+  n37 [label = "CA", shape=box];
+  n38 [label = "CB", shape=box];
+  n39 [label = "CC", shape=box];
+
+  n11 -> n21; n11 -> n22; n11 -> n23;
+
+  n21 -> n31; n21 -> n32; n21 -> n33;
+  n22 -> n34; n22 -> n35; n22 -> n36;
+  n23 -> n37; n23 -> n38; n23 -> n39;
+}
