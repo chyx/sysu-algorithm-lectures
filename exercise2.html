@@ -708,9 +708,6 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
     <span class="kw">return</span> a.earn &lt; b.earn;
   }
 }
-<span class="dt">bool</span> cmp2(<span class="dt">const</span> employee &amp;a,<span class="dt">const</span> employee &amp;b) {
-    <span class="kw">return</span> a.id&lt;b.id;
-}
 set&lt;employee&gt; h;</code></pre>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">sort(a, a + n, cmp);
 <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {

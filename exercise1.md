@@ -490,7 +490,7 @@ int rec(int left, int right) {
         rec(left + 1, right) + arr[left]);
   }
   done[left][right] = true;
-  return ans[left][right] = max(ans_left,ans_right);
+  return ans[left][right];
 }
 ~~~
 

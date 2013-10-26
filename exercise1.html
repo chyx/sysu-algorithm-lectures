@@ -546,7 +546,7 @@ string sub[<span class="dv">8</span>];
         rec(left + <span class="dv">1</span>, right) + arr[left]);
   }
   done[left][right] = <span class="kw">true</span>;
-  <span class="kw">return</span> ans[left][right] = max(ans_left,ans_right);
+  <span class="kw">return</span> ans[left][right];
 }</code></pre>
 <p>加了个简单的优化，但效果显著，复杂度降到了<span class="math">\(O(n^2)\)</span></p>
 </div>

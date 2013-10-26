@@ -576,9 +576,6 @@ bool cmp(const employee &a,const employee &b) {
     return a.earn < b.earn;
   }
 }
-bool cmp2(const employee &a,const employee &b) {
-    return a.id<b.id;
-}
 set<employee> h;
 ~~~
 
