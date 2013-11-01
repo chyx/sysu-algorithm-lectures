@@ -569,6 +569,474 @@ BishopBoard.createNew(svg, w, h);
 </div>
 <div id="国王的遗产" class="titleslide slide section level1"><h1>1140 国王的遗产</h1></div><div id="国王的遗产-题目大意" class="slide section level2">
 <h1>1140 国王的遗产 题目大意</h1>
+<p>一棵由n块金块组成的树</p>
+<p>k个人按顺序轮流拿金块，每个人拿的时候选择树的一条边将其分割成两棵树</p>
+<div id="king1">
+
+</div>
+</div><div id="国王的遗产-题目大意-1" class="slide section level2">
+<h1>1140 国王的遗产 题目大意</h1>
+<div id="king2">
+
+</div>
+<p>拿的那部分的金块数不能超过当前金块总数的一半</p>
+<p>每个人都希望拿到尽量多的金块</p>
+<p>如果有多种拿法，则拿最小金块编号最小的那一块</p>
+</div><div id="国王的遗产-题目大意-2" class="slide section level2">
+<h1>1140 国王的遗产 题目大意</h1>
+<div id="king3">
+
+</div>
+<script src="lecture.js"></script>
+<script>
+graph_king = {
+nodes: [
+       {name: 1, color: "#66ccff"},
+       {name: 2, color: "#66ccff"},
+       {name: 3, color: "#66ccff"},
+       {name: 4, color: "#66ccff"},
+       {name: 5, color: "#66ccff"},
+       {name: 6, color: "#66ccff"},
+       ],
+       edges: [
+       {source: 0, target: 1},
+       {source: 1, target: 2},
+       {source: 2, target: 3},
+       {source: 1, target: 4},
+       {source: 2, target: 5}
+       ]
+};
+
+var w = 500;
+var h = 300;
+var svg = d3.select("div#king1").append("svg")
+.attr('viewBox', "0 0 " + w + " " + h)
+.attr('preserveAspectRatio', "xMinYMin meet")
+.attr('width', w).attr('height', h);
+GraphKing.createNew(svg, w, h, graph_king);
+
+graph_king = {
+nodes: [
+       {name: 1, color: "yellow"},
+       {name: 2, color: "yellow"},
+       {name: 3, color: "#66ccff"},
+       {name: 4, color: "#66ccff"},
+       {name: 5, color: "yellow"},
+       {name: 6, color: "#66ccff"},
+       ],
+       edges: [
+       {source: 0, target: 1},
+       {source: 2, target: 3},
+       {source: 1, target: 4},
+       {source: 2, target: 5}
+       ]
+};
+
+var svg = d3.select("div#king2").append("svg")
+.attr('width', w).attr('height', h);
+GraphKing.createNew(svg, w, h, graph_king);
+
+graph_king = {
+nodes: [
+       {name: 1, color: "yellow"},
+       {name: 2, color: "yellow"},
+       {name: 3, color: "#66ccff"},
+       {name: 4, color: "orange"},
+       {name: 5, color: "yellow"},
+       {name: 6, color: "#66ccff"},
+       ],
+       edges: [
+       {source: 0, target: 1},
+       {source: 1, target: 4},
+       {source: 2, target: 5}
+       ]
+};
+
+var svg = d3.select("div#king3").append("svg")
+.attr('width', w).attr('height', h);
+GraphKing.createNew(svg, w, h, graph_king);
+
+</script>
+
+</div><div id="国王的遗产-题目大意-3" class="slide section level2">
+<h1>1140 国王的遗产 题目大意</h1>
+<pre><code>6 3
+1 2
+2 3
+3 4
+2 5
+3 6
+
+3 1 2</code></pre>
+<p><span class="math">\(n \le 30000, k \le 100\)</span></p>
+</div><div id="国王的遗产-解题思路" class="slide section level2">
+<h1>1140 国王的遗产 解题思路</h1>
+<div class="incremental">
+<p>按顺序做，枚举每一个人，检查切断每一条边所得到的两棵子树，计算其节点数和最小编号</p>
+<p>如何得到这两棵子树？</p>
+</div>
+<div class="incremental">
+<p>去掉边后做DFS</p>
+<p>复杂度？</p>
+</div>
+<div class="incremental">
+<p><span class="math">\(O(N^2 K)\)</span>, 枚举边 * DFS求大小 * K次，无法承受</p>
+</div>
+</div><div id="国王的遗产-解题思路-1" class="slide section level2">
+<h1>1140 国王的遗产 解题思路</h1>
+<p>转化成有根树，只需要做一次DFS</p>
+<div id="king4">
+
+</div>
+<script>
+graph_king = {
+nodes: [
+       {name: "1 [5]", color: "#66ccff"},
+       {name: "2 [4]", color: "#66ccff"},
+       {name: "3 [2]", color: "#66ccff"},
+       {name: "4 [0]", color: "#66ccff"},
+       {name: "5 [0]", color: "#66ccff"},
+       {name: "6 [0]", color: "#66ccff"},
+       ],
+       edges: [
+       {source: 0, target: 1},
+       {source: 1, target: 2},
+       {source: 2, target: 3},
+       {source: 1, target: 4},
+       {source: 2, target: 5}
+       ]
+};
+
+var w = 500;
+var h = 300;
+var svg = d3.select("div#king4").append("svg")
+.attr('viewBox', "0 0 " + w + " " + h)
+.attr('preserveAspectRatio', "xMinYMin meet")
+.attr('width', w).attr('height', h);
+GraphKing.createNew(svg, w, h, graph_king);
+</script>
+
+
+</div><div id="国王的遗产-代码" class="slide section level2">
+<h1>1140 国王的遗产 代码</h1>
+<p>记录子树的大小，删除的边的两个端点，子树中的最小编号</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> SubTree {
+  <span class="dt">int</span> num_nodes;
+  <span class="dt">int</span> insider, outsider;
+  <span class="dt">int</span> min_id;
+};</code></pre>
+<p>用vector<int>来保存树的边</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> kMaxN = <span class="dv">31000</span>;
+vector&lt;<span class="dt">int</span>&gt; G[kMaxN];
+SubTree subtree[kMaxN];</code></pre>
+</div><div id="国王的遗产-代码-1" class="slide section level2">
+<h1>1140 国王的遗产 代码</h1>
+<p>不同子树之间的比较：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> <span class="kw">operator</span>&lt;(<span class="dt">const</span> SubTree&amp; a, <span class="dt">const</span> SubTree&amp; b) {
+  <span class="kw">if</span> (a.num_nodes != b.num_nodes) {
+    <span class="kw">return</span> a.num_nodes &gt; b.num_nodes;
+  }
+  <span class="kw">return</span> a.min_id &lt; b.min_id;
+}</code></pre>
+<p>主过程：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;<span class="dt">int</span>&gt; ans;
+pivot = <span class="dv">0</span>;
+total = n;
+<span class="kw">for</span> (<span class="dt">int</span> ichild = <span class="dv">0</span>; ichild &lt; num_children - <span class="dv">1</span>; ++ichild) {
+  pivot = dfs_find_min(pivot, -<span class="dv">1</span>);
+
+  best.num_nodes = -<span class="dv">1</span>;
+  dfs(pivot, -<span class="dv">1</span>);
+  ans.push_back(best.num_nodes);
+
+  <span class="co">// Remove edge best.insider &lt;-&gt; best.outsider</span>
+
+  total -= best.num_nodes;
+  pivot = best.outsider;
+}</code></pre>
+</div><div id="国王的遗产-代码-2" class="slide section level2">
+<h1>1140 国王的遗产 代码</h1>
+<p>找出树中的最小编号，从该编号开始DFS</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> dfs_find_min(<span class="dt">int</span> x, <span class="dt">int</span> parent) {
+  <span class="dt">int</span> min_id = x;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; G[x].size(); ++i) {
+    <span class="dt">int</span> child = G[x][i];
+    <span class="kw">if</span> (child == parent) <span class="kw">continue</span>;
+    min_id = min(min_id, dfs_find_min(child, x));
+  }
+  <span class="kw">return</span> min_id;
+}</code></pre>
+</div><div id="国王的遗产-代码-3" class="slide section level2">
+<h1>1140 国王的遗产 代码</h1>
+<p>主DFS过程</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> total;
+<span class="dt">int</span> pivot;
+SubTree best;
+<span class="dt">void</span> dfs(<span class="dt">int</span> x, <span class="dt">int</span> parent) {
+  subtree[x].num_nodes = <span class="dv">1</span>;
+  subtree[x].min_id = x;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; G[x].size(); ++i) {
+    <span class="dt">int</span> child = G[x][i];
+    <span class="kw">if</span> (child == parent) <span class="kw">continue</span>;
+    dfs(child, x);
+    subtree[x].num_nodes += subtree[child].num_nodes;
+    subtree[x].min_id = min(subtree[x].min_id, subtree[child].min_id);
+  }
+  <span class="kw">if</span> (x != pivot) {
+    subtree[x].outsider = parent;
+    subtree[x].insider = x;
+    <span class="kw">if</span> (subtree[x].num_nodes &lt;= total / <span class="dv">2</span>) {
+      best = min(best, subtree[x]);
+    }
+    SubTree subtree2;
+    subtree2.num_nodes = total - subtree[x].num_nodes;
+    subtree2.min_id = pivot;
+    subtree2.insider = parent;
+    subtree2.outsider = x;
+    <span class="kw">if</span> (subtree2.num_nodes &lt;= total / <span class="dv">2</span>) {
+      best = min(best, subtree2);
+    }
+  }
+}</code></pre>
+</div>
+<div id="shopaholic" class="titleslide slide section level1"><h1>1438 Shopaholic</h1></div><div id="shopaholic-题目大意" class="slide section level2">
+<h1>1438 Shopaholic 题目大意</h1>
+<p>买东西 每买三件东西 最便宜的一件免费</p>
+<p>给出n个需要买的东西</p>
+<p>问最多免费多少？</p>
+<p><span class="math">\(n \le 20000, price \le 20000\)</span></p>
+</div><div id="shopaholic-样例" class="slide section level2">
+<h1>1438 Shopaholic 样例</h1>
+<p>6</p>
+<p>400 100 200 350 300 250</p>
+<p>(400 350 300) (250 200 100) =&gt; 400</p>
+</div><div id="shopaholic-解题思路" class="slide section level2">
+<h1>1438 Shopaholic 解题思路</h1>
+<div class="incremental">
+<p>尽量使价格高的东西免费</p>
+</div>
+<div class="incremental">
+<p>按价格从高到低排序，每三件取一件免费</p>
+</div>
+<div class="incremental">
+<p>严格证明？考虑最便宜的商品，必须找两个和它配对</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">sort(price, price + n, greater&lt;<span class="dt">int</span>&gt;());
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt; n; i += <span class="dv">3</span>) {
+  saved += price[i];
+}</code></pre>
+</div>
+</div>
+<div id="hanoi-tower-sequence" class="titleslide slide section level1"><h1>1028 Hanoi Tower Sequence</h1></div><div id="hanoi-tower-sequence-题目大意" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 题目大意</h1>
+<div class="incremental">
+<p>汉诺塔：三个柱子和大小两两不同的盘子放在一个柱子上</p>
+<p>目的：将这些盘子移动到另外一个柱子上</p>
+<p>规则：每次只能移动最顶端的一个盘子，每次移动后较小的盘子必须放在较大的盘子上面</p>
+</div>
+<div class="incremental">
+<p>现在给出步数p，问第p步移动的盘子的大小</p>
+<p><span class="math">\(p \le 10^{100}\)</span></p>
+</div>
+</div><div id="hanoi-tower-sequence-题目大意-1" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 题目大意</h1>
+<div class="figure">
+<img src="1028.png" alt="规则" /><p class="caption">规则</p>
+</div>
+<ol class="incremental" style="list-style-type: decimal">
+<li>把前n - 1个盘子移到第二根柱子上</li>
+<li>把第n个盘子移到第三根柱子上</li>
+<li>把前n - 1个盘子移到第三根柱子上</li>
+</ol>
+</div><div id="hanoi-tower-sequence-解题思路" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 解题思路</h1>
+<div class="incremental">
+<p>先递归求解总步数</p>
+<p>设移动k个盘子需要f(k)步，则有：</p>
+<p>f(k) = f(k - 1) + 1 + f(k - 1)</p>
+<p>f(1) = 1</p>
+<p>所以：</p>
+</div>
+<div class="incremental">
+<p><span class="math">\(f(k) = 2^k - 1\)</span></p>
+</div>
+</div><div id="hanoi-tower-sequence-解题思路-1" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 解题思路</h1>
+<p>发现：</p>
+<p>第<span class="math">\(2^k\)</span>步移动的是第k + 1个盘子</p>
+</div><div id="hanoi-tower-sequence-解题思路-2" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 解题思路</h1>
+<div class="incremental">
+<p>找规律</p>
+<pre><code>1
+1 2 1
+1 2 1 3 1 2 1
+1 2 1 3 1 2 1 4 1 2 1 3 1 2 1
+1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 5 1 2 1 3 1 2 1 4 1 2 1 3 1 2 1 </code></pre>
+<p>具有自相似的特性</p>
+</div>
+<div class="incremental">
+<pre><code>0001 =&gt; 0
+0010 =&gt; 1
+0011 =&gt; 0
+0100 =&gt; 2
+0101 =&gt; 0
+0110 =&gt; 1
+0111 =&gt; 0
+1000 =&gt; 3
+1001 =&gt; 0
+1010 =&gt; 1
+1011 =&gt; 0
+1100 =&gt; 2
+1101 =&gt; 0
+1110 =&gt; 1
+1111 =&gt; 0</code></pre>
+</div>
+</div><div id="hanoi-tower-sequence-解题思路-3" class="slide section level2">
+<h1>1028 Hanoi Tower Sequence 解题思路</h1>
+<p>答案为把p表示成2进制数，最后有多少个零，再加1</p>
+<p>假设x是读进来的数字，x[n - 1]是最低位：</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> ans = <span class="dv">1</span>;
+<span class="kw">while</span> (x[n - <span class="dv">1</span>] % <span class="dv">2</span> == <span class="dv">0</span>) {
+  ++ans;
+
+  <span class="co">// 除2</span>
+  <span class="dt">int</span> remain = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    remain = remain * <span class="dv">10</span> + x[i];
+    x[i] = remain / <span class="dv">2</span>;
+    remain %= <span class="dv">2</span>;
+  }
+  assert(remain == <span class="dv">0</span>);
+}</code></pre>
+</div>
+<div id="rabbit" class="titleslide slide section level1"><h1>1029 Rabbit</h1></div><div id="rabbit-题目大意" class="slide section level2">
+<h1>1029 Rabbit 题目大意</h1>
+<p>开始有一对成年兔子</p>
+<p>每对成年兔子每个月产生一对小兔子</p>
+<p>每只小兔子经过m个月变成成年兔子</p>
+<p>问经过d个月后有多少兔子</p>
+<p><span class="math">\(1 \le m \le 10, 1 \le d \le 100\)</span></p>
+</div><div id="rabbit-题目大意-1" class="slide section level2">
+<h1>1029 Rabbit 题目大意</h1>
+<p>m = 2时是经典的Fibonacci问题</p>
+</div><div id="rabbit-解题思路" class="slide section level2">
+<h1>1029 Rabbit 解题思路</h1>
+<div class="incremental">
+<p>每个月的兔子数量 = 上个月兔子数量 + 这个月出生的小兔子数量</p>
+</div>
+<div class="incremental">
+<p>小兔子由大兔子生育得到，这些大兔子在m个月前就必须存在了</p>
+<p>每个月的兔子数量 = 上个月兔子数量 + m个月前的兔子数量</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">dp[n] = dp[n - <span class="dv">1</span>] + dp[n - m]</code></pre>
+</div>
+</div><div id="rabbit-代码" class="slide section level2">
+<h1>1029 Rabbit 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> BigInteger {
+  <span class="dt">static</span> <span class="dt">const</span> <span class="dt">int</span> kMaxLen = <span class="dv">100</span>;
+  <span class="dt">int</span> x[kMaxLen];
+  BigInteger(<span class="dt">int</span> a = <span class="dv">0</span>) {
+    memset(x, <span class="dv">0</span>, <span class="kw">sizeof</span> (x));
+    x[<span class="dv">0</span>] = a;
+  }
+};
+
+<span class="co">// 效率较低，只做演示用！</span>
+BigInteger <span class="kw">operator</span>+(<span class="dt">const</span> BigInteger&amp; a, <span class="dt">const</span> BigInteger&amp; b) {
+  BigInteger c;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; kMaxLen - <span class="dv">1</span>; ++i) {
+    c.x[i] += a.x[i] + b.x[i];
+    c.x[i + <span class="dv">1</span>] += c.x[i] / <span class="dv">10</span>;
+    c.x[i] %= <span class="dv">10</span>;
+  }
+  <span class="kw">return</span> c;
+}
+
+dp[<span class="dv">0</span>] = BigInteger(<span class="dv">1</span>);
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= d; ++i) {
+  <span class="kw">if</span> (i &lt; m) {
+    a[i] = a[i - <span class="dv">1</span>] + BigInteger(<span class="dv">1</span>);
+  } <span class="kw">else</span> {
+    a[i] = a[i - <span class="dv">1</span>] + a[i - m];
+  }
+}</code></pre>
+</div>
+<div id="ab" class="titleslide slide section level1"><h1>1381 a*b</h1></div><div id="ab-题目大意" class="slide section level2">
+<h1>1381 a*b 题目大意</h1>
+<p>给两个整数a和b，求<span class="math">\(a \times b\)</span></p>
+<p><span class="math">\(0 \le a \le 10^{100}, 0 \le b \le 10000\)</span></p>
+<p>a, b都有可能是0</p>
+</div><div id="ab-解题思路" class="slide section level2">
+<h1>1381 a*b 解题思路</h1>
+<p>高精度乘法，模拟竖式乘法</p>
+<p>输出时注意前导0和0的情况</p>
+</div><div id="ab-代码" class="slide section level2">
+<h1>1381 a*b 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> BigInteger {
+  <span class="dt">static</span> <span class="dt">const</span> <span class="dt">int</span> kMaxLen = <span class="dv">120</span>;
+  <span class="dt">int</span> x[kMaxLen];
+  BigInteger(<span class="dt">int</span> a = <span class="dv">0</span>) {
+    memset(x, <span class="dv">0</span>, <span class="kw">sizeof</span> (x));
+    x[<span class="dv">0</span>] = a;
+  }
+  BigInteger <span class="kw">operator</span>*(<span class="dt">int</span> b) <span class="dt">const</span> {
+    BigInteger res(<span class="dv">0</span>);
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; kMaxLen; i++) {
+      res.x[i] += x[i] * b;
+      res.x[i + <span class="dv">1</span>] += c.x[i] / <span class="dv">10</span>;
+      res.x[i] %= <span class="dv">10</span>;
+    }
+    <span class="kw">return</span> res;
+  }
+};</code></pre>
+<p>以此为基础，可自行练习大整数乘大整数的程序。</p>
+<p>另外，这两个大整数程序都以10为进位， 实际使用时可以用10000为进位数，把4个数字压在一个数组中，可以明显提高程序效率。</p>
+</div>
+<div id="stacking-cylinders" class="titleslide slide section level1"><h1>1206 1012 Stacking Cylinders</h1></div><div id="stacking-cylinders-题目大意" class="slide section level2">
+<h1>1206 1012 Stacking Cylinders 题目大意</h1>
+<p>给出最底层的n个圆柱的位置，求最顶层的圆柱的位置</p>
+<p>圆柱半径都为1</p>
+<p><span class="math">\(1 \le n \le 10\)</span></p>
+<div class="figure">
+<img src="1206.jpg" alt="如图" /><p class="caption">如图</p>
+</div>
+</div><div id="stacking-cylinders-解题思路" class="slide section level2">
+<h1>1206 1012 Stacking Cylinders 解题思路</h1>
+<p>已知两个圆的圆心坐标，求放在这两个圆上的圆的圆心坐标</p>
+<p>向量 勾股定理</p>
+</div><div id="stacking-cylinders-complex库" class="slide section level2">
+<h1>1206 1012 Stacking Cylinders complex库</h1>
+<p>STL中的复数库可以简化代码</p>
+<p>复数的旋转：<span class="math">\(a \times e^{i \theta}\)</span></p>
+<p>两个点之间的距离：<span class="math">\(\|a - b\|\)</span></p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">complex&lt;<span class="dt">double</span>&gt; a, b;
+b = a * exp(complex&lt;<span class="dt">double</span>&gt;(<span class="dv">0</span>, t));  <span class="co">//旋转角度为t</span>
+b = a * complex&lt;<span class="dt">double</span>&gt;(<span class="dv">0</span>, <span class="dv">1</span>);  <span class="co">//旋转90度</span>
+sqrt(norm(a - b));  <span class="co">// 两点之间的距离</span>
+abs(a - b);  <span class="co">// 或者</span>
+a.real();  <span class="co">// x坐标</span>
+a.imag();  <span class="co">// y坐标</span></code></pre>
+</div><div id="stacking-cylinders-代码" class="slide section level2">
+<h1>1206 1012 Stacking Cylinders 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> complex&lt;<span class="dt">double</span>&gt; Point;
+
+<span class="dt">bool</span> cmp(<span class="dt">const</span> Point&amp; a, <span class="dt">const</span> Point&amp; b) {
+  <span class="kw">return</span> a.real() &lt; b.real();
+}
+
+Point Calculate(<span class="dt">const</span> Point&amp; a, <span class="dt">const</span> Point&amp; b) {
+  Point mid = (a + b) / Point(<span class="dv">2</span>, <span class="dv">0</span>);
+  Point height = (b - mid) * Point(<span class="dv">0</span>, <span class="dv">1</span>);
+  <span class="dt">double</span> len = sqrt(<span class="dv">4</span> - norm(a - mid));
+  height = height / abs(height) * len;
+  <span class="kw">return</span> mid + height;
+}
+
+sort(points, points + n, cmp);
+<span class="kw">for</span> (<span class="dt">int</span> len = n - <span class="dv">1</span>; len &gt;= <span class="dv">1</span>; --len) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; len; ++i) {
+    points[i] = Calculate(points[i], points[i + <span class="dv">1</span>]);
+  }
+}</code></pre>
 </div>
 </body>
 </html>

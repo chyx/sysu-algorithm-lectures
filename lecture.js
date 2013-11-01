@@ -96,3 +96,53 @@ var BishopBoard = {
       .attr('style', "stroke:black");
   }
 }
+
+var GraphKing = {
+  createNew: function(svg, w, h, graph_king) {
+    var force = d3.layout.force()
+      .nodes(graph_king.nodes)
+      .links(graph_king.edges)
+      .size([w, h])
+      .linkDistance([w / 8])
+      .charge([-1000])
+      .start();
+
+    var edges = svg.selectAll("line")
+      .data(graph_king.edges)
+      .enter()
+      .append("line")
+      .style("stroke", "#ccc")
+      .style("stroke-width", 1);
+
+    var nodes = svg.selectAll("circle")
+      .data(graph_king.nodes)
+      .enter()
+      .append("circle")
+      .attr("r", 16)
+      .style("fill", function(d) {return d.color; })
+      .call(force.drag);
+
+    var nodes2 = svg.selectAll("text")
+      .data(graph_king.nodes)
+      .enter()
+      .append("text")
+      .text(function(d) { return d.name; })
+      .style("text-anchor", "middle")
+      .style("fill", "black")
+      .style("font-size", "32px")
+      .call(force.drag);
+
+    force.on("tick", function() {
+      edges.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+    nodes.attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+    nodes2.attr("x", function(d) { return d.x; })
+      .attr("y", function(d) { return d.y; });
+    });
+  }
+}
+
