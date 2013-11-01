@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第三章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第三章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="马周游" class="titleslide slide section level1"><h1>1152 1153 马周游</h1></div><div id="马周游-题目大意" class="slide section level2">
+<h1>1152 1153 马周游 题目大意</h1>
+<p>一个有限大小的棋盘上有一只马</p>
+<p>给出初始时马的位置，找出一条马移动的路线，经过所有格子各一次</p>
+<div id="bishop">
+
+</div>
+<script src="raphael.js"></script>
+<script src="d3.v3.min.js"></script>
+<script src="lecture.js"></script>
+<script>
+var w = h = 500;
+var svg = d3.select("div#bishop").append("svg")
+.attr("width", w).attr("height", h);
+BishopBoard.createNew(svg, w, h);
+</script>
+
+</div><div id="马周游-题目大意-1" class="slide section level2">
+<h1>1152 1153 马周游 题目大意</h1>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="left"><strong>4</strong></td>
+<td align="center">5</td>
+<td align="center">6</td>
+<td align="center">7</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="center">10</td>
+<td align="center">11</td>
+<td align="left">12</td>
+<td align="center">13</td>
+<td align="center">14</td>
+<td align="center">15</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="center">18</td>
+<td align="center">19</td>
+<td align="left">20</td>
+<td align="center">21</td>
+<td align="center">22</td>
+<td align="center">23</td>
+<td align="center">24</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="center">26</td>
+<td align="center">27</td>
+<td align="left">28</td>
+<td align="center">29</td>
+<td align="center">30</td>
+<td align="center">31</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="left">33</td>
+<td align="center">34</td>
+<td align="center">35</td>
+<td align="left">36</td>
+<td align="center">37</td>
+<td align="center">38</td>
+<td align="center">39</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="left">41</td>
+<td align="center">42</td>
+<td align="center">43</td>
+<td align="left">44</td>
+<td align="center">45</td>
+<td align="center">46</td>
+<td align="center">47</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="left">49</td>
+<td align="center">50</td>
+<td align="center">51</td>
+<td align="left">52</td>
+<td align="center">53</td>
+<td align="center">54</td>
+<td align="center">55</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="left">57</td>
+<td align="center">58</td>
+<td align="center">59</td>
+<td align="left">60</td>
+<td align="center">61</td>
+<td align="center">62</td>
+<td align="center">63</td>
+<td align="center">64</td>
+</tr>
+</tbody>
+</table>
+</div><div id="马周游-题目大意-2" class="slide section level2">
+<h1>1152 1153 马周游 题目大意</h1>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="left"><strong>4</strong></td>
+<td align="center">5</td>
+<td align="center">6</td>
+<td align="center">7</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="center">10</td>
+<td align="center">11</td>
+<td align="left">12</td>
+<td align="center">13</td>
+<td align="center">14</td>
+<td align="center">15</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="center">18</td>
+<td align="center">19</td>
+<td align="left">20</td>
+<td align="center"><strong>21</strong></td>
+<td align="center">22</td>
+<td align="center">23</td>
+<td align="center">24</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="center">26</td>
+<td align="center">27</td>
+<td align="left">28</td>
+<td align="center">29</td>
+<td align="center">30</td>
+<td align="center">31</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="left">33</td>
+<td align="center">34</td>
+<td align="center">35</td>
+<td align="left">36</td>
+<td align="center">37</td>
+<td align="center">38</td>
+<td align="center">39</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="left">41</td>
+<td align="center">42</td>
+<td align="center">43</td>
+<td align="left">44</td>
+<td align="center">45</td>
+<td align="center">46</td>
+<td align="center">47</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="left">49</td>
+<td align="center">50</td>
+<td align="center">51</td>
+<td align="left">52</td>
+<td align="center">53</td>
+<td align="center">54</td>
+<td align="center">55</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="left">57</td>
+<td align="center">58</td>
+<td align="center">59</td>
+<td align="left">60</td>
+<td align="center">61</td>
+<td align="center">62</td>
+<td align="center">63</td>
+<td align="center">64</td>
+</tr>
+</tbody>
+</table>
+</div><div id="马周游-题目大意-3" class="slide section level2">
+<h1>1152 1153 马周游 题目大意</h1>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="left"><strong>4</strong></td>
+<td align="center">5</td>
+<td align="left"><strong>6</strong></td>
+<td align="center">7</td>
+<td align="center">8</td>
+</tr>
+<tr class="even">
+<td align="left">9</td>
+<td align="center">10</td>
+<td align="center">11</td>
+<td align="left">12</td>
+<td align="center">13</td>
+<td align="left">14</td>
+<td align="center">15</td>
+<td align="center">16</td>
+</tr>
+<tr class="odd">
+<td align="left">17</td>
+<td align="center">18</td>
+<td align="center">19</td>
+<td align="left">20</td>
+<td align="center"><strong>21</strong></td>
+<td align="left">22</td>
+<td align="center">23</td>
+<td align="center">24</td>
+</tr>
+<tr class="even">
+<td align="left">25</td>
+<td align="center">26</td>
+<td align="center">27</td>
+<td align="left">28</td>
+<td align="center">29</td>
+<td align="left">30</td>
+<td align="center">31</td>
+<td align="center">32</td>
+</tr>
+<tr class="odd">
+<td align="left">33</td>
+<td align="center">34</td>
+<td align="center">35</td>
+<td align="left">36</td>
+<td align="center">37</td>
+<td align="left">38</td>
+<td align="center">39</td>
+<td align="center">40</td>
+</tr>
+<tr class="even">
+<td align="left">41</td>
+<td align="center">42</td>
+<td align="center">43</td>
+<td align="left">44</td>
+<td align="center">45</td>
+<td align="left">46</td>
+<td align="center">47</td>
+<td align="center">48</td>
+</tr>
+<tr class="odd">
+<td align="left">49</td>
+<td align="center">50</td>
+<td align="center">51</td>
+<td align="left">52</td>
+<td align="center">53</td>
+<td align="left">54</td>
+<td align="center">55</td>
+<td align="center">56</td>
+</tr>
+<tr class="even">
+<td align="left">57</td>
+<td align="center">58</td>
+<td align="center">59</td>
+<td align="left">60</td>
+<td align="center">61</td>
+<td align="left">62</td>
+<td align="center">63</td>
+<td align="center">64</td>
+</tr>
+</tbody>
+</table>
+</div><div id="马周游-解题思路" class="slide section level2">
+<h1>1152 1153 马周游 解题思路</h1>
+<ul class="incremental">
+<li><p>深搜</p></li>
+<li><p>枚举马能走的所有路径，直至找到一条完成周游的路径</p></li>
+<li><p>回溯</p></li>
+</ul>
+</div><div id="马周游-代码" class="slide section level2">
+<h1>1152 1153 马周游 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> Solve(<span class="dt">int</span> x, <span class="dt">int</span> depth) {
+  route[depth] = x + <span class="dv">1</span>;
+  <span class="kw">if</span> (depth == m * n - <span class="dv">1</span>) {
+    print_route();
+    <span class="kw">return</span> <span class="kw">true</span>;
+  }
+  visit[x] = <span class="kw">true</span>;
+
+  <span class="co">//搜索对效率要求较高，建议将这里换成int children[8]以提高效率。</span>
+  vector&lt;<span class="dt">int</span>&gt; children;
+
+  get_children(x, &amp;children);
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; children.size(); ++i) {
+    <span class="kw">if</span> (Solve(children[i], depth + <span class="dv">1</span>)) <span class="kw">return</span> <span class="kw">true</span>;
+  }
+
+  visit[x] = <span class="kw">false</span>;
+  <span class="kw">return</span> <span class="kw">false</span>;
+}
+
+<span class="dt">void</span> get_children(<span class="dt">int</span> x, vector&lt;<span class="dt">int</span>&gt; *children) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; neighbors[x].size(); ++i) {
+    <span class="dt">int</span> child = neighbors[x][i];
+    <span class="kw">if</span> (!visit[child]) {
+      children-&gt;push_back(child);
+    }
+  }
+}</code></pre>
+</div><div id="马周游-缺点" class="slide section level2">
+<h1>1152 1153 马周游 缺点</h1>
+<div class="incremental">
+<p>程序过慢，只能勉强过1152</p>
+</div>
+<div class="incremental">
+<p>优化：改变搜索顺序</p>
+<p>先搜索可行格较少的格子</p>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">x</td>
+<td align="center">.</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="even">
+<td align="left">x</td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="odd">
+<td align="left">.</td>
+<td align="center">x</td>
+<td align="center">?(2)</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>x</strong></td>
+<td align="center">x</td>
+<td align="center">x</td>
+<td align="center">.</td>
+<td align="center">.</td>
+</tr>
+<tr class="odd">
+<td align="left">x</td>
+<td align="center">.</td>
+<td align="center">?(1)</td>
+<td align="center">x</td>
+<td align="center">x</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div id="马周游-代码-1" class="slide section level2">
+<h1>1152 1153 马周游 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> cnt_size[<span class="dv">64</span>];
+
+<span class="dt">bool</span> cmp(<span class="dt">int</span> x, <span class="dt">int</span> y) {
+  <span class="kw">return</span> cnt_size[x] &lt; cnt_size[y];
+}
+
+<span class="dt">int</span> get_children_size(<span class="dt">int</span> x) {
+  <span class="dt">int</span> size = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; neighbors[x].size(); ++i) {
+    <span class="dt">int</span> child = neighbors[x][i];
+    <span class="kw">if</span> (!visit[child]) {
+      ++size;
+    }
+  }
+  <span class="kw">return</span> size;
+}
+
+<span class="dt">void</span> get_children(<span class="dt">int</span> x, vector&lt;<span class="dt">int</span>&gt; *children) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; neighbors[x].size(); ++i) {
+    <span class="dt">int</span> child = neighbors[x][i];
+    <span class="kw">if</span> (!visit[child]) {
+      children-&gt;push_back(child);
+      cnt_size[child] = get_children_size(child);
+    }
+  }
+  sort(children-&gt;begin(), children-&gt;end(), cmp);
+}</code></pre>
+</div><div id="马周游-解题报告" class="slide section level2">
+<h1>1152 1153 马周游 解题报告</h1>
+<ul class="incremental">
+<li><p>可在解题报告中尝试其他搜索顺序或剪枝，对比其效果</p></li>
+<li><p>通过加大数据范围，如扩展到9x9, 10x10，本地跑程序来对比不同算法的性能</p></li>
+<li><p>可以思考构造性的算法</p></li>
+</ul>
+</div>
+<div id="air-express" class="titleslide slide section level1"><h1>1093 Air Express</h1></div><div id="air-express-题目大意" class="slide section level2">
+<h1>1093 Air Express 题目大意</h1>
+<p>给出4个重量区间 &amp; 每个区间的单位重量运输价格</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Package weight</th>
+<th align="center">Cost per pound</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0 to 9 pounds</td>
+<td align="center">$10</td>
+</tr>
+<tr class="even">
+<td align="left">10 to 49 pounds</td>
+<td align="center">$5</td>
+</tr>
+<tr class="odd">
+<td align="left">50 to 99 pounds</td>
+<td align="center">$3</td>
+</tr>
+<tr class="even">
+<td align="left">100 pounds or more</td>
+<td align="center">$2</td>
+</tr>
+</tbody>
+</table>
+<p>有一个背包需要运输，问往背包里面添加多少重量后可以让运费最低</p>
+</div><div id="air-express-解题思路" class="slide section level2">
+<h1>1093 Air Express 解题思路</h1>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Package weight</th>
+<th align="center">Cost per pound</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0 to 9 pounds</td>
+<td align="center">$10</td>
+</tr>
+<tr class="even">
+<td align="left">10 to 49 pounds</td>
+<td align="center">$5</td>
+</tr>
+<tr class="odd">
+<td align="left">50 to 99 pounds</td>
+<td align="center">$3</td>
+</tr>
+<tr class="even">
+<td align="left">100 pounds or more</td>
+<td align="center">$2</td>
+</tr>
+</tbody>
+</table>
+<p>最小运输价格必定出现在：</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>不添加任何重量</li>
+<li>添加重量后刚好到达某个区间的下界</li>
+</ol>
+</div><div id="air-express-代码" class="slide section level2">
+<h1>1093 Air Express 代码</h1>
+<div class="incremental">
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> cal(<span class="dt">int</span> weight) {
+  <span class="dt">int</span> price = INF;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">4</span>; i++) {
+    <span class="kw">if</span> (lower[i] &lt;= weight &amp;&amp; weight &lt;= upper[i]) {
+      price = min(price, weigth * rate[i]);
+    } <span class="kw">else</span> <span class="kw">if</span> (weight &lt; lower[i]) {
+      price = min(price, lower[i] * rate[i]);
+    }
+  }
+  <span class="kw">return</span> price;
+}</code></pre>
+</div>
+<div class="incremental">
+<p>修改这段代码让它输出需要添加的重量</p>
+</div>
+</div>
+<div id="积木分发" class="titleslide slide section level1"><h1>1134 积木分发</h1></div><div id="积木分发-题目大意" class="slide section level2">
+<h1>1134 积木分发 题目大意</h1>
+<p>n个小伙伴，每个人手上有<span class="math">\(a_i\)</span>块积木，还需要<span class="math">\(b_i\)</span>块积木才能完成任务</p>
+<p>The Pancakes手上有s块积木，她可以把她手中的积木都给某个人，等那个人完成任务后回收他手上的所有积木</p>
+<p>问The Pancakes最后是否能回收完所有人的积木</p>
+<p><span class="math">\(s \le 10^6, n \le 10^4, a, b \le 10^9\)</span></p>
+</div><div id="积木分发-样例" class="slide section level2">
+<h1>1134 积木分发 样例</h1>
+<div class="incremental">
+<p>第一个样例：</p>
+<p>n = 2, s = 2</p>
+<p>a = 1, b = 4</p>
+<p>a = 2, b = 1</p>
+<p>分给第二个人 -&gt; s = 4 -&gt; 再分给第一个人 -&gt; s = 5</p>
+</div>
+<div class="incremental">
+<p>第二个样例：</p>
+<p>n = 2, s = 2</p>
+<p>a = 1, b = 4</p>
+<p>a = 1, b = 1</p>
+<p>分给第二个人 -&gt; s = 3 -&gt; 第一人仍然不够，失败</p>
+</div>
+</div><div id="积木分发-解题思路" class="slide section level2">
+<h1>1134 积木分发 解题思路</h1>
+<div class="incremental">
+<p>应该先分给需求少的人，因为分完后The Pancakes手上的积木总是会变多的</p>
+</div>
+<div class="incremental">
+<p>排序后贪心求解</p>
+</div>
+</div><div id="积木分发-代码" class="slide section level2">
+<h1>1134 积木分发 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Node {
+  <span class="dt">int</span> have, need;
+};
+<span class="dt">bool</span> <span class="kw">operator</span>&lt;(<span class="dt">const</span> Node&amp; x, <span class="dt">const</span> Node&amp; y) {
+  <span class="kw">return</span> x.need &lt; y.need;
+}
+<span class="dt">bool</span> Solve() {
+    sort(nodes, nodes + n);
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+        <span class="kw">if</span> (s &lt; nodes[i].need) <span class="kw">return</span> <span class="kw">false</span>;
+        s += nodes[i].have;
+    }
+    <span class="kw">return</span> <span class="kw">true</span>;
+}</code></pre>
+</div>
+<div id="国王的遗产" class="titleslide slide section level1"><h1>1140 国王的遗产</h1></div><div id="国王的遗产-题目大意" class="slide section level2">
+<h1>1140 国王的遗产 题目大意</h1>
+</div>
+</body>
+</html>
