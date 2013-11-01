@@ -9,16 +9,16 @@
 
 给出初始时马的位置，找出一条马移动的路线，经过所有格子各一次
 
-<div id="bishop"></div>
+<div id="knight"></div>
 
 <script src="raphael.js"></script>
 <script src="d3.v3.min.js"></script>
 <script src="lecture.js"></script>
 <script>
 var w = h = 500;
-var svg = d3.select("div#bishop").append("svg")
+var svg = d3.select("div#knight").append("svg")
 .attr("width", w).attr("height", h);
-BishopBoard.createNew(svg, w, h);
+KnightBoard.createNew(svg, w, h);
 </script>
 
 ##  1152 1153 马周游    题目大意
@@ -271,12 +271,12 @@ bool operator<(const Node& x, const Node& y) {
   return x.need < y.need;
 }
 bool Solve() {
-	sort(nodes, nodes + n);
-	for (int i = 0; i < n; i++) {
-		if (s < nodes[i].need) return false;
-		s += nodes[i].have;
-	}
-	return true;
+  sort(nodes, nodes + n);
+  for (int i = 0; i < n; i++) {
+    if (s < nodes[i].need) return false;
+    s += nodes[i].have;
+  }
+  return true;
 }
 ~~~
 
@@ -861,4 +861,117 @@ for (int len = n - 1; len >= 1; --len) {
   }
 }
 ~~~
+
+# 1172 Queens, Knights and Pawns
+
+## 1172 Queens, Knights and Pawns    题目大意
+
+给一个棋盘，若干后、马和兵的位置
+
+求棋盘上有多个没被占领的格子不会受到后也不会受到马的攻击
+
+棋盘大小$1000 \times 1000$，每种棋子最多100个
+
+## 1172 Queens, Knights and Pawns    解题思路
+
+用二维数组表示一个棋盘
+
+标记每个棋子的位置
+
+再标记每个棋子能攻击的位置
+
+最后计算有多少个位置不会被攻击
+
+
+## 1172 Queens, Knights and Pawns    代码
+
+~~~{.cpp}
+enum GridState {
+  empty,
+  occupied,
+  attacked
+};
+
+const int kMaxN = 1024;
+GridState board[kMaxN][kMaxN];
+
+void occupy(vector<Point> v) {
+  for (int i = 0; i < v.size(); i++) {
+    grid[v[i].x][v[i].y]] = occupied;
+  }
+}
+
+bool in_board_and_unoccupied(Point p) {
+  if (1 <= p.x && p.x <= num_row) {
+    if (1 <= p.y && p.y <= num_col) {
+      return grid[p.x][p.y]!=occupied;
+    }
+  }
+  return false;
+}
+~~~
+
+## 1172 Queens, Knights and Pawns    代码
+
+~~~{.cpp}
+
+int dKnight[8][2] = {{1,2},{1,-2},{2,-1},{-2,-1},{-1,-2},{-1,2},{-2,1},{2,1}};
+int dQueen[8][2] = {{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1}};
+
+void KnightAttack(vector<Point> points) {
+  for (int i = 0; i < points.size(); i++) {
+    for (int dir = 0; dir < 8; dir++) {
+      Point newp(points[i].x + dKnight[dir][0], points[i].y + dKnight[dir][1]);
+      if (in_board_and_unoccupied(newp)) {
+        grid[newp.x][newp.y] = attacked;
+      }
+    }
+  }
+}
+void QueenAttack(vector<Point> points) {
+  for (int i = 0; i < points.size(); i++) {
+    for (int dir = 0; dir < 8; dir++) {
+      Point newp(points[i].x + dQueen[dir][0], points[i].y + dQueen[dir][1]);
+      if (in_board_and_unoccupied(newp)) {
+        grid[newp.x][newp.y] = attacked;
+      }
+    }
+  }
+}
+
+~~~
+
+## 1172 Queens, Knights and Pawns    代码
+
+~~~{.cpp}
+memset(grid, 0, sizeof(grid));
+occupy(queen);
+occupy(knight);
+occupy(pawn);
+
+KnightAttack(knight);
+QueenAttack(queen);
+
+int ans = 0;
+for (int i = 1; i <= num_row; i++) {
+  for (int j = 1; j <= num_col; j++) {
+    if (grid[i][j] == empty) {
+      ans++;
+    }
+  }
+}
+~~~
+
+# 1034 Forest
+
+## 1034 Forest    题目大意
+
+n个节点
+
+m条有向边
+
+判断是否组成森林，如果是，求出它的最大深度和最大宽度
+
+$n, m \le 100$
+
 

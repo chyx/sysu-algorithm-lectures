@@ -20,7 +20,7 @@ var MagicBoard = {
   }
 }
 
-var BishopBoard = {
+var KnightBoard = {
   createNew: function (svg, w, h) {
     var ldata = Array();
     for(var i = 0; i < 8; ++i) {
