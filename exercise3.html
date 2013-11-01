@@ -45,7 +45,7 @@ chyx111@qq.com
 <h1>1152 1153 马周游 题目大意</h1>
 <p>一个有限大小的棋盘上有一只马</p>
 <p>给出初始时马的位置，找出一条马移动的路线，经过所有格子各一次</p>
-<div id="bishop">
+<div id="knight">
 
 </div>
 <script src="raphael.js"></script>
@@ -53,9 +53,9 @@ chyx111@qq.com
 <script src="lecture.js"></script>
 <script>
 var w = h = 500;
-var svg = d3.select("div#bishop").append("svg")
+var svg = d3.select("div#knight").append("svg")
 .attr("width", w).attr("height", h);
-BishopBoard.createNew(svg, w, h);
+KnightBoard.createNew(svg, w, h);
 </script>
 
 </div><div id="马周游-题目大意-1" class="slide section level2">
@@ -559,12 +559,12 @@ BishopBoard.createNew(svg, w, h);
   <span class="kw">return</span> x.need &lt; y.need;
 }
 <span class="dt">bool</span> Solve() {
-    sort(nodes, nodes + n);
-    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
-        <span class="kw">if</span> (s &lt; nodes[i].need) <span class="kw">return</span> <span class="kw">false</span>;
-        s += nodes[i].have;
-    }
-    <span class="kw">return</span> <span class="kw">true</span>;
+  sort(nodes, nodes + n);
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+    <span class="kw">if</span> (s &lt; nodes[i].need) <span class="kw">return</span> <span class="kw">false</span>;
+    s += nodes[i].have;
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
 }</code></pre>
 </div>
 <div id="国王的遗产" class="titleslide slide section level1"><h1>1140 国王的遗产</h1></div><div id="国王的遗产-题目大意" class="slide section level2">
@@ -1037,6 +1037,94 @@ sort(points, points + n, cmp);
     points[i] = Calculate(points[i], points[i + <span class="dv">1</span>]);
   }
 }</code></pre>
+</div>
+<div id="queens-knights-and-pawns" class="titleslide slide section level1"><h1>1172 Queens, Knights and Pawns</h1></div><div id="queens-knights-and-pawns-题目大意" class="slide section level2">
+<h1>1172 Queens, Knights and Pawns 题目大意</h1>
+<p>给一个棋盘，若干后、马和兵的位置</p>
+<p>求棋盘上有多个没被占领的格子不会受到后也不会受到马的攻击</p>
+<p>棋盘大小<span class="math">\(1000 \times 1000\)</span>，每种棋子最多100个</p>
+</div><div id="queens-knights-and-pawns-解题思路" class="slide section level2">
+<h1>1172 Queens, Knights and Pawns 解题思路</h1>
+<p>用二维数组表示一个棋盘</p>
+<p>标记每个棋子的位置</p>
+<p>再标记每个棋子能攻击的位置</p>
+<p>最后计算有多少个位置不会被攻击</p>
+</div><div id="queens-knights-and-pawns-代码" class="slide section level2">
+<h1>1172 Queens, Knights and Pawns 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">enum</span> GridState {
+  empty,
+  occupied,
+  attacked
+};
+
+<span class="dt">const</span> <span class="dt">int</span> kMaxN = <span class="dv">1024</span>;
+GridState board[kMaxN][kMaxN];
+
+<span class="dt">void</span> occupy(vector&lt;Point&gt; v) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; v.size(); i++) {
+    grid[v[i].x][v[i].y]] = occupied;
+  }
+}
+
+<span class="dt">bool</span> in_board_and_unoccupied(Point p) {
+  <span class="kw">if</span> (<span class="dv">1</span> &lt;= p.x &amp;&amp; p.x &lt;= num_row) {
+    <span class="kw">if</span> (<span class="dv">1</span> &lt;= p.y &amp;&amp; p.y &lt;= num_col) {
+      <span class="kw">return</span> grid[p.x][p.y]!=occupied;
+    }
+  }
+  <span class="kw">return</span> <span class="kw">false</span>;
+}</code></pre>
+</div><div id="queens-knights-and-pawns-代码-1" class="slide section level2">
+<h1>1172 Queens, Knights and Pawns 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">
+<span class="dt">int</span> dKnight[<span class="dv">8</span>][<span class="dv">2</span>] = {{<span class="dv">1</span>,<span class="dv">2</span>},{<span class="dv">1</span>,-<span class="dv">2</span>},{<span class="dv">2</span>,-<span class="dv">1</span>},{-<span class="dv">2</span>,-<span class="dv">1</span>},{-<span class="dv">1</span>,-<span class="dv">2</span>},{-<span class="dv">1</span>,<span class="dv">2</span>},{-<span class="dv">2</span>,<span class="dv">1</span>},{<span class="dv">2</span>,<span class="dv">1</span>}};
+<span class="dt">int</span> dQueen[<span class="dv">8</span>][<span class="dv">2</span>] = {{<span class="dv">1</span>,<span class="dv">0</span>},{<span class="dv">1</span>,-<span class="dv">1</span>},{<span class="dv">0</span>,-<span class="dv">1</span>},{-<span class="dv">1</span>,-<span class="dv">1</span>},{-<span class="dv">1</span>,<span class="dv">0</span>},{-<span class="dv">1</span>,<span class="dv">1</span>},{<span class="dv">0</span>,<span class="dv">1</span>},{<span class="dv">1</span>,<span class="dv">1</span>}};
+
+<span class="dt">void</span> KnightAttack(vector&lt;Point&gt; points) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; points.size(); i++) {
+    <span class="kw">for</span> (<span class="dt">int</span> dir = <span class="dv">0</span>; dir &lt; <span class="dv">8</span>; dir++) {
+      Point newp(points[i].x + dKnight[dir][<span class="dv">0</span>], points[i].y + dKnight[dir][<span class="dv">1</span>]);
+      <span class="kw">if</span> (in_board_and_unoccupied(newp)) {
+        grid[newp.x][newp.y] = attacked;
+      }
+    }
+  }
+}
+<span class="dt">void</span> QueenAttack(vector&lt;Point&gt; points) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; points.size(); i++) {
+    <span class="kw">for</span> (<span class="dt">int</span> dir = <span class="dv">0</span>; dir &lt; <span class="dv">8</span>; dir++) {
+      Point newp(points[i].x + dQueen[dir][<span class="dv">0</span>], points[i].y + dQueen[dir][<span class="dv">1</span>]);
+      <span class="kw">if</span> (in_board_and_unoccupied(newp)) {
+        grid[newp.x][newp.y] = attacked;
+      }
+    }
+  }
+}</code></pre>
+</div><div id="queens-knights-and-pawns-代码-2" class="slide section level2">
+<h1>1172 Queens, Knights and Pawns 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">memset(grid, <span class="dv">0</span>, <span class="kw">sizeof</span>(grid));
+occupy(queen);
+occupy(knight);
+occupy(pawn);
+
+KnightAttack(knight);
+QueenAttack(queen);
+
+<span class="dt">int</span> ans = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= num_row; i++) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>; j &lt;= num_col; j++) {
+    <span class="kw">if</span> (grid[i][j] == empty) {
+      ans++;
+    }
+  }
+}</code></pre>
+</div>
+<div id="forest" class="titleslide slide section level1"><h1>1034 Forest</h1></div><div id="forest-题目大意" class="slide section level2">
+<h1>1034 Forest 题目大意</h1>
+<p>n个节点</p>
+<p>m条有向边</p>
+<p>判断是否组成森林，如果是，求出它的最大深度和最大宽度</p>
+<p><span class="math">\(n, m \le 100\)</span></p>
 </div>
 </body>
 </html>
