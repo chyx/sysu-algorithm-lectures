@@ -106,6 +106,9 @@ chyx111@qq.com
 <p>复杂度<span class="math">\(O(2^{n/2}n)\)</span></p>
 </div>
 </div>
+<div id="ural-1009-k-based-numbers-题目大意" class="slide section level1">
+<h1>URAL 1009 K-based Numbers 题目大意</h1>
+</div>
 <div id="ural-1014-product-of-digits" class="slide section level1">
 <h1>URAL 1014 Product of Digits</h1>
 <p>求一个最小的数字Q，满足它的每一位数字的乘积等于N</p>
@@ -159,7 +162,39 @@ chyx111@qq.com
 <p>有向无环图</p>
 </div>
 <div class="incremental">
-<p>图的拓扑排序</p>
+<p>图的拓扑排序 sed Numbers 题目大意</p>
+<p>输入N, K，表示一个N位的K进制数</p>
+<p>满足条件</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>没有前导0</li>
+<li>不能有两个或两个以上的连续的0</li>
+</ol>
+<p>问有多少个这样的数字</p>
+</div>
+</div>
+<div id="ural-1009-k-based-numbers-思路分析" class="slide section level1">
+<h1>URAL 1009 K-based Numbers 思路分析</h1>
+<div class="incremental">
+<p>递推</p>
+</div>
+<div class="incremental">
+<p>n位可以根据n - 1位的信息推出</p>
+</div>
+</div>
+<div id="ural-1009-k-based-numbers-动态规划" class="slide section level1">
+<h1>URAL 1009 K-based Numbers 动态规划</h1>
+<div class="incremental">
+<p>dp[i][2]</p>
+<p>dp[i][0]表示i位的K进制数，最后一位是0</p>
+<p>dp[i][1]表示i位的K进制数，最后一位非0</p>
+</div>
+<div class="incremental">
+<p>dp[1][0] = 0</p>
+<p>dp[1][1] = K - 1</p>
+</div>
+<div class="incremental">
+<p>dp[i][0] = dp[i - 1][1] ~ + dp[i - 1][0]~</p>
+<p>dp[i][1] = (dp[i - 1][0] + dp[i - 1][1]) * (K - 1)</p>
 </div>
 </div>
 <div id="ural-1025-democracy-in-danger" class="slide section level1">

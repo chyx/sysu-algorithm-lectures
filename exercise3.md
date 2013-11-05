@@ -893,7 +893,7 @@ enum GridState {
 };
 
 const int kMaxN = 1024;
-GridState board[kMaxN][kMaxN];
+GridState grid[kMaxN][kMaxN];
 
 void occupy(vector<Point> v) {
   for (int i = 0; i < v.size(); i++) {
