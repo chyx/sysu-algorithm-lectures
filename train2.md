@@ -88,6 +88,12 @@ n种货币
 
 # UVA 104 Arbitrage   解题思路
 
+转化问题，找最短路，使得距离超过1
+
+多解的情况找经过节点最多的路径
+
+# UVA 104 Arbitrage   解题思路
+
 Floyd算法求最短路
 
 ~~~{.cpp}
@@ -100,9 +106,63 @@ for (int k = 0; k < n; ++k) {
 }
 ~~~
 
-# UVA 105
-# UVA 114
-# UVA 115
+# UVA 104 Arbitrage   伪代码
+~~~{.cpp}
+best[i][j][s] = 0, for all i,j,s
+best[i][j][1] = input for the program
+best[i][i][1] = 1, for all i
+path[i][j][1] = i, for all i, j
+
+for (int steps = 2; steps <= n; steps++) {
+  for (int k = 0; k < n; ++k) {
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        tmp = best[i][k][steps-1] * best[k][j][1];
+        if (tmp > best[i][j][steps]) {
+          best[i][j][steps] = tmp;
+          path[i][j][steps] = k;
+        }
+      }
+    }
+  }
+}
+~~~
+
+$O(n^4)$
+
+# UVA 105 The Skyline Problem
+
+给定数轴上若干条线段的端点，和这些线段上放置的矩形的高度
+
+求矩形合并后的形状
+
+![](uva105.jpg)
+
+坐标大小 < 10000
+
+# UVA 105 The Skyline Problem   解法
+
+暴力记录每个位置上面的最高位置
+
+# UVA 114 Simulation Wizardry
+
+模拟弹珠台
+
+模拟题，认真读题，实现每一个细节
+
+. . .
+
+小球碰到障碍物（墙或弹板）时仅会转向（顺时针转向）而不会移动，但无论小球是否移动生命值都要减1，因为每1步都消耗了1个单位的时间，碰到障碍物所减少的生命值另计
+
+小球在移入弹板位置（下一步将被弹回到原位置）前生命值必须为正，否则不能得到分值，因为在移入的这个过程中小球的生命结束了
+
+小球不能停留在任何障碍物的位置上，一旦发生碰撞必须立即回到原位
+
+假设桌面的尺寸为3×3，桌面上就不可能有弹板，因为除了一圈子的墙外只有一格可供小球发射。在这种情况下，小球不会得到任何分值，生命值会在不断的撞墙中消耗殆尽
+
+# UVA 115 Climbing Trees
+
+
 # UVA 117
 # UVA 121
 # UVA 124

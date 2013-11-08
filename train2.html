@@ -9,6 +9,25 @@
   <meta name="author" content="chyx111@qq.com" />
   <title>周练2（10月12日，3小时）</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
   <link rel="stylesheet" type="text/css" media="screen, projection, print"
     href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
   <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
@@ -91,20 +110,87 @@ GCB</code></pre>
 <div id="uva-103-stacking-boxes-解法" class="slide section level1">
 <h1>UVA 103 Stacking Boxes 解法</h1>
 <p>动态规划</p>
-<p><span class="math">\(dp_i, 1 \le i \le n\)</span></p>
-<p><span class="math">\(dp_i = \max\{dp_j, \text{box j is inside box i}\}\)</span></p>
+<p>dp[i], <span class="math">\(1 \le i \le n\)</span></p>
+<p>dp[i] = 1 + max{dp[j], box j is inside box i}</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> dp[kMaxN];
+<span class="dt">int</span> from[kMaxN];
+
+<span class="kw">or</span>
+
+pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; dp[kMaxN];</code></pre>
 </div>
-<div id="uva-104" class="slide section level1">
-<h1>UVA 104</h1>
+<div id="uva-104-arbitrage" class="slide section level1">
+<h1>UVA 104 Arbitrage</h1>
+<p>n种货币</p>
+<p>给出n行数据，每行n - 1个数字，表示该种货币与其他n - 1种货币的汇率</p>
+<p>现在要在这些货币中找到一种货币，交换最少的次数，使得金额的数量增加（汇率大于1.01），并输出方案</p>
 </div>
-<div id="uva-105" class="slide section level1">
-<h1>UVA 105</h1>
+<div id="uva-104-arbitrage-解题思路" class="slide section level1">
+<h1>UVA 104 Arbitrage 解题思路</h1>
+<p>转化问题，找最短路，使得距离超过1</p>
+<p>多解的情况找经过节点最多的路径</p>
 </div>
-<div id="uva-114" class="slide section level1">
-<h1>UVA 114</h1>
+<div id="uva-104-arbitrage-解题思路-1" class="slide section level1">
+<h1>UVA 104 Arbitrage 解题思路</h1>
+<p>Floyd算法求最短路</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; n; ++k) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; ++j) {
+      dp[i][j] = dp[i][k] + dp[k][j];
+    }
+  }
+}</code></pre>
 </div>
-<div id="uva-115" class="slide section level1">
-<h1>UVA 115</h1>
+<div id="uva-104-arbitrage-伪代码" class="slide section level1">
+<h1>UVA 104 Arbitrage 伪代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">best[i][j][s] = <span class="dv">0</span>, <span class="kw">for</span> all i,j,s
+best[i][j][<span class="dv">1</span>] = input <span class="kw">for</span> the program
+best[i][i][<span class="dv">1</span>] = <span class="dv">1</span>, <span class="kw">for</span> all i
+path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
+
+<span class="kw">for</span> (<span class="dt">int</span> steps = <span class="dv">2</span>; steps &lt;= n; steps++) {
+  <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; n; ++k) {
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+      <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; ++j) {
+        tmp = best[i][k][steps<span class="dv">-1</span>] * best[k][j][<span class="dv">1</span>];
+        <span class="kw">if</span> (tmp &gt; best[i][j][steps]) {
+          best[i][j][steps] = tmp;
+          path[i][j][steps] = k;
+        }
+      }
+    }
+  }
+}</code></pre>
+<p><span class="math">\(O(n^4)\)</span></p>
+</div>
+<div id="uva-105-the-skyline-problem" class="slide section level1">
+<h1>UVA 105 The Skyline Problem</h1>
+<p>给定数轴上若干条线段的端点，和这些线段上放置的矩形的高度</p>
+<p>求矩形合并后的形状</p>
+<div class="figure">
+<img src="uva105.jpg" />
+</div>
+<p>坐标大小 &lt; 10000</p>
+</div>
+<div id="uva-105-the-skyline-problem-解法" class="slide section level1">
+<h1>UVA 105 The Skyline Problem 解法</h1>
+<p>暴力记录每个位置上面的最高位置</p>
+</div>
+<div id="uva-114-simulation-wizardry" class="slide section level1">
+<h1>UVA 114 Simulation Wizardry</h1>
+<div class="incremental">
+<p>模拟弹珠台</p>
+<p>模拟题，认真读题，实现每一个细节</p>
+</div>
+<div class="incremental">
+<p>小球碰到障碍物（墙或弹板）时仅会转向（顺时针转向）而不会移动，但无论小球是否移动生命值都要减1，因为每1步都消耗了1个单位的时间，碰到障碍物所减少的生命值另计</p>
+<p>小球在移入弹板位置（下一步将被弹回到原位置）前生命值必须为正，否则不能得到分值，因为在移入的这个过程中小球的生命结束了</p>
+<p>小球不能停留在任何障碍物的位置上，一旦发生碰撞必须立即回到原位</p>
+<p>假设桌面的尺寸为3×3，桌面上就不可能有弹板，因为除了一圈子的墙外只有一格可供小球发射。在这种情况下，小球不会得到任何分值，生命值会在不断的撞墙中消耗殆尽</p>
+</div>
+</div>
+<div id="uva-115-climbing-trees" class="slide section level1">
+<h1>UVA 115 Climbing Trees</h1>
 </div>
 <div id="uva-117" class="slide section level1">
 <h1>UVA 117</h1>
