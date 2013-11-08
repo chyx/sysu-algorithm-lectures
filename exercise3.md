@@ -928,12 +928,14 @@ void KnightAttack(vector<Point> points) {
     }
   }
 }
+
 void QueenAttack(vector<Point> points) {
   for (int i = 0; i < points.size(); i++) {
     for (int dir = 0; dir < 8; dir++) {
       Point newp(points[i].x + dQueen[dir][0], points[i].y + dQueen[dir][1]);
-      if (in_board_and_unoccupied(newp)) {
+      while (in_board_and_unoccupied(newp)) {
         grid[newp.x][newp.y] = attacked;
+        newp(newp.x + dQueen[dir][0], newp + dQueen[dir][1]);
       }
     }
   }
@@ -973,5 +975,118 @@ m条有向边
 判断是否组成森林，如果是，求出它的最大深度和最大宽度
 
 $n, m \le 100$
+
+## 1034 Forest    解题思路
+
+有根树，边的方向已经确定
+
+. . .
+
+判断是否为森林：
+
+* 没有一个节点的入度超过1
+* 计算深度值时没有出现矛盾
+* 没有环
+
+具体做法：
+
+入度为0的点都做DFS，为每个点计算深度，判断最后是否所有的点都被访问到
+
+## 1034 Forest    代码
+
+~~~{.cpp}
+const int kMaxN = 128;
+vector<int> G[kMaxN];
+int depth[kMaxN];  // -1: invalid
+int count_depth[kMaxN];
+int indegree[kMaxN];
+
+bool dfs(int x, int parent, int d) {
+  depth[x] = d;
+  ++count_depth[d];
+  for (int i = 0; i < G[x].size(); ++i) {
+    int child = G[x][i];
+    if (child == parent) continue;
+    if (depth[child] != -1) return false;
+    if (!dfs(child, x, d + 1)) {
+      return false;
+    }
+  }
+  return true;
+}
+~~~
+
+~~~{.cpp}
+memset(depth, -1, sizeof (depth));  // only the value -1, 0 can be memseted
+memset(count_depth, 0, sizeof (count_depth));
+bool is_forest = true;
+for (int i = 0; i < n; ++i) {
+  if (indegree[i] == 0) {
+    if (!dfs(i, -1, 0)) {
+      is_forest = false;
+      break;
+    }
+  } else if (indegree[i] != 1) {
+    is_forest = false;
+    break;
+  }
+}
+for (int i = 0; i < n; ++i) if (depth[i] < 0) {
+  is_forest = false;
+}
+~~~
+
+# 1193 Up the Stairs
+
+## 1193 Up the Stairs   题目大意
+
+N个人在F层之间搬箱子
+
+开始时每个人都位于某一层上，要么手头拿着箱子，要么没有
+
+拿着箱子的人会往上走，没拿的会往下走
+
+当两个人相遇时，拿着箱子的人会把箱子交给没有箱子的人，互换方向继续走
+
+走到F层的人把箱子放下，走到0层的人把箱子拿起来
+
+初始时，0层有B个箱子，问多少时间后，所有箱子都在F层
+
+. . .
+
+| 0, B boxes | 1 | 2 | ... | $\blacksquare \rightarrow$ | ... | $\leftarrow \Box$ | ... | F-1 | F |
+
+| 0, B boxes | 1 | 2 | ... | $\leftarrow \Box$ | ... | $\blacksquare \rightarrow$ | ... | F-1 | F |
+
+$ 1 \le N, F \le 1000, 1 \le B \le 10^6$
+
+## 1193 Up the Stairs   解题思路
+
+两个人交换箱子互换方向，相当于互相穿过没有交换
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

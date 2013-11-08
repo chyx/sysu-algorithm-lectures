@@ -1090,12 +1090,14 @@ GridState grid[kMaxN][kMaxN];
     }
   }
 }
+
 <span class="dt">void</span> QueenAttack(vector&lt;Point&gt; points) {
   <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; points.size(); i++) {
     <span class="kw">for</span> (<span class="dt">int</span> dir = <span class="dv">0</span>; dir &lt; <span class="dv">8</span>; dir++) {
       Point newp(points[i].x + dQueen[dir][<span class="dv">0</span>], points[i].y + dQueen[dir][<span class="dv">1</span>]);
-      <span class="kw">if</span> (in_board_and_unoccupied(newp)) {
+      <span class="kw">while</span> (in_board_and_unoccupied(newp)) {
         grid[newp.x][newp.y] = attacked;
+        newp(newp.x + dQueen[dir][<span class="dv">0</span>], newp + dQueen[dir][<span class="dv">1</span>]);
       }
     }
   }
@@ -1125,6 +1127,78 @@ QueenAttack(queen);
 <p>m条有向边</p>
 <p>判断是否组成森林，如果是，求出它的最大深度和最大宽度</p>
 <p><span class="math">\(n, m \le 100\)</span></p>
+</div><div id="forest-解题思路" class="slide section level2">
+<h1>1034 Forest 解题思路</h1>
+<div class="incremental">
+<p>有根树，边的方向已经确定</p>
+</div>
+<div class="incremental">
+<p>判断是否为森林：</p>
+<ul class="incremental">
+<li>没有一个节点的入度超过1</li>
+<li>计算深度值时没有出现矛盾</li>
+<li>没有环</li>
+</ul>
+<p>具体做法：</p>
+<p>入度为0的点都做DFS，为每个点计算深度，判断最后是否所有的点都被访问到</p>
+</div>
+</div><div id="forest-代码" class="slide section level2">
+<h1>1034 Forest 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> kMaxN = <span class="dv">128</span>;
+vector&lt;<span class="dt">int</span>&gt; G[kMaxN];
+<span class="dt">int</span> depth[kMaxN];  <span class="co">// -1: invalid</span>
+<span class="dt">int</span> count_depth[kMaxN];
+<span class="dt">int</span> indegree[kMaxN];
+
+<span class="dt">bool</span> dfs(<span class="dt">int</span> x, <span class="dt">int</span> parent, <span class="dt">int</span> d) {
+  depth[x] = d;
+  ++count_depth[d];
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; G[x].size(); ++i) {
+    <span class="dt">int</span> child = G[x][i];
+    <span class="kw">if</span> (child == parent) <span class="kw">continue</span>;
+    <span class="kw">if</span> (depth[child] != -<span class="dv">1</span>) <span class="kw">return</span> <span class="kw">false</span>;
+    <span class="kw">if</span> (!dfs(child, x, d + <span class="dv">1</span>)) {
+      <span class="kw">return</span> <span class="kw">false</span>;
+    }
+  }
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">memset(depth, -<span class="dv">1</span>, <span class="kw">sizeof</span> (depth));  <span class="co">// only the value -1, 0 can be memseted</span>
+memset(count_depth, <span class="dv">0</span>, <span class="kw">sizeof</span> (count_depth));
+<span class="dt">bool</span> is_forest = <span class="kw">true</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  <span class="kw">if</span> (indegree[i] == <span class="dv">0</span>) {
+    <span class="kw">if</span> (!dfs(i, -<span class="dv">1</span>, <span class="dv">0</span>)) {
+      is_forest = <span class="kw">false</span>;
+      <span class="kw">break</span>;
+    }
+  } <span class="kw">else</span> <span class="kw">if</span> (indegree[i] != <span class="dv">1</span>) {
+    is_forest = <span class="kw">false</span>;
+    <span class="kw">break</span>;
+  }
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) <span class="kw">if</span> (depth[i] &lt; <span class="dv">0</span>) {
+  is_forest = <span class="kw">false</span>;
+}</code></pre>
+</div>
+<div id="up-the-stairs" class="titleslide slide section level1"><h1>1193 Up the Stairs</h1></div><div id="up-the-stairs-题目大意" class="slide section level2">
+<h1>1193 Up the Stairs 题目大意</h1>
+<div class="incremental">
+<p>N个人在F层之间搬箱子</p>
+<p>开始时每个人都位于某一层上，要么手头拿着箱子，要么没有</p>
+<p>拿着箱子的人会往上走，没拿的会往下走</p>
+<p>当两个人相遇时，拿着箱子的人会把箱子交给没有箱子的人，互换方向继续走</p>
+<p>走到F层的人把箱子放下，走到0层的人把箱子拿起来</p>
+<p>初始时，0层有B个箱子，问多少时间后，所有箱子都在F层</p>
+</div>
+<div class="incremental">
+<p>0, B boxes | 1 | 2 | ... | <span class="math">\(\blacksquare \rightarrow\)</span> | ... | <span class="math">\(\leftarrow \Box\)</span> | ... | F-1 | F |</p>
+<p>0, B boxes | 1 | 2 | ... | <span class="math">\(\leftarrow \Box\)</span> | ... | <span class="math">\(\blacksquare \rightarrow\)</span> | ... | F-1 | F |</p>
+<p>$ 1 N, F 1000, 1 B 10^6$</p>
+</div>
+</div><div id="up-the-stairs-解题思路" class="slide section level2">
+<h1>1193 Up the Stairs 解题思路</h1>
+<p>两个人交换箱子互换方向，相当于互相穿过没有交换</p>
 </div>
 </body>
 </html>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>周练2（10月12日，3小时）</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">周练2（10月12日，3小时）</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="uva-101-the-blocks-problem-题意" class="slide section level1">
+<h1>UVA 101 The Blocks Problem 题意</h1>
+<div class="incremental">
+<p>有N个位置，编号为0～N-1</p>
+<p>初始时，各个位置上放置这和位置编号相同的砖块，即砖块1，砖块2，...，砖块N-1</p>
+<p>五种命令操作方式：</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>move a onto b：把砖a移动到砖b上面，如果a和b上面都有砖块，要先把它们放回原来位置</li>
+<li>move a over b：把a移动到有b的“砖堆”上面，移动前需要把a上面的砖块都恢复到原位置，b的堆保持不变</li>
+<li>pile a onto b：把a之上的（包括a）搬到b之上，要先把b上面的砖放回到原来位置</li>
+<li>pile a over b：直接把a之上的（包括a）搬到b所在的“砖堆”上</li>
+<li>quit：结束命令</li>
+</ol>
+</div>
+<div class="incremental">
+<table>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="center">3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="center">2</td>
+<td align="left">_</td>
+<td align="left">4</td>
+<td align="left">5</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math">\(n \le 25\)</span></p>
+</div>
+</div>
+<div id="uva-101-the-blocks-problem-解法" class="slide section level1">
+<h1>UVA 101 The Blocks Problem 解法</h1>
+<p>理解题意</p>
+<p>直接用栈模拟</p>
+</div>
+<div id="uva-102-ecological-bin-packing" class="slide section level1">
+<h1>UVA 102 Ecological Bin Packing</h1>
+<p>有Brown，Green，Clear三种颜色的杯子</p>
+<p>现在有三个盒子，每个盒子中有三种数量不等的杯子</p>
+<p>要使每个箱子中只有一种颜色的杯子，求需要移动最小的杯子数目以及之后每个箱中杯子的组成</p>
+</div>
+<div id="uva-102-ecological-bin-packing-解法" class="slide section level1">
+<h1>UVA 102 Ecological Bin Packing 解法</h1>
+<p>枚举三个盒子所有可能的最终状态</p>
+<pre><code>BCG
+BGC
+CBG
+CGB
+GBC
+GCB</code></pre>
+<p>统计每种状态所需要的步数</p>
+</div>
+<div id="uva-103-stacking-boxes" class="slide section level1">
+<h1>UVA 103 Stacking Boxes</h1>
+<p>给出几个多维的箱子</p>
+<p>如果箱子的每一边都小于另一个箱子的对应边，就称这个箱子小于另一个箱子</p>
+<p>求箱子套箱子最多能套多少层</p>
+</div>
+<div id="uva-103-stacking-boxes-解法" class="slide section level1">
+<h1>UVA 103 Stacking Boxes 解法</h1>
+<p>动态规划</p>
+<p><span class="math">\(dp_i, 1 \le i \le n\)</span></p>
+<p><span class="math">\(dp_i = \max\{dp_j, \text{box j is inside box i}\}\)</span></p>
+</div>
+<div id="uva-104" class="slide section level1">
+<h1>UVA 104</h1>
+</div>
+<div id="uva-105" class="slide section level1">
+<h1>UVA 105</h1>
+</div>
+<div id="uva-114" class="slide section level1">
+<h1>UVA 114</h1>
+</div>
+<div id="uva-115" class="slide section level1">
+<h1>UVA 115</h1>
+</div>
+<div id="uva-117" class="slide section level1">
+<h1>UVA 117</h1>
+</div>
+<div id="uva-121" class="slide section level1">
+<h1>UVA 121</h1>
+</div>
+<div id="uva-124" class="slide section level1">
+<h1>UVA 124</h1>
+</div>
+</body>
+</html>
