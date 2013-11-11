@@ -1064,29 +1064,361 @@ $1 \le N, F \le 1000, 1 \le B \le 10^6$
 
 两个人交换箱子互换方向，相当于互相穿过没有交换
 
+经过2F时间后，所有人的状态是没有改变的
+
+. . .
+
+很容易计算经过t时间后，每个人搬了多少箱子
+
+## 1193 Up the Stairs   代码
+~~~
+int n, num_floor, base;
+bool can_finish(int t) {
+  int moved = 0;
+  for (int i = 0; i < n; ++i) {
+    int time2 = t;
+    if (person[i].state == 0) {
+      time2 += num_floor - person[i].x;
+    } else {
+      --moved;
+      time2 += num_floor + person[i].x;
+    }
+    moved += time2 / (2 * num_floor);
+  }
+  return moved >= base;
+}
+~~~
+
+## 1193 Up the Stairs   解题思路
+
+反过来如何计算？
+
+二分答案，设经过t时间后可以完成任务
+
+~~~
+int lo = 0, hi = 2 * base * num_floor;
+while (lo != hi) {
+  int mid = lo + (hi - lo) / 2;
+  if (can_finish(mid)) {
+    hi = mid;
+  } else {
+    lo = mid + 1;
+  }
+}
+printf("%d\n", lo);
+~~~
+
+# 1004 I Conduit!
+## 1004 I Conduit!    题目大意
+
+二维坐标平面上有n条边，如果两条边有重叠部分，则可以合并成一条边
+
+问合并后的边的数量
+
+$n \le 10^4$ 坐标范围 [0.0, 1000.0]
+
+# 1017 Rate of Return
+
+## 1017 Rate of Return   题目大意
+
+Jill在某些月份会进行投资，这些投资额在每个月都会带来一定的利润
+
+现在给出Jill某个月份结束后的本金和利润之和，求利润率
+
+~~~
+2
+1 100.00
+3 100.00
+4 210.00
+~~~
+
+例如，1月份和3月份分别投资100，4月底得到210，设利润率为x，则有方程：
+
+$100 (1+x)^4 + 100 (1+x)^2 = 210$
+
+解得：
+
+$x = 0.01635$
+
+## 1017 Rate of Return   解题思路
+
+利润率越高，本金和利润之和越大，所以$100 (1+x)^4 + 100 (1+x)^2$是一个单调函数，可以二分查找函数的零点
+
+## 1017 Rate of Return   代码
+
+~~~
+double lo = 0, hi = 1;
+for (int loop = 0; loop < 100; ++loop) {
+  double mid = (lo + hi) / 2;
+  double sum = 0;
+  for (int i = 0; i < n; ++i) {
+    sum += amount[i] * pow(1 + mid, month[n] - month[i] + 1);
+  }
+  if (sum < amount[n]) {
+    lo = mid;  // 提高下界
+  } else {
+    hi = mid;  // 缩小上界
+  }
+}
+~~~
+
+# 1059 Exocenter of a Triangle
+
+## 1059 Exocenter of a Triangle   题目大意
+
+![](1059.png)
+
+已知A，B，C，求O
+
+## 1059 Exocenter of a Triangle   向量的旋转
+
+~~~
+* exp(Point(0, pi / 2))
+~~~
+
+## 1059 Exocenter of a Triangle   两点确定直线
+
+~~~
+void PointPointToLine(Point p1, Point p2, double *a, double *b, double *c) {
+  // a x + b y + c = 0
+  // a (x1 - x2) + b (y1 - y2) = 0
+  *a = imag(p1 - p2);
+  *b = -real(p1 - p2);
+  // (y1 - y2) x1 - (x1 - x2) y1 + c = 0
+  // -x1 y2 + x2 y1 + c = 0
+  // c = x1 y2 - x2 y1 叉乘
+  *c = imag(conj(p1) * p2);
+}
+~~~
+
+## 1059 Exocenter of a Triangle   两直线求交点
+
+~~~
+Point intersect(Point p1, Point p2, Point p3, Point p4) {
+  double a1, b1, c1;
+  double a2, b2, c2;
+  PointPointToLine(p1, p2, &a1, &b1, &c1);
+  PointPointToLine(p3, p4, &a2, &b2, &c2);
+
+  double x = imag(conj(Point(b1, c1)) * Point(b2, c2));
+  double y = imag(conj(Point(c1, a1)) * Point(c2, a2));
+  double d = imag(conj(Point(a1, b1)) * Point(a2, b2));
+  return Point(x / d, y / d);
+}
+~~~
+
+## 1059 Exocenter of a Triangle   主过程
+
+![](1059.png)
+
+~~~
+Point d = a + (b - a) * exp(Point(0, M_PI / 2));  // #include <cmath>
+Point g = a + (c - a) * exp(Point(0, -M_PI / 2));
+Point l = (d + g) / Point(2, 0);
+
+Point e = d + b - a;
+Point j = b + (c - b) * exp(Point(0, M_PI / 2));
+Point m = (e + j) / Point(2, 0);
+
+Point o = intersect(a, l, b, m);
+if (abs(o.real()) < 1e-6) o.real() = 0;
+if (abs(o.imag()) < 1e-6) o.imag() = 0;
+~~~
+
+# 1003 Hit or Miss
+
+## 1003 Hit or Miss    题目大意
+
+n个人，第一个人开始时以一定顺序拿着标有1到13各4张的卡片堆
+
+每个人分别执行以下两个步骤：
+
+1. 如果手上有卡，每次轮到自己则数一个数，从1开始，在1~13内循环，如果数的数刚好和自己的卡片堆最顶的卡片一样，则丢弃这张卡片，否则把这张卡片放到卡片堆底
+2. 除了第1个人，如果每个人前面的一个人有卡片丢弃，则把丢弃的卡片放到自己卡片堆底
+
+如此循环，直到每个人手上都没有卡片，或不能终止
+
+如果可以结束，则输出每个人最后丢弃的卡片
 
 
+## 1003 Hit or Miss    解题思路
+
+认真阅读题意，按照题意直接模拟
+
+当循环次数超过最大卡片张数（52）仍没有人抛弃卡片，则判断不能终止
+
+## 1003 Hit or Miss    代码
+~~~
+struct player {
+  queue<int> cards;
+  int lastcard, count;
+  int step1() {
+    int discard = -1;
+    if (!(cards.empty())) {
+      int curr = cards.front();
+      cards.pop();
+      if (curr == count) {
+        lastcard = discard = cur;
+      } else {
+        cards.push(cur);
+      }
+      if (count == 13) {
+        count = 1;
+      } else {
+        ++count;
+      }
+    }
+    return discard;
+  }
+};
+~~~
+
+## 1003 Hit or Miss    代码
+~~~
+void run() {
+  int lastround = 0;
+  for (int round = 1; round - lastround <= 52; ++round) {
+    for (int i = 0; i < n; ++i) {
+      discards[i] = person[i].step1();
+      if (discards[i] != -1) {
+        lastround=round;
+      }
+    }
+    for (int i = 1; i < n; i++) {
+      if (discards[i - 1] != -1) {
+        person[i].cards.push(discards[i - 1]);
+      }
+    }
+  }
+}
+~~~
+
+# 1018 A Card Trick
+
+## 1018 A Card Trick   题目大意
+
+一个魔术，助手把五张扑克的其中四张按一定顺序给魔术师，魔术师可能通过一定的规则计算出剩余的一张扑克
+
+给出五张扑克，求出一个前四张牌的顺序，使得魔术师可以猜出第五张牌
+
+1. Remember the suit and value of the first card.
+2. Among the remaining three cards find the position of the smallest card (in the above order). Add this position (1, 2, or 3) to the value of the first card.
+3. If the larger two of the last three cards are not in order, add 3 to the result of step 2.
+4. The missing card has the same suit as the first card and value that computed in step 3 wrapping around if necessary.
+
+QH, 10D, 10C, 4D
+
+Smallest of the last 3 cards is 4D in place 3
+
+10D and 10C are out of order so add 3 + 3 to Q
+
+Q + 3 + 3 = 5 => 5H
+
+## 1018 A Card Trick   解题思路
+
+枚举五张扑克的顺序，找出其中合法的
+
+~~~
+bool check() {
+  // 假设card[0]是要猜测的card
+  if (cards[0].suit != cards[1].suit) {  // rule 4
+    return false;
+  }
+  int result = 0, min_pos = 2, max_pos = 2;
+  for (int i = 3; i < 5; ++i) {
+    if (cards[i] < cards[min_pos]) min_pos = i;
+    if (cards[i] > cards[max_pos]) max_pos = i;
+  }
+  int middle = 2 ^ 3 ^ 4 ^ min_pos ^ max_pos;
+  result += min_pos - 1;  // rule 2
+  if (middle > max_pos) {  // rule 3
+    result += 3;
+  }
+  return cards[0].num % 13 == (cards[1].num + result) % 13;
+}
+~~~
+
+## 1018 A Card Trick   解题思路
+~~~
+struct Card {
+  int num;
+  char suit;
+};
+
+bool operator< (const Card& a, const Card& b) {
+  if (a.num != b.num) {
+    return a.num < b.num;
+  }
+  return a.suit < b.suit;
+}
+~~~
+
+~~~
+sort(cards, cards + 5);
+do {
+  if (check()) break;
+} next_permutation(cards, cards + 5);
+~~~
+
+# 1052 Candy Sharing Game
+
+## 1052 Candy Sharing Game    题目大意
+
+M个学生围成一圈，开始时所有学生都有偶数的糖
+
+每个回合，所有学生同时把手里的一半糖传给右边的学生
+
+如果某个学生的糖数为奇数，则老师多给他一个糖
+
+所有学生的糖数目相等时回合结束
+
+求回合数和每个学生手里的糖数
+
+## 1052 Candy Sharing Game    
+
+# 1082 MANAGER
+
+## 1082 MANAGER   题目大意
+
+现在有一个进程序列，每个进程都有消耗
+
+有以下几种操作：
+-----  ----------------------------------------------------------------
+a x     在序列中放进消耗为x的进程
+r       在序列中移除一个进程，根据策略可能是消耗最小或最大的
+p i      设定策略
+-----  ----------------------------------------------------------------
+
+给出一些输出序号，当执行的移除操作的次数和序号一致时，输出这次移除的进程的消耗
+
+## 1082 MANAGER   题目大意
+
+建立二叉查找树，可以动态进行插入，删除，查找最大/最小值
+
+可以使用stl里的map
+
+记录每次移除的进程消耗，查询时直接输出
 
 
+## 1082 MANAGER   代码
 
+~~~
+void append(int x) {
+  process_map[x]++;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+int remove() {
+  if (p == 1){
+    it = process_map.begin();
+  } else {
+    it = process_map.rbegin();
+  }
+  int x = it->first;
+  if (--it->second == 0) {
+    process_map.erase(x);
+  }
+  record[cnt++] = x;
+  return x;
+}
+~~~
 
