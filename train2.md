@@ -53,7 +53,7 @@ GCB
 
 统计每种状态所需要的步数
 
-# UVA 103  Stacking Boxes
+# UVA 103 Stacking Boxes
 
 给出几个多维的箱子
 
@@ -61,7 +61,7 @@ GCB
 
 求箱子套箱子最多能套多少层
 
-# UVA 103  Stacking Boxes   解法
+# UVA 103 Stacking Boxes   解法
 
 动态规划
 
@@ -162,7 +162,92 @@ $O(n^4)$
 
 # UVA 115 Climbing Trees
 
+家谱树 确定两个人是否在一个家谱中存在亲属关系
 
-# UVA 117
-# UVA 121
-# UVA 124
+给定一系列的“子-父”姓名对作为家谱，每对姓名中前者为子，后者为父
+
+给定一系列的待查姓名对，表示两个人的姓名
+
+需要判断对中的两个姓名是否在家谱中是否存在亲属关系
+
+. . .
+
+亲属关系有4种：
+
+1. 子关系 包括孙、曾孙、玄孙等
+2. 父关系 包括祖父、曾祖父、高祖父等
+3. cousin -- 0^th^ cousin, 1^st^ cousin, 2^nd^ cousin, etc. p和q是cousins当且仅当它们在家谱树中是相连的，
+假设p和q的公共祖先是r，它们距离公共祖先的距离分别是n和m，那么p和q是k代cousins，k = min(n, m)
+4. 兄弟 即0代cousins
+
+总人数 $\le 300$
+
+# UVA 115 Climbing Trees    解法
+
+查询树中两个节点的最小公共祖先 LCA
+
+做法：
+
+* 暴力 $O(n^2)$
+* Tarjan算法 并查集复杂度
+* 转化为RMQ $O(n \log n)$
+* 构造跳表 $O(n \log n)$
+
+# UVA 117 The Postal Worker Rings Once
+
+中国邮递员问题
+
+邮递员从邮局出发送信，要求对辖区内每条街，都至少通过一次，再回邮局
+
+最多存在两个奇数度的路口，其它所有路口的度均为偶数，即有偶数条街道与该路口相连
+
+. . .
+
+连通的无向图$G$有欧拉路径的充要条件是：$G$中奇顶点（连接的边数量为奇数的顶点）的数目等于0或者2
+
+有两个奇顶点？
+
+用一条路径把两个奇顶点连接起来，用最短路算法求这条路径的长度
+
+# UVA 121 Pipe Fitters
+
+![](uva121.gif)
+
+给出一个$a \times b$的矩阵，问最多能放多少个圆柱体，叠放方式只有网格和交错方式两种
+
+. . .
+
+解法：枚举
+
+![](uva121_1.PNG) ^[http://www.cnblogs.com/devymex/archive/2010/08/15/1799966.html]
+
+![](uva121_2.bmp)
+
+
+# UVA 125 Numbering Paths
+
+在一个所有街道都是单行线的城市中，询问两个点之间可行路径的数量
+
+. . .
+
+解法
+
+a->b的路径条数等于a->i与i->b的路径条数的乘积之和
+
+用Floyd算法：
+
+~~~
+for (k = 0; k < n; k ++) {
+  for (i = 0; i < n; i ++) {
+    for (j = 0; j < n; j ++) {
+      if (f[i][k] && f[k][j]) {
+        f[i][j] += f[i][k] * f[k][j];
+      }
+    }
+  }
+}
+~~~
+
+正确性
+
+$\circ^i \rightarrow [ \circ \rightarrow \circ \rightarrow .... \circ ]^{\lt k} \rightarrow \circ^j$

@@ -191,15 +191,90 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </div>
 <div id="uva-115-climbing-trees" class="slide section level1">
 <h1>UVA 115 Climbing Trees</h1>
+<div class="incremental">
+<p>家谱树 确定两个人是否在一个家谱中存在亲属关系</p>
+<p>给定一系列的“子-父”姓名对作为家谱，每对姓名中前者为子，后者为父</p>
+<p>给定一系列的待查姓名对，表示两个人的姓名</p>
+<p>需要判断对中的两个姓名是否在家谱中是否存在亲属关系</p>
 </div>
-<div id="uva-117" class="slide section level1">
-<h1>UVA 117</h1>
+<div class="incremental">
+<p>亲属关系有4种：</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>子关系 包括孙、曾孙、玄孙等</li>
+<li>父关系 包括祖父、曾祖父、高祖父等</li>
+<li>cousin -- 0<sup>th</sup> cousin, 1<sup>st</sup> cousin, 2<sup>nd</sup> cousin, etc. p和q是cousins当且仅当它们在家谱树中是相连的， 假设p和q的公共祖先是r，它们距离公共祖先的距离分别是n和m，那么p和q是k代cousins，k = min(n, m)</li>
+<li>兄弟 即0代cousins</li>
+</ol>
+<p>总人数 <span class="math">\(\le 300\)</span></p>
 </div>
-<div id="uva-121" class="slide section level1">
-<h1>UVA 121</h1>
 </div>
-<div id="uva-124" class="slide section level1">
-<h1>UVA 124</h1>
+<div id="uva-115-climbing-trees-解法" class="slide section level1">
+<h1>UVA 115 Climbing Trees 解法</h1>
+<p>查询树中两个节点的最小公共祖先 LCA</p>
+<p>做法：</p>
+<ul class="incremental">
+<li>暴力 <span class="math">\(O(n^2)\)</span></li>
+<li>Tarjan算法 并查集复杂度</li>
+<li>转化为RMQ <span class="math">\(O(n \log n)\)</span></li>
+<li>构造跳表 <span class="math">\(O(n \log n)\)</span></li>
+</ul>
+</div>
+<div id="uva-117-the-postal-worker-rings-once" class="slide section level1">
+<h1>UVA 117 The Postal Worker Rings Once</h1>
+<div class="incremental">
+<p>中国邮递员问题</p>
+<p>邮递员从邮局出发送信，要求对辖区内每条街，都至少通过一次，再回邮局</p>
+<p>最多存在两个奇数度的路口，其它所有路口的度均为偶数，即有偶数条街道与该路口相连</p>
+</div>
+<div class="incremental">
+<p>连通的无向图<span class="math">\(G\)</span>有欧拉路径的充要条件是：<span class="math">\(G\)</span>中奇顶点（连接的边数量为奇数的顶点）的数目等于0或者2</p>
+<p>有两个奇顶点？</p>
+<p>用一条路径把两个奇顶点连接起来，用最短路算法求这条路径的长度</p>
+</div>
+</div>
+<div id="uva-121-pipe-fitters" class="slide section level1">
+<h1>UVA 121 Pipe Fitters</h1>
+<div class="incremental">
+<div class="figure">
+<img src="uva121.gif" />
+</div>
+<p>给出一个<span class="math">\(a \times b\)</span>的矩阵，问最多能放多少个圆柱体，叠放方式只有网格和交错方式两种</p>
+</div>
+<div class="incremental">
+<p>解法：枚举</p>
+<p><img src="uva121_1.PNG" /> <sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup></p>
+<div class="figure">
+<img src="uva121_2.bmp" />
+</div>
+</div>
+</div>
+<div id="uva-125-numbering-paths" class="slide section level1">
+<h1>UVA 125 Numbering Paths</h1>
+<div class="incremental">
+<p>在一个所有街道都是单行线的城市中，询问两个点之间可行路径的数量</p>
+</div>
+<div class="incremental">
+<p>解法</p>
+<p>a-&gt;b的路径条数等于a-&gt;i与i-&gt;b的路径条数的乘积之和</p>
+<p>用Floyd算法：</p>
+<pre><code>for (k = 0; k &lt; n; k ++) {
+  for (i = 0; i &lt; n; i ++) {
+    for (j = 0; j &lt; n; j ++) {
+      if (f[i][k] &amp;&amp; f[k][j]) {
+        f[i][j] += f[i][k] * f[k][j];
+      }
+    }
+  }
+}</code></pre>
+<p>正确性</p>
+<p><span class="math">\(\circ^i \rightarrow [ \circ \rightarrow \circ \rightarrow .... \circ ]^{\lt k} \rightarrow \circ^j\)</span></p>
+</div>
+</div>
+<div class="footnotes slide">
+<hr />
+<ol>
+<li id="fn1"><p>http://www.cnblogs.com/devymex/archive/2010/08/15/1799966.html<a href="#fnref1">↩</a></p></li>
+</ol>
 </div>
 </body>
 </html>

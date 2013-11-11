@@ -1054,11 +1054,11 @@ N个人在F层之间搬箱子
 
 . . .
 
-| 0, B boxes | 1 | 2 | ... | $\blacksquare \rightarrow$ | ... | $\leftarrow \Box$ | ... | F-1 | F |
+\| 0, B boxes | 1 | 2 | ... | $\blacksquare \rightarrow$ | ... | $\leftarrow \Box$ | ... | F-1 | F |
 
-| 0, B boxes | 1 | 2 | ... | $\leftarrow \Box$ | ... | $\blacksquare \rightarrow$ | ... | F-1 | F |
+\| 0, B boxes | 1 | 2 | ... | $\leftarrow \Box$ | ... | $\blacksquare \rightarrow$ | ... | F-1 | F |
 
-$ 1 \le N, F \le 1000, 1 \le B \le 10^6$
+$1 \le N, F \le 1000, 1 \le B \le 10^6$
 
 ## 1193 Up the Stairs   解题思路
 
