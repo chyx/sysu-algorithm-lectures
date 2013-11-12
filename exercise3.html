@@ -1207,35 +1207,35 @@ memset(count_depth, <span class="dv">0</span>, <span class="kw">sizeof</span> (c
 </div>
 </div><div id="up-the-stairs-代码" class="slide section level2">
 <h1>1193 Up the Stairs 代码</h1>
-<pre><code>int n, num_floor, base;
-bool can_finish(int t) {
-  int moved = 0;
-  for (int i = 0; i &lt; n; ++i) {
-    int time2 = t;
-    if (person[i].state == 0) {
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> n, num_floor, base;
+<span class="dt">bool</span> can_finish(<span class="dt">int</span> t) {
+  <span class="dt">int</span> moved = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    <span class="dt">int</span> time2 = t;
+    <span class="kw">if</span> (person[i].state == <span class="dv">0</span>) {
       time2 += num_floor - person[i].x;
-    } else {
+    } <span class="kw">else</span> {
       --moved;
       time2 += num_floor + person[i].x;
     }
-    moved += time2 / (2 * num_floor);
+    moved += time2 / (<span class="dv">2</span> * num_floor);
   }
-  return moved &gt;= base;
+  <span class="kw">return</span> moved &gt;= base;
 }</code></pre>
 </div><div id="up-the-stairs-解题思路-1" class="slide section level2">
 <h1>1193 Up the Stairs 解题思路</h1>
 <p>反过来如何计算？</p>
 <p>二分答案，设经过t时间后可以完成任务</p>
-<pre><code>int lo = 0, hi = 2 * base * num_floor;
-while (lo != hi) {
-  int mid = lo + (hi - lo) / 2;
-  if (can_finish(mid)) {
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> lo = <span class="dv">0</span>, hi = <span class="dv">2</span> * base * num_floor;
+<span class="kw">while</span> (lo != hi) {
+  <span class="dt">int</span> mid = lo + (hi - lo) / <span class="dv">2</span>;
+  <span class="kw">if</span> (can_finish(mid)) {
     hi = mid;
-  } else {
-    lo = mid + 1;
+  } <span class="kw">else</span> {
+    lo = mid + <span class="dv">1</span>;
   }
 }
-printf(&quot;%d\n&quot;, lo);</code></pre>
+printf(<span class="st">&quot;%d</span><span class="ch">\n</span><span class="st">&quot;</span>, lo);</code></pre>
 </div>
 <div id="i-conduit" class="titleslide slide section level1"><h1>1004 I Conduit!</h1></div><div id="i-conduit-题目大意" class="slide section level2">
 <h1>1004 I Conduit! 题目大意</h1>
@@ -1245,11 +1245,93 @@ printf(&quot;%d\n&quot;, lo);</code></pre>
 </div><div id="i-conduit-解题思路" class="slide section level2">
 <h1>1004 I Conduit! 解题思路</h1>
 <ul class="incremental">
-<li>对线段按斜率进行排序</li>
+<li>对线段按斜率进行排序，方向相同，所在直线也相同</li>
 <li>合并线段，区间合并问题</li>
 </ul>
-</div><div id="i-conduit-极角排序" class="slide section level2">
-<h1>1004 I Conduit! 极角排序</h1>
+</div><div id="i-conduit-解法1直线点斜式排序" class="slide section level2">
+<h1>1004 I Conduit! 解法1：直线点斜式排序</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Line {
+  <span class="dt">double</span> k, b, pstart, pend;
+  Line toline (<span class="dt">double</span> x1, <span class="dt">double</span> y1, <span class="dt">double</span> x2, <span class="dt">double</span> y2) {
+    <span class="kw">if</span> (dcmp(x1, x2) == <span class="dv">0</span>) {
+      k = INF;
+      b = x1;
+      pstart = min(y1, y2);
+      pend = max(y1, y2);
+    } <span class="kw">else</span> {
+      k = (y2 - y1) / (x2 - x1);
+      b = y1 - k * x1;
+      pstart = min(x1, x2);
+      pend = max(x1, x2);
+    }
+  }
+};</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">double</span> INF = <span class="fl">1e+15</span>;
+<span class="dt">const</span> <span class="dt">double</span> EPS = <span class="fl">1e-7</span>;
+<span class="dt">int</span> dcmp(<span class="dt">double</span> x, <span class="dt">double</span> y) {
+    <span class="kw">if</span> (x - y &lt; -EPS) <span class="kw">return</span> -<span class="dv">1</span>;
+    <span class="kw">if</span> (x - y &gt; EPS) <span class="kw">return</span> <span class="dv">1</span> ;
+    <span class="kw">return</span> <span class="dv">0</span>;
+}
+<span class="dt">bool</span> line_cmp (<span class="dt">const</span> Line&amp; x, <span class="dt">const</span> Line&amp; y) {
+    <span class="kw">if</span> (dcmp(x.k, y.k) != <span class="dv">0</span>) <span class="kw">return</span> dcmp(x.k, y.k) &lt; <span class="dv">0</span>;
+    <span class="kw">if</span> (dcmp(x.b, y.b) != <span class="dv">0</span>) <span class="kw">return</span> dcmp(x.b, y.b) &lt; <span class="dv">0</span>;
+    <span class="kw">return</span> dcmp(x.pstart, y.pstart) &lt; <span class="dv">0</span>;
+}</code></pre>
+</div><div id="i-conduit-解法2利用叉积判断方向来排序" class="slide section level2">
+<h1>1004 I Conduit! 解法2：利用叉积判断方向来排序</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> complex&lt;int64&gt; Point;
+<span class="ot">#define X real()</span>
+<span class="ot">#define Y imag()</span>
+int64 cross(<span class="dt">const</span> Point&amp; a, <span class="dt">const</span> Point&amp; b) {
+  <span class="kw">return</span> imag(conj(a) * b);
+}</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Line {
+  Point s, t, direction;
+  <span class="dt">void</span> scan() {
+    scan_point(&amp;s);
+    scan_point(&amp;t);
+    <span class="kw">if</span> (s.Y &gt; t.Y) {
+      swap(s, t);
+    }<span class="kw">else</span> <span class="kw">if</span> (s.Y == t.Y &amp;&amp; s.X &gt; t.X) {
+      swap(s, t);
+    }
+    direction = t - s;
+  }
+  <span class="dt">int</span> get_min() <span class="dt">const</span> {
+    <span class="kw">if</span> (s.X == t.X) <span class="kw">return</span> min(s.Y, t.Y);
+    <span class="kw">return</span> min(s.X, t.X);
+  }
+  <span class="dt">int</span> get_max() <span class="dt">const</span> {
+    <span class="kw">if</span> (s.X == t.X) <span class="kw">return</span> max(s.Y, t.Y);
+    <span class="kw">return</span> max(s.X, t.X);
+  }
+};
+<span class="dt">bool</span> <span class="kw">operator</span>&lt;(<span class="dt">const</span> Line&amp; a, <span class="dt">const</span> Line&amp; b) {
+  int64 cross_value = cross(a.direction, b.direction);
+  <span class="kw">if</span> (cross_value != <span class="dv">0</span>) <span class="kw">return</span> cross_value &lt; <span class="dv">0</span>;
+  <span class="kw">if</span> (a.get_min() != b.get_min()) <span class="kw">return</span> a.get_min() &lt; b.get_min();
+  <span class="kw">return</span> a.get_max() &lt; b.get_max();
+}</code></pre>
+</div><div id="i-conduit-区间合并" class="slide section level2">
+<h1>1004 I Conduit! 区间合并</h1>
+<pre><code>sort(lines, lines + n);
+int last = -1;
+int cnt = 0;
+for (int i = 0; i &lt; n; ++i) {
+  if (i &gt; 0 &amp;&amp; cross(lines[i].direction, lines[i - 1].direction) == 0
+      &amp;&amp; cross(lines[i].s - lines[i - 1].s, lines[i].direction) == 0) {
+    if (lines[i].get_min() &gt; last) {
+      ++cnt;
+      last = lines[i].get_max();
+    } else {
+      last = max(last, lines[i].get_max());
+    }
+  } else {
+    ++cnt;
+    last = lines[i].get_max();
+  }
+}</code></pre>
 </div>
 <div id="rate-of-return" class="titleslide slide section level1"><h1>1017 Rate of Return</h1></div><div id="rate-of-return-题目大意" class="slide section level2">
 <h1>1017 Rate of Return 题目大意</h1>
@@ -1268,17 +1350,17 @@ printf(&quot;%d\n&quot;, lo);</code></pre>
 <p>利润率越高，本金和利润之和越大，所以<span class="math">\(100 (1+x)^4 + 100 (1+x)^2\)</span>是一个单调函数，可以二分查找函数的零点</p>
 </div><div id="rate-of-return-代码" class="slide section level2">
 <h1>1017 Rate of Return 代码</h1>
-<pre><code>double lo = 0, hi = 1;
-for (int loop = 0; loop &lt; 100; ++loop) {
-  double mid = (lo + hi) / 2;
-  double sum = 0;
-  for (int i = 0; i &lt; n; ++i) {
-    sum += amount[i] * pow(1 + mid, month[n] - month[i] + 1);
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">double</span> lo = <span class="dv">0</span>, hi = <span class="dv">1</span>;
+<span class="kw">for</span> (<span class="dt">int</span> loop = <span class="dv">0</span>; loop &lt; <span class="dv">100</span>; ++loop) {
+  <span class="dt">double</span> mid = (lo + hi) / <span class="dv">2</span>;
+  <span class="dt">double</span> sum = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    sum += amount[i] * pow(<span class="dv">1</span> + mid, month[n] - month[i] + <span class="dv">1</span>);
   }
-  if (sum &lt; amount[n]) {
-    lo = mid;  // 提高下界
-  } else {
-    hi = mid;  // 缩小上界
+  <span class="kw">if</span> (sum &lt; amount[n]) {
+    lo = mid;  <span class="co">// 提高下界</span>
+  } <span class="kw">else</span> {
+    hi = mid;  <span class="co">// 缩小上界</span>
   }
 }</code></pre>
 </div>
@@ -1290,48 +1372,48 @@ for (int loop = 0; loop &lt; 100; ++loop) {
 <p>已知A，B，C，求O</p>
 </div><div id="exocenter-of-a-triangle-向量的旋转" class="slide section level2">
 <h1>1059 Exocenter of a Triangle 向量的旋转</h1>
-<pre><code>* exp(Point(0, pi / 2))</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">* exp(Point(<span class="dv">0</span>, pi / <span class="dv">2</span>))</code></pre>
 </div><div id="exocenter-of-a-triangle-两点确定直线" class="slide section level2">
 <h1>1059 Exocenter of a Triangle 两点确定直线</h1>
-<pre><code>void PointPointToLine(Point p1, Point p2, double *a, double *b, double *c) {
-  // a x + b y + c = 0
-  // a (x1 - x2) + b (y1 - y2) = 0
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> PointPointToLine(Point p1, Point p2, <span class="dt">double</span> *a, <span class="dt">double</span> *b, <span class="dt">double</span> *c) {
+  <span class="co">// a x + b y + c = 0</span>
+  <span class="co">// a (x1 - x2) + b (y1 - y2) = 0</span>
   *a = imag(p1 - p2);
   *b = -real(p1 - p2);
-  // (y1 - y2) x1 - (x1 - x2) y1 + c = 0
-  // -x1 y2 + x2 y1 + c = 0
-  // c = x1 y2 - x2 y1 叉乘
+  <span class="co">// (y1 - y2) x1 - (x1 - x2) y1 + c = 0</span>
+  <span class="co">// -x1 y2 + x2 y1 + c = 0</span>
+  <span class="co">// c = x1 y2 - x2 y1 叉乘</span>
   *c = imag(conj(p1) * p2);
 }</code></pre>
 </div><div id="exocenter-of-a-triangle-两直线求交点" class="slide section level2">
 <h1>1059 Exocenter of a Triangle 两直线求交点</h1>
-<pre><code>Point intersect(Point p1, Point p2, Point p3, Point p4) {
-  double a1, b1, c1;
-  double a2, b2, c2;
+<pre class="sourceCode cpp"><code class="sourceCode cpp">Point intersect(Point p1, Point p2, Point p3, Point p4) {
+  <span class="dt">double</span> a1, b1, c1;
+  <span class="dt">double</span> a2, b2, c2;
   PointPointToLine(p1, p2, &amp;a1, &amp;b1, &amp;c1);
   PointPointToLine(p3, p4, &amp;a2, &amp;b2, &amp;c2);
 
-  double x = imag(conj(Point(b1, c1)) * Point(b2, c2));
-  double y = imag(conj(Point(c1, a1)) * Point(c2, a2));
-  double d = imag(conj(Point(a1, b1)) * Point(a2, b2));
-  return Point(x / d, y / d);
+  <span class="dt">double</span> x = imag(conj(Point(b1, c1)) * Point(b2, c2));
+  <span class="dt">double</span> y = imag(conj(Point(c1, a1)) * Point(c2, a2));
+  <span class="dt">double</span> d = imag(conj(Point(a1, b1)) * Point(a2, b2));
+  <span class="kw">return</span> Point(x / d, y / d);
 }</code></pre>
 </div><div id="exocenter-of-a-triangle-主过程" class="slide section level2">
 <h1>1059 Exocenter of a Triangle 主过程</h1>
 <div class="figure">
 <img src="1059.png" />
 </div>
-<pre><code>Point d = a + (b - a) * exp(Point(0, M_PI / 2));  // #include &lt;cmath&gt;
-Point g = a + (c - a) * exp(Point(0, -M_PI / 2));
-Point l = (d + g) / Point(2, 0);
+<pre class="sourceCode cpp"><code class="sourceCode cpp">Point d = a + (b - a) * exp(Point(<span class="dv">0</span>, M_PI / <span class="dv">2</span>));  <span class="co">// #include &lt;cmath&gt;</span>
+Point g = a + (c - a) * exp(Point(<span class="dv">0</span>, -M_PI / <span class="dv">2</span>));
+Point l = (d + g) / Point(<span class="dv">2</span>, <span class="dv">0</span>);
 
 Point e = d + b - a;
-Point j = b + (c - b) * exp(Point(0, M_PI / 2));
-Point m = (e + j) / Point(2, 0);
+Point j = b + (c - b) * exp(Point(<span class="dv">0</span>, M_PI / <span class="dv">2</span>));
+Point m = (e + j) / Point(<span class="dv">2</span>, <span class="dv">0</span>);
 
 Point o = intersect(a, l, b, m);
-if (abs(o.real()) &lt; 1e-6) o.real() = 0;
-if (abs(o.imag()) &lt; 1e-6) o.imag() = 0;</code></pre>
+<span class="kw">if</span> (abs(o.real()) &lt; <span class="fl">1e-6</span>) o.real() = <span class="dv">0</span>;
+<span class="kw">if</span> (abs(o.imag()) &lt; <span class="fl">1e-6</span>) o.imag() = <span class="dv">0</span>;</code></pre>
 </div>
 <div id="hit-or-miss" class="titleslide slide section level1"><h1>1003 Hit or Miss</h1></div><div id="hit-or-miss-题目大意" class="slide section level2">
 <h1>1003 Hit or Miss 题目大意</h1>
@@ -1349,42 +1431,42 @@ if (abs(o.imag()) &lt; 1e-6) o.imag() = 0;</code></pre>
 <p>当循环次数超过最大卡片张数（52）仍没有人抛弃卡片，则判断不能终止</p>
 </div><div id="hit-or-miss-代码" class="slide section level2">
 <h1>1003 Hit or Miss 代码</h1>
-<pre><code>struct player {
-  queue&lt;int&gt; cards;
-  int lastcard, count;
-  int step1() {
-    int discard = -1;
-    if (!(cards.empty())) {
-      int curr = cards.front();
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> player {
+  queue&lt;<span class="dt">int</span>&gt; cards;
+  <span class="dt">int</span> lastcard, count;
+  <span class="dt">int</span> step1() {
+    <span class="dt">int</span> discard = -<span class="dv">1</span>;
+    <span class="kw">if</span> (!(cards.empty())) {
+      <span class="dt">int</span> curr = cards.front();
       cards.pop();
-      if (curr == count) {
+      <span class="kw">if</span> (curr == count) {
         lastcard = discard = cur;
-      } else {
+      } <span class="kw">else</span> {
         cards.push(cur);
       }
-      if (count == 13) {
-        count = 1;
-      } else {
+      <span class="kw">if</span> (count == <span class="dv">13</span>) {
+        count = <span class="dv">1</span>;
+      } <span class="kw">else</span> {
         ++count;
       }
     }
-    return discard;
+    <span class="kw">return</span> discard;
   }
 };</code></pre>
 </div><div id="hit-or-miss-代码-1" class="slide section level2">
 <h1>1003 Hit or Miss 代码</h1>
-<pre><code>void run() {
-  int lastround = 0;
-  for (int round = 1; round - lastround &lt;= 52; ++round) {
-    for (int i = 0; i &lt; n; ++i) {
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> run() {
+  <span class="dt">int</span> lastround = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> round = <span class="dv">1</span>; round - lastround &lt;= <span class="dv">52</span>; ++round) {
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
       discards[i] = person[i].step1();
-      if (discards[i] != -1) {
+      <span class="kw">if</span> (discards[i] != -<span class="dv">1</span>) {
         lastround=round;
       }
     }
-    for (int i = 1; i &lt; n; i++) {
-      if (discards[i - 1] != -1) {
-        person[i].cards.push(discards[i - 1]);
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; i++) {
+      <span class="kw">if</span> (discards[i - <span class="dv">1</span>] != -<span class="dv">1</span>) {
+        person[i].cards.push(discards[i - <span class="dv">1</span>]);
       }
     }
   }
@@ -1407,40 +1489,40 @@ if (abs(o.imag()) &lt; 1e-6) o.imag() = 0;</code></pre>
 </div><div id="a-card-trick-解题思路" class="slide section level2">
 <h1>1018 A Card Trick 解题思路</h1>
 <p>枚举五张扑克的顺序，找出其中合法的</p>
-<pre><code>bool check() {
-  // 假设card[0]是要猜测的card
-  if (cards[0].suit != cards[1].suit) {  // rule 4
-    return false;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> check() {
+  <span class="co">// 假设card[0]是要猜测的card</span>
+  <span class="kw">if</span> (cards[<span class="dv">0</span>].suit != cards[<span class="dv">1</span>].suit) {  <span class="co">// rule 4</span>
+    <span class="kw">return</span> <span class="kw">false</span>;
   }
-  int result = 0, min_pos = 2, max_pos = 2;
-  for (int i = 3; i &lt; 5; ++i) {
-    if (cards[i] &lt; cards[min_pos]) min_pos = i;
-    if (cards[i] &gt; cards[max_pos]) max_pos = i;
+  <span class="dt">int</span> result = <span class="dv">0</span>, min_pos = <span class="dv">2</span>, max_pos = <span class="dv">2</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i &lt; <span class="dv">5</span>; ++i) {
+    <span class="kw">if</span> (cards[i] &lt; cards[min_pos]) min_pos = i;
+    <span class="kw">if</span> (cards[i] &gt; cards[max_pos]) max_pos = i;
   }
-  int middle = 2 ^ 3 ^ 4 ^ min_pos ^ max_pos;
-  result += min_pos - 1;  // rule 2
-  if (middle &gt; max_pos) {  // rule 3
-    result += 3;
+  <span class="dt">int</span> middle = <span class="dv">2</span> ^ <span class="dv">3</span> ^ <span class="dv">4</span> ^ min_pos ^ max_pos;
+  result += min_pos - <span class="dv">1</span>;  <span class="co">// rule 2</span>
+  <span class="kw">if</span> (middle &gt; max_pos) {  <span class="co">// rule 3</span>
+    result += <span class="dv">3</span>;
   }
-  return cards[0].num % 13 == (cards[1].num + result) % 13;
+  <span class="kw">return</span> cards[<span class="dv">0</span>].num % <span class="dv">13</span> == (cards[<span class="dv">1</span>].num + result) % <span class="dv">13</span>;
 }</code></pre>
 </div><div id="a-card-trick-解题思路-1" class="slide section level2">
 <h1>1018 A Card Trick 解题思路</h1>
-<pre><code>struct Card {
-  int num;
-  char suit;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Card {
+  <span class="dt">int</span> num;
+  <span class="dt">char</span> suit;
 };
 
-bool operator&lt; (const Card&amp; a, const Card&amp; b) {
-  if (a.num != b.num) {
-    return a.num &lt; b.num;
+<span class="dt">bool</span> <span class="kw">operator</span>&lt; (<span class="dt">const</span> Card&amp; a, <span class="dt">const</span> Card&amp; b) {
+  <span class="kw">if</span> (a.num != b.num) {
+    <span class="kw">return</span> a.num &lt; b.num;
   }
-  return a.suit &lt; b.suit;
+  <span class="kw">return</span> a.suit &lt; b.suit;
 }</code></pre>
-<pre><code>sort(cards, cards + 5);
-do {
-  if (check()) break;
-} next_permutation(cards, cards + 5);</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">sort(cards, cards + <span class="dv">5</span>);
+<span class="kw">do</span> {
+  <span class="kw">if</span> (check()) <span class="kw">break</span>;
+} next_permutation(cards, cards + <span class="dv">5</span>);</code></pre>
 </div>
 <div id="candy-sharing-game" class="titleslide slide section level1"><h1>1052 Candy Sharing Game</h1></div><div id="candy-sharing-game-题目大意" class="slide section level2">
 <h1>1052 Candy Sharing Game 题目大意</h1>
@@ -1454,13 +1536,13 @@ do {
 <p>游戏一定会结束，因为 1. 最大值不会变小 2. 最小值不会变大 3. 其他人都不会变成最小值 4. 至少一个最小值在一个回合后会变大</p>
 </div><div id="candy-sharing-game-代码" class="slide section level2">
 <h1>1052 Candy Sharing Game 代码</h1>
-<pre><code>for (int round = 0; !allsame(); ++round) {
-  for (int i = 0; i &lt; n; i++) {
-    tmp[i] = amount[i] = amount[i] / 2;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> round = <span class="dv">0</span>; !allsame(); ++round) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+    tmp[i] = amount[i] = amount[i] / <span class="dv">2</span>;
   }
-  for (int i = 0; i &lt; n; i++) {
-    amount[(i + 1) % n] += tmp[i];
-    amount[(i + 1) % n] += amount[(i + 1) % n] % 2;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; i++) {
+    amount[(i + <span class="dv">1</span>) % n] += tmp[i];
+    amount[(i + <span class="dv">1</span>) % n] += amount[(i + <span class="dv">1</span>) % n] % <span class="dv">2</span>;
   }
 }</code></pre>
 </div>
@@ -1482,28 +1564,28 @@ do {
 </div>
 </div><div id="pushing-boxes-解题思路-1" class="slide section level2">
 <h1>1041 Pushing Boxes 解题思路</h1>
-<pre><code>// -----&gt; y
-// |
-// |
-// v
-// x
-// 先按x分类，再按y从大到小处理
-bool Cmp(const Point&amp; a, const Point&amp; b) {
-  if (a.x != b.x) return a.x &lt; b.x;
-  return a.y &lt; b.y;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">// -----&gt; y</span>
+<span class="co">// |</span>
+<span class="co">// |</span>
+<span class="co">// v</span>
+<span class="co">// x</span>
+<span class="co">// 先按x分类，再按y从大到小处理</span>
+<span class="dt">bool</span> Cmp(<span class="dt">const</span> Point&amp; a, <span class="dt">const</span> Point&amp; b) {
+  <span class="kw">if</span> (a.x != b.x) <span class="kw">return</span> a.x &lt; b.x;
+  <span class="kw">return</span> a.y &lt; b.y;
 }
 
-void MoveRight(int m) {
+<span class="dt">void</span> MoveRight(<span class="dt">int</span> m) {
   sort(box, box + n, Cmp);
-  int x = -1, y;
-  for (int i = 0; i &lt; n; ++i) {
-    if (box[i].x != x) {
+  <span class="dt">int</span> x = -<span class="dv">1</span>, y;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    <span class="kw">if</span> (box[i].x != x) {
       x = box[i].x;
       y = m;
-    } else {
+    } <span class="kw">else</span> {
       y++;
     }
-    if (box[i].y &lt; y) {
+    <span class="kw">if</span> (box[i].y &lt; y) {
       box[i].y = y;
     }
   }
@@ -1520,17 +1602,17 @@ void MoveRight(int m) {
 <p>对所有州C，第n天从A到C的方案数与一天内从C到B的方案数的积，再对所有州求和（即第n天通过州C作为中转的方案数）</p>
 </div><div id="商人的宣传-代码" class="slide section level2">
 <h1>1211 商人的宣传 代码</h1>
-<pre><code>int Solve(int A, int B) {
-  memset(num_ways, 0, sizeof(num_ways));
-  num_ways[0][A][A] = 1;
-  for (int k = 1; k &lt;= L; ++k) {
-    for (int i = 0; i &lt; n; ++i) {
-      for (int j = 0; j &lt; n; ++j) {
-        num_ways[k][A][i] += num_ways[k - 1][A][j] * edge[j][i];
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> Solve(<span class="dt">int</span> A, <span class="dt">int</span> B) {
+  memset(num_ways, <span class="dv">0</span>, <span class="kw">sizeof</span>(num_ways));
+  num_ways[<span class="dv">0</span>][A][A] = <span class="dv">1</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">1</span>; k &lt;= L; ++k) {
+    <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+      <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; n; ++j) {
+        num_ways[k][A][i] += num_ways[k - <span class="dv">1</span>][A][j] * edge[j][i];
       }
     }
   }
-  return num_ways[L][A][B];
+  <span class="kw">return</span> num_ways[L][A][B];
 }</code></pre>
 </div>
 <div id="floors" class="titleslide slide section level1"><h1>1071 Floors</h1></div><div id="floors-题目大意" class="slide section level2">
@@ -1553,33 +1635,31 @@ void MoveRight(int m) {
 </div>
 </div><div id="floors-代码" class="slide section level2">
 <h1>1071 Floors 代码</h1>
-<pre><code>void Solve(int x1, int y1, int x2, int y2, int l, int r) {
-  // [l, r], inclusive
-  int curr = (x2 - x1) * (y2 - y1);
-  if (curr &lt;= ans) return;  // prune
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> Solve(<span class="dt">int</span> x1, <span class="dt">int</span> y1, <span class="dt">int</span> x2, <span class="dt">int</span> y2, <span class="dt">int</span> l, <span class="dt">int</span> r) {
+  <span class="co">// [l, r], inclusive</span>
+  <span class="dt">int</span> curr = (x2 - x1) * (y2 - y1);
+  <span class="kw">if</span> (curr &lt;= ans) <span class="kw">return</span>;  <span class="co">// prune</span>
   ans = max(ans, curr);
-  if (cutx(x1, y1, x2, y2, l, r)) return;
-  if (cuty(x1, y1, x2, y2, l, r)) return;
+  <span class="kw">if</span> (cutx(x1, y1, x2, y2, l, r)) <span class="kw">return</span>;
+  <span class="kw">if</span> (cuty(x1, y1, x2, y2, l, r)) <span class="kw">return</span>;
 }</code></pre>
-</div><div id="floors-代码-1" class="slide section level2">
-<h1>1071 Floors 代码</h1>
-<pre><code>bool CompareX(const Rect&amp; a, const Rect&amp; b) {
-  return a.x1 &lt; b.x1;
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">bool</span> CompareX(<span class="dt">const</span> Rect&amp; a, <span class="dt">const</span> Rect&amp; b) {
+  <span class="kw">return</span> a.x1 &lt; b.x1;
 }
 
-bool CutX(int x1, int y1, int x2, int y2, int l, int r) {
-  sort(rects + l, rects + r + 1, CcompareX);
-  int mid_x = x1, area = 0;
-  for (int i = l; i &lt; r; ++i) {  // 注意不是i &lt;= r
+<span class="dt">bool</span> CutX(<span class="dt">int</span> x1, <span class="dt">int</span> y1, <span class="dt">int</span> x2, <span class="dt">int</span> y2, <span class="dt">int</span> l, <span class="dt">int</span> r) {
+  sort(rects + l, rects + r + <span class="dv">1</span>, CcompareX);
+  <span class="dt">int</span> mid_x = x1, area = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = l; i &lt; r; ++i) {  <span class="co">// 注意不是i &lt;= r</span>
     area += rects[i].area;
     mid_x = max(mid_x, rects[i].x2);
-    if (area == (mid_x - x1) * (y2 - y1)) {
+    <span class="kw">if</span> (area == (mid_x - x1) * (y2 - y1)) {
       Solve(x1, y1, mid_x, y2, l, i);
-      Solve(mid_x, y1, x2, y2, i + 1, r);
-      return true;
+      Solve(mid_x, y1, x2, y2, i + <span class="dv">1</span>, r);
+      <span class="kw">return</span> <span class="kw">true</span>;
     }
   }
-  return false;
+  <span class="kw">return</span> <span class="kw">false</span>;
 }</code></pre>
 </div>
 <div id="manager" class="titleslide slide section level1"><h1>1082 MANAGER</h1></div><div id="manager-题目大意" class="slide section level2">
@@ -1615,22 +1695,22 @@ bool CutX(int x1, int y1, int x2, int y2, int l, int r) {
 <p>记录每次移除的进程消耗，查询时直接输出</p>
 </div><div id="manager-代码" class="slide section level2">
 <h1>1082 MANAGER 代码</h1>
-<pre><code>void append(int x) {
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> append(<span class="dt">int</span> x) {
   process_map[x]++;
 }
 
-int remove() {
-  if (p == 1){
+<span class="dt">int</span> remove() {
+  <span class="kw">if</span> (p == <span class="dv">1</span>){
     it = process_map.begin();
-  } else {
+  } <span class="kw">else</span> {
     it = process_map.rbegin();
   }
-  int x = it-&gt;first;
-  if (--it-&gt;second == 0) {
+  <span class="dt">int</span> x = it-&gt;first;
+  <span class="kw">if</span> (--it-&gt;second == <span class="dv">0</span>) {
     process_map.erase(x);
   }
   record[cnt++] = x;
-  return x;
+  <span class="kw">return</span> x;
 }</code></pre>
 </div>
 </body>

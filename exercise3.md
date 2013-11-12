@@ -1071,7 +1071,7 @@ $1 \le N, F \le 1000, 1 \le B \le 10^6$
 很容易计算经过t时间后，每个人搬了多少箱子
 
 ## 1193 Up the Stairs   代码
-~~~
+~~~{.cpp}
 int n, num_floor, base;
 bool can_finish(int t) {
   int moved = 0;
@@ -1095,7 +1095,7 @@ bool can_finish(int t) {
 
 二分答案，设经过t时间后可以完成任务
 
-~~~
+~~~{.cpp}
 int lo = 0, hi = 2 * base * num_floor;
 while (lo != hi) {
   int mid = lo + (hi - lo) / 2;
@@ -1120,11 +1120,106 @@ $n \le 10^4$ 坐标范围 [0.0, 1000.0]
 
 ## 1004 I Conduit!    解题思路
 
-* 对线段按斜率进行排序
+* 对线段按斜率进行排序，方向相同，所在直线也相同
 * 合并线段，区间合并问题
 
-## 1004 I Conduit!    极角排序
+## 1004 I Conduit!    解法1：直线点斜式排序
 
+~~~{.cpp}
+struct Line {
+  double k, b, pstart, pend;
+  Line toline (double x1, double y1, double x2, double y2) {
+    if (dcmp(x1, x2) == 0) {
+      k = INF;
+      b = x1;
+      pstart = min(y1, y2);
+      pend = max(y1, y2);
+    } else {
+      k = (y2 - y1) / (x2 - x1);
+      b = y1 - k * x1;
+      pstart = min(x1, x2);
+      pend = max(x1, x2);
+    }
+  }
+};
+~~~
+
+~~~{.cpp}
+const double INF = 1e+15;
+const double EPS = 1e-7;
+int dcmp(double x, double y) {
+	if (x - y < -EPS) return -1;
+	if (x - y > EPS) return 1 ;
+	return 0;
+}
+bool line_cmp (const Line& x, const Line& y) {
+	if (dcmp(x.k, y.k) != 0) return dcmp(x.k, y.k) < 0;
+	if (dcmp(x.b, y.b) != 0) return dcmp(x.b, y.b) < 0;
+	return dcmp(x.pstart, y.pstart) < 0;
+}
+~~~
+
+## 1004 I Conduit!    解法2：利用叉积判断方向来排序
+
+~~~{.cpp}
+typedef complex<int64> Point;
+#define X real()
+#define Y imag()
+int64 cross(const Point& a, const Point& b) {
+  return imag(conj(a) * b);
+}
+~~~
+
+~~~{.cpp}
+struct Line {
+  Point s, t, direction;
+  void scan() {
+    scan_point(&s);
+    scan_point(&t);
+    if (s.Y > t.Y) {
+      swap(s, t);
+    }else if (s.Y == t.Y && s.X > t.X) {
+      swap(s, t);
+    }
+    direction = t - s;
+  }
+  int get_min() const {
+    if (s.X == t.X) return min(s.Y, t.Y);
+    return min(s.X, t.X);
+  }
+  int get_max() const {
+    if (s.X == t.X) return max(s.Y, t.Y);
+    return max(s.X, t.X);
+  }
+};
+bool operator<(const Line& a, const Line& b) {
+  int64 cross_value = cross(a.direction, b.direction);
+  if (cross_value != 0) return cross_value < 0;
+  if (a.get_min() != b.get_min()) return a.get_min() < b.get_min();
+  return a.get_max() < b.get_max();
+}
+~~~
+
+## 1004 I Conduit!    区间合并
+~~~
+sort(lines, lines + n);
+int last = -1;
+int cnt = 0;
+for (int i = 0; i < n; ++i) {
+  if (i > 0 && cross(lines[i].direction, lines[i - 1].direction) == 0
+      && cross(lines[i].s - lines[i - 1].s, lines[i].direction) == 0) {
+    if (lines[i].get_min() > last) {
+      ++cnt;
+      last = lines[i].get_max();
+    } else {
+      last = max(last, lines[i].get_max());
+    }
+  } else {
+    ++cnt;
+    last = lines[i].get_max();
+  }
+}
+~~~
 
 # 1017 Rate of Return
 
@@ -1155,7 +1250,7 @@ $x = 0.01635$
 
 ## 1017 Rate of Return   代码
 
-~~~
+~~~{.cpp}
 double lo = 0, hi = 1;
 for (int loop = 0; loop < 100; ++loop) {
   double mid = (lo + hi) / 2;
@@ -1181,13 +1276,13 @@ for (int loop = 0; loop < 100; ++loop) {
 
 ## 1059 Exocenter of a Triangle   向量的旋转
 
-~~~
+~~~{.cpp}
 * exp(Point(0, pi / 2))
 ~~~
 
 ## 1059 Exocenter of a Triangle   两点确定直线
 
-~~~
+~~~{.cpp}
 void PointPointToLine(Point p1, Point p2, double *a, double *b, double *c) {
   // a x + b y + c = 0
   // a (x1 - x2) + b (y1 - y2) = 0
@@ -1202,7 +1297,7 @@ void PointPointToLine(Point p1, Point p2, double *a, double *b, double *c) {
 
 ## 1059 Exocenter of a Triangle   两直线求交点
 
-~~~
+~~~{.cpp}
 Point intersect(Point p1, Point p2, Point p3, Point p4) {
   double a1, b1, c1;
   double a2, b2, c2;
@@ -1220,7 +1315,7 @@ Point intersect(Point p1, Point p2, Point p3, Point p4) {
 
 ![](1059.png)
 
-~~~
+~~~{.cpp}
 Point d = a + (b - a) * exp(Point(0, M_PI / 2));  // #include <cmath>
 Point g = a + (c - a) * exp(Point(0, -M_PI / 2));
 Point l = (d + g) / Point(2, 0);
@@ -1257,7 +1352,7 @@ n个人，第一个人开始时以一定顺序拿着标有1到13各4张的卡片
 当循环次数超过最大卡片张数（52）仍没有人抛弃卡片，则判断不能终止
 
 ## 1003 Hit or Miss    代码
-~~~
+~~~{.cpp}
 struct player {
   queue<int> cards;
   int lastcard, count;
@@ -1283,7 +1378,7 @@ struct player {
 ~~~
 
 ## 1003 Hit or Miss    代码
-~~~
+~~~{.cpp}
 void run() {
   int lastround = 0;
   for (int round = 1; round - lastround <= 52; ++round) {
@@ -1327,7 +1422,7 @@ Q + 3 + 3 = 5 => 5H
 
 枚举五张扑克的顺序，找出其中合法的
 
-~~~
+~~~{.cpp}
 bool check() {
   // 假设card[0]是要猜测的card
   if (cards[0].suit != cards[1].suit) {  // rule 4
@@ -1348,7 +1443,7 @@ bool check() {
 ~~~
 
 ## 1018 A Card Trick   解题思路
-~~~
+~~~{.cpp}
 struct Card {
   int num;
   char suit;
@@ -1362,7 +1457,7 @@ bool operator< (const Card& a, const Card& b) {
 }
 ~~~
 
-~~~
+~~~{.cpp}
 sort(cards, cards + 5);
 do {
   if (check()) break;
@@ -1393,7 +1488,7 @@ M个学生围成一圈，开始时所有学生都有偶数的糖
 
 ## 1052 Candy Sharing Game    代码
 
-~~~
+~~~{.cpp}
 for (int round = 0; !allsame(); ++round) {
   for (int i = 0; i < n; i++) {
     tmp[i] = amount[i] = amount[i] / 2;
@@ -1431,7 +1526,7 @@ for (int round = 0; !allsame(); ++round) {
 
 ## 1041 Pushing Boxes   解题思路
 
-~~~
+~~~{.cpp}
 // -----> y
 // |
 // |
@@ -1478,7 +1573,7 @@ q个询问，问从州A到州B刚好为L步的方案数
 
 ## 1211 商人的宣传    代码
 
-~~~
+~~~{.cpp}
 int Solve(int A, int B) {
   memset(num_ways, 0, sizeof(num_ways));
   num_ways[0][A][A] = 1;
@@ -1518,7 +1613,7 @@ int Solve(int A, int B) {
 切割的方法：按垂直于切割线的方向对瓷砖进行排序，则切割相当于把一个数组从某个位置分割成两半
 
 ## 1071 Floors    代码
-~~~
+~~~{.cpp}
 void Solve(int x1, int y1, int x2, int y2, int l, int r) {
   // [l, r], inclusive
   int curr = (x2 - x1) * (y2 - y1);
@@ -1529,8 +1624,7 @@ void Solve(int x1, int y1, int x2, int y2, int l, int r) {
 }
 ~~~
 
-## 1071 Floors    代码
-~~~
+~~~{.cpp}
 bool CompareX(const Rect& a, const Rect& b) {
   return a.x1 < b.x1;
 }
@@ -1575,7 +1669,7 @@ p i      设定策略
 记录每次移除的进程消耗，查询时直接输出
 
 ## 1082 MANAGER   代码
-~~~
+~~~{.cpp}
 void append(int x) {
   process_map[x]++;
 }
