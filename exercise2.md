@@ -353,7 +353,7 @@ void dfs(int pos) {
 # 1009 Mersenne Composite N    代码
 
 ~~~{.cpp}
-vector<pair<long long, int> > factor(long long x) {
+vector<pair<long long, int> > factorize(long long x) {
   vector<pair<long long, int> > factor;
   long long n = (1LL << x) - 1;
   for (int i = 3; i * i <= n; i += 2) {
@@ -367,6 +367,28 @@ vector<pair<long long, int> > factor(long long x) {
   return factor;
 }
 ~~~
+
+找BUG?
+
+# 1009 Mersenne Composite N    代码
+
+~~~{.cpp}
+vector<pair<long long, int> > factorize(long long x) {
+  vector<pair<long long, int> > factor;
+  long long n = (1LL << x) - 1;
+  for (int i = 3; i * i <= n; i += 2) {
+    long long cnt = 0;
+    while (n % i == 0) {
+      n /= i;
+      ++cnt;
+    }
+    if (cnt != 0) factor.push_back(make_pair(i, cnt));
+  }
+  if (n != 1) factor.push_back(make_pair(n, 1));
+  return factor;
+}
+~~~
+
 
 # 1050 Numbers & Letters    题目大意
 
