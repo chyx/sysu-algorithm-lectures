@@ -1109,6 +1109,7 @@ printf("%d\n", lo);
 ~~~
 
 # 1004 I Conduit!
+
 ## 1004 I Conduit!    题目大意
 
 二维坐标平面上有n条边，如果两条边有重叠部分，则可以合并成一条边
@@ -1116,6 +1117,14 @@ printf("%d\n", lo);
 问合并后的边的数量
 
 $n \le 10^4$ 坐标范围 [0.0, 1000.0]
+
+## 1004 I Conduit!    解题思路
+
+* 对线段按斜率进行排序
+* 合并线段，区间合并问题
+
+## 1004 I Conduit!    极角排序
+
 
 # 1017 Rate of Return
 
@@ -1370,11 +1379,177 @@ M个学生围成一圈，开始时所有学生都有偶数的糖
 
 如果某个学生的糖数为奇数，则老师多给他一个糖
 
-所有学生的糖数目相等时回合结束
+所有学生的糖数目相等时游戏结束
 
 求回合数和每个学生手里的糖数
 
-## 1052 Candy Sharing Game    
+## 1052 Candy Sharing Game    解题思路
+
+游戏一定会结束，因为
+1. 最大值不会变小
+2. 最小值不会变大
+3. 其他人都不会变成最小值
+4. 至少一个最小值在一个回合后会变大
+
+## 1052 Candy Sharing Game    代码
+
+~~~
+for (int round = 0; !allsame(); ++round) {
+  for (int i = 0; i < n; i++) {
+    tmp[i] = amount[i] = amount[i] / 2;
+  }
+  for (int i = 0; i < n; i++) {
+    amount[(i + 1) % n] += tmp[i];
+    amount[(i + 1) % n] += amount[(i + 1) % n] % 2;
+  }
+}
+~~~
+
+# 1041 Pushing Boxes
+
+## 1041 Pushing Boxes   题目大意
+
+一个矩形房间里面有若干箱子
+
+每次操作是把房间的其中一面墙往里移动，把箱子推到新的位置，问最后所有箱子的位置
+
+## 1041 Pushing Boxes   解题思路
+
+思路1：
+
+分上下左右四种情况分别考虑
+
+按照题目描述模拟
+
+. . .
+
+思路2：
+
+只考虑一个方向
+
+当执行其他方向的操作时，先把房间旋转至默认方向，移动完毕后，再转回原来的方向
+
+## 1041 Pushing Boxes   解题思路
+
+~~~
+// -----> y
+// |
+// |
+// v
+// x
+// 先按x分类，再按y从大到小处理
+bool Cmp(const Point& a, const Point& b) {
+  if (a.x != b.x) return a.x < b.x;
+  return a.y < b.y;
+}
+
+void MoveRight(int m) {
+  sort(box, box + n, Cmp);
+  int x = -1, y;
+  for (int i = 0; i < n; ++i) {
+    if (box[i].x != x) {
+      x = box[i].x;
+      y = m;
+    } else {
+      y++;
+    }
+    if (box[i].y < y) {
+      box[i].y = y;
+    }
+  }
+}
+~~~
+
+# 1211 商人的宣传
+
+## 1211 商人的宣传    题目大意
+
+有n个州，m条单向边，天数为L
+
+q个询问，问从州A到州B刚好为L步的方案数
+
+## 1211 商人的宣传    解题思路
+
+第0天，每个州到自己的方案数为1
+
+第n+1天，每个州A到另一个州B的方案数为：
+
+对所有州C，第n天从A到C的方案数与一天内从C到B的方案数的积，再对所有州求和（即第n天通过州C作为中转的方案数）
+
+## 1211 商人的宣传    代码
+
+~~~
+int Solve(int A, int B) {
+  memset(num_ways, 0, sizeof(num_ways));
+  num_ways[0][A][A] = 1;
+  for (int k = 1; k <= L; ++k) {
+    for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        num_ways[k][A][i] += num_ways[k - 1][A][j] * edge[j][i];
+      }
+    }
+  }
+  return num_ways[L][A][B];
+}
+~~~
+
+# 1071 Floors
+
+## 1071 Floors    题目大意
+
+一块长方形地板是由很多长方形瓷砖组成的
+
+每次可以将地板按水平方向或按竖直方向切割成两块，不能切到瓷砖，一直切，直到不能操作为止
+
+问此时最大的块的面积
+
+![](1071.png)
+
+分别可以切成9块，0块和6块
+
+## 1071 Floors    解题思路
+
+对于每一块，尝试平行于长方形的两边分别切割
+
+对于分出来的小块，递归进行重复操作
+
+. . .
+
+切割的方法：按垂直于切割线的方向对瓷砖进行排序，则切割相当于把一个数组从某个位置分割成两半
+
+## 1071 Floors    代码
+~~~
+void Solve(int x1, int y1, int x2, int y2, int l, int r) {
+  // [l, r], inclusive
+  int curr = (x2 - x1) * (y2 - y1);
+  if (curr <= ans) return;  // prune
+  ans = max(ans, curr);
+  if (cutx(x1, y1, x2, y2, l, r)) return;
+  if (cuty(x1, y1, x2, y2, l, r)) return;
+}
+~~~
+
+## 1071 Floors    代码
+~~~
+bool CompareX(const Rect& a, const Rect& b) {
+  return a.x1 < b.x1;
+}
+
+bool CutX(int x1, int y1, int x2, int y2, int l, int r) {
+  sort(rects + l, rects + r + 1, CcompareX);
+  int mid_x = x1, area = 0;
+  for (int i = l; i < r; ++i) {  // 注意不是i <= r
+    area += rects[i].area;
+    mid_x = max(mid_x, rects[i].x2);
+    if (area == (mid_x - x1) * (y2 - y1)) {
+      Solve(x1, y1, mid_x, y2, l, i);
+      Solve(mid_x, y1, x2, y2, i + 1, r);
+      return true;
+    }
+  }
+  return false;
+}
+~~~
 
 # 1082 MANAGER
 
@@ -1399,9 +1574,7 @@ p i      设定策略
 
 记录每次移除的进程消耗，查询时直接输出
 
-
 ## 1082 MANAGER   代码
-
 ~~~
 void append(int x) {
   process_map[x]++;
@@ -1421,4 +1594,5 @@ int remove() {
   return x;
 }
 ~~~
+
 
