@@ -42,7 +42,7 @@ chyx111@qq.com
   </p>
 </div>
 <div id="uva-101-the-blocks-problem-题意" class="slide section level1">
-<h1><a href="#uva-101-the-blocks-problem-题意">UVA 101 The Blocks Problem 题意</a></h1>
+<h1>UVA 101 The Blocks Problem 题意</h1>
 <div class="incremental">
 <p>有N个位置，编号为0～N-1</p>
 <p>初始时，各个位置上放置这和位置编号相同的砖块，即砖块1，砖块2，...，砖块N-1</p>
@@ -80,18 +80,18 @@ chyx111@qq.com
 </div>
 </div>
 <div id="uva-101-the-blocks-problem-解法" class="slide section level1">
-<h1><a href="#uva-101-the-blocks-problem-解法">UVA 101 The Blocks Problem 解法</a></h1>
+<h1>UVA 101 The Blocks Problem 解法</h1>
 <p>理解题意</p>
 <p>直接用栈模拟</p>
 </div>
 <div id="uva-102-ecological-bin-packing" class="slide section level1">
-<h1><a href="#uva-102-ecological-bin-packing">UVA 102 Ecological Bin Packing</a></h1>
+<h1>UVA 102 Ecological Bin Packing</h1>
 <p>有Brown，Green，Clear三种颜色的杯子</p>
 <p>现在有三个盒子，每个盒子中有三种数量不等的杯子</p>
 <p>要使每个箱子中只有一种颜色的杯子，求需要移动最小的杯子数目以及之后每个箱中杯子的组成</p>
 </div>
 <div id="uva-102-ecological-bin-packing-解法" class="slide section level1">
-<h1><a href="#uva-102-ecological-bin-packing-解法">UVA 102 Ecological Bin Packing 解法</a></h1>
+<h1>UVA 102 Ecological Bin Packing 解法</h1>
 <p>枚举三个盒子所有可能的最终状态</p>
 <pre><code>BCG
 BGC
@@ -102,13 +102,13 @@ GCB</code></pre>
 <p>统计每种状态所需要的步数</p>
 </div>
 <div id="uva-103-stacking-boxes" class="slide section level1">
-<h1><a href="#uva-103-stacking-boxes">UVA 103 Stacking Boxes</a></h1>
+<h1>UVA 103 Stacking Boxes</h1>
 <p>给出几个多维的箱子</p>
 <p>如果箱子的每一边都小于另一个箱子的对应边，就称这个箱子小于另一个箱子</p>
 <p>求箱子套箱子最多能套多少层</p>
 </div>
 <div id="uva-103-stacking-boxes-解法" class="slide section level1">
-<h1><a href="#uva-103-stacking-boxes-解法">UVA 103 Stacking Boxes 解法</a></h1>
+<h1>UVA 103 Stacking Boxes 解法</h1>
 <p>动态规划</p>
 <p>dp[i], <span class="math">\(1 \le i \le n\)</span></p>
 <p>dp[i] = 1 + max{dp[j], box j is inside box i}</p>
@@ -120,18 +120,18 @@ GCB</code></pre>
 pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; dp[kMaxN];</code></pre>
 </div>
 <div id="uva-104-arbitrage" class="slide section level1">
-<h1><a href="#uva-104-arbitrage">UVA 104 Arbitrage</a></h1>
+<h1>UVA 104 Arbitrage</h1>
 <p>n种货币</p>
 <p>给出n行数据，每行n - 1个数字，表示该种货币与其他n - 1种货币的汇率</p>
 <p>现在要在这些货币中找到一种货币，交换最少的次数，使得金额的数量增加（汇率大于1.01），并输出方案</p>
 </div>
 <div id="uva-104-arbitrage-解题思路" class="slide section level1">
-<h1><a href="#uva-104-arbitrage-解题思路">UVA 104 Arbitrage 解题思路</a></h1>
+<h1>UVA 104 Arbitrage 解题思路</h1>
 <p>转化问题，找最短路，使得距离超过1</p>
 <p>多解的情况找经过节点最多的路径</p>
 </div>
 <div id="uva-104-arbitrage-解题思路-1" class="slide section level1">
-<h1><a href="#uva-104-arbitrage-解题思路-1">UVA 104 Arbitrage 解题思路</a></h1>
+<h1>UVA 104 Arbitrage 解题思路</h1>
 <p>Floyd算法求最短路</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; n; ++k) {
   <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
@@ -142,7 +142,7 @@ pair&lt;<span class="dt">int</span>, <span class="dt">int</span>&gt; dp[kMaxN];<
 }</code></pre>
 </div>
 <div id="uva-104-arbitrage-伪代码" class="slide section level1">
-<h1><a href="#uva-104-arbitrage-伪代码">UVA 104 Arbitrage 伪代码</a></h1>
+<h1>UVA 104 Arbitrage 伪代码</h1>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">best[i][j][s] = <span class="dv">0</span>, <span class="kw">for</span> all i,j,s
 best[i][j][<span class="dv">1</span>] = input <span class="kw">for</span> the program
 best[i][i][<span class="dv">1</span>] = <span class="dv">1</span>, <span class="kw">for</span> all i
@@ -164,7 +164,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 <p><span class="math">\(O(n^4)\)</span></p>
 </div>
 <div id="uva-105-the-skyline-problem" class="slide section level1">
-<h1><a href="#uva-105-the-skyline-problem">UVA 105 The Skyline Problem</a></h1>
+<h1>UVA 105 The Skyline Problem</h1>
 <p>给定数轴上若干条线段的端点，和这些线段上放置的矩形的高度</p>
 <p>求矩形合并后的形状</p>
 <div class="figure">
@@ -173,11 +173,11 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 <p>坐标大小 &lt; 10000</p>
 </div>
 <div id="uva-105-the-skyline-problem-解法" class="slide section level1">
-<h1><a href="#uva-105-the-skyline-problem-解法">UVA 105 The Skyline Problem 解法</a></h1>
+<h1>UVA 105 The Skyline Problem 解法</h1>
 <p>暴力记录每个位置上面的最高位置</p>
 </div>
 <div id="uva-114-simulation-wizardry" class="slide section level1">
-<h1><a href="#uva-114-simulation-wizardry">UVA 114 Simulation Wizardry</a></h1>
+<h1>UVA 114 Simulation Wizardry</h1>
 <div class="incremental">
 <p>模拟弹珠台</p>
 <p>模拟题，认真读题，实现每一个细节</p>
@@ -190,7 +190,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </div>
 </div>
 <div id="uva-115-climbing-trees" class="slide section level1">
-<h1><a href="#uva-115-climbing-trees">UVA 115 Climbing Trees</a></h1>
+<h1>UVA 115 Climbing Trees</h1>
 <div class="incremental">
 <p>家谱树 确定两个人是否在一个家谱中存在亲属关系</p>
 <p>给定一系列的“子-父”姓名对作为家谱，每对姓名中前者为子，后者为父</p>
@@ -209,7 +209,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </div>
 </div>
 <div id="uva-115-climbing-trees-解法" class="slide section level1">
-<h1><a href="#uva-115-climbing-trees-解法">UVA 115 Climbing Trees 解法</a></h1>
+<h1>UVA 115 Climbing Trees 解法</h1>
 <p>查询树中两个节点的最小公共祖先 LCA</p>
 <p>做法：</p>
 <ul class="incremental">
@@ -220,7 +220,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </ul>
 </div>
 <div id="uva-117-the-postal-worker-rings-once" class="slide section level1">
-<h1><a href="#uva-117-the-postal-worker-rings-once">UVA 117 The Postal Worker Rings Once</a></h1>
+<h1>UVA 117 The Postal Worker Rings Once</h1>
 <div class="incremental">
 <p>中国邮递员问题</p>
 <p>邮递员从邮局出发送信，要求对辖区内每条街，都至少通过一次，再回邮局</p>
@@ -233,7 +233,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </div>
 </div>
 <div id="uva-121-pipe-fitters" class="slide section level1">
-<h1><a href="#uva-121-pipe-fitters">UVA 121 Pipe Fitters</a></h1>
+<h1>UVA 121 Pipe Fitters</h1>
 <div class="incremental">
 <div class="figure">
 <img src="uva121.gif" />
@@ -249,7 +249,7 @@ path[i][j][<span class="dv">1</span>] = i, <span class="kw">for</span> all i, j
 </div>
 </div>
 <div id="uva-125-numbering-paths" class="slide section level1">
-<h1><a href="#uva-125-numbering-paths">UVA 125 Numbering Paths</a></h1>
+<h1>UVA 125 Numbering Paths</h1>
 <div class="incremental">
 <p>在一个所有街道都是单行线的城市中，询问两个点之间可行路径的数量</p>
 </div>

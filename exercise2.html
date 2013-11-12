@@ -379,7 +379,7 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
 </div>
 <div id="mersenne-composite-n-代码" class="slide section level1">
 <h1>1009 Mersenne Composite N 代码</h1>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factor(<span class="dt">long</span> <span class="dt">long</span> x) {
+<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factorize(<span class="dt">long</span> <span class="dt">long</span> x) {
   vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factor;
   <span class="dt">long</span> <span class="dt">long</span> n = (1LL &lt;&lt; x) - <span class="dv">1</span>;
   <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i * i &lt;= n; i += <span class="dv">2</span>) {
@@ -390,6 +390,24 @@ pair&lt;<span class="dt">int</span>, string&gt; best_perm;
     }
     <span class="kw">if</span> (cnt != <span class="dv">0</span>) factor.push_back(make_pair(i, cnt));
   }
+  <span class="kw">return</span> factor;
+}</code></pre>
+<p>找BUG?</p>
+</div>
+<div id="mersenne-composite-n-代码-1" class="slide section level1">
+<h1>1009 Mersenne Composite N 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factorize(<span class="dt">long</span> <span class="dt">long</span> x) {
+  vector&lt;pair&lt;<span class="dt">long</span> <span class="dt">long</span>, <span class="dt">int</span>&gt; &gt; factor;
+  <span class="dt">long</span> <span class="dt">long</span> n = (1LL &lt;&lt; x) - <span class="dv">1</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i * i &lt;= n; i += <span class="dv">2</span>) {
+    <span class="dt">long</span> <span class="dt">long</span> cnt = <span class="dv">0</span>;
+    <span class="kw">while</span> (n % i == <span class="dv">0</span>) {
+      n /= i;
+      ++cnt;
+    }
+    <span class="kw">if</span> (cnt != <span class="dv">0</span>) factor.push_back(make_pair(i, cnt));
+  }
+  <span class="kw">if</span> (n != <span class="dv">1</span>) factor.push_back(make_pair(n, <span class="dv">1</span>));
   <span class="kw">return</span> factor;
 }</code></pre>
 </div>
