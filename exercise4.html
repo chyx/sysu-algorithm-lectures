@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第四章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第四章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="sum-of-consecutive-primes" class="titleslide slide section level1"><h1>1259 Sum of Consecutive Primes</h1></div><div id="sum-of-consecutive-primes-题目大意" class="slide section level2">
+<h1>1259 Sum of Consecutive Primes 题目大意</h1>
+<p>给出一个正整数N，求出它有多少种方法可以表示成连续的素数的和</p>
+<p>例如：</p>
+<p>53 = 5 + 7 + 11 + 13 + 17</p>
+<p>53 = 53</p>
+<p>两种方法</p>
+<p><span class="math">\(2 &lt;= N &lt;= 10000\)</span></p>
+</div><div id="sum-of-consecutive-primes-解题思路" class="slide section level2">
+<h1>1259 Sum of Consecutive Primes 解题思路</h1>
+<p>先求出10000以内的所有素数</p>
+<p>对每个输入，枚举连续的素数的起点，寻找是否有一段连续的素数与它相等，如果有则累加答案</p>
+</div><div id="sum-of-consecutive-primes-素数筛法" class="slide section level2">
+<h1>1259 Sum of Consecutive Primes 素数筛法</h1>
+<div class="incremental">
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> kMaxN = <span class="dv">11000</span>;
+<span class="dt">bool</span> is_prime[kMaxN];</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">memset(is_prime, <span class="dv">1</span>, <span class="kw">sizeof</span> (is_prime));
+is_prime[<span class="dv">0</span>] = is_prime[<span class="dv">1</span>] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">4</span>; i &lt; kMaxN; i += <span class="dv">2</span>) is_prime[i] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i &lt; kMaxN; ++i) <span class="kw">if</span> (is_prime[i]) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = i + i; j &lt; kMaxN; j += i) {
+    is_prime[j] = <span class="kw">false</span>;
+  }
+}</code></pre>
+</div>
+<div class="incremental">
+<p>复杂度分析</p>
+<p>估算：</p>
+<p><span class="math">\(\frac^n_2 + \frac^n_3 + \frac^n_4 + \cdots + frac^n_n = n \log n\)</span></p>
+<p><a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">实际</a></p>
+<p><span class="math">\(O(n \log \log n)\)</span></p>
+</div>
+</div><div id="sum-of-consecutive-primes-素数筛法-优化" class="slide section level2">
+<h1>1259 Sum of Consecutive Primes 素数筛法 优化</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">memset(is_prime, <span class="dv">1</span>, <span class="kw">sizeof</span> (is_prime));
+is_prime[<span class="dv">0</span>] = is_prime[<span class="dv">1</span>] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">4</span>; i &lt; kMaxN; i += <span class="dv">2</span>) is_prime[i] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i * i &lt; kMaxN; ++i) <span class="kw">if</span> (is_prime[i]) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = i * i; j &lt; kMaxN; j += i) {
+    is_prime[j] = <span class="kw">false</span>;
+  }
+}</code></pre>
+</div><div id="sum-of-consecutive-primes-枚举起点和连续序列" class="slide section level2">
+<h1>1259 Sum of Consecutive Primes 枚举起点和连续序列</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> ans = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt;= n; ++i) <span class="kw">if</span> (is_prime[i]) {
+  <span class="dt">int</span> sum = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> j = i; sum &lt;= n; ++j) <span class="kw">if</span> (is_prime[j]){
+    sum += j;
+    <span class="kw">if</span> (sum == n) {
+      ++ans;
+      <span class="kw">break</span>;
+    }
+  }
+}</code></pre>
+</div>
+<div id="faulty-odometer" class="titleslide slide section level1"><h1>1240 Faulty Odometer</h1></div><div id="faulty-odometer-题目大意" class="slide section level2">
+<h1>1240 Faulty Odometer 题目大意</h1>
+<p>有个损坏的里程表，不能显示数字4，会从数字3直接跳到数字5</p>
+<p>给出里程表的读数，求出实际里程</p>
+</div><div id="faulty-odometer-解题思路" class="slide section level2">
+<h1>1240 Faulty Odometer 解题思路</h1>
+<p>里程表能显示的数字为012356789，总共9个，等价于九进制</p>
+<p>以九进制的方式计算实际里程</p>
+</div><div id="faulty-odometer-进制转化" class="slide section level2">
+<h1>1240 Faulty Odometer 进制转化</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> ex = <span class="dv">1</span>;
+<span class="dt">int</span> ans = <span class="dv">0</span>;
+<span class="kw">for</span> (; n != <span class="dv">0</span>; n /= <span class="dv">10</span>) {
+  <span class="dt">int</span> digit = n % <span class="dv">10</span>;
+  <span class="kw">if</span> (digit &gt; <span class="dv">4</span>) --digit;
+  ans += ex * digit;
+  ex *= <span class="dv">9</span>;
+}</code></pre>
+</div>
+<div id="the-embarrassed-cryptography" class="titleslide slide section level1"><h1>The Embarrassed Cryptography</h1></div><div id="the-embarrassed-cryptography-题目大意" class="slide section level2">
+<h1>The Embarrassed Cryptography 题目大意</h1>
+<p>给出两个正整数K和L，问K是否存在小于L的质因数，有的话则找出最小的质因数</p>
+<p><span class="math">\(4 \le K \le 10^{100}\)</span>, <span class="math">\(2 \le L \le 10^6\)</span></p>
+</div><div id="the-embarrassed-cryptography-解题思路" class="slide section level2">
+<h1>The Embarrassed Cryptography 解题思路</h1>
+<p>先预处理不超过<span class="math">\(10^6\)</span>的所有素数</p>
+<p>对每个不超过L的素数，检查是否能整除K。</p>
+<p>高精度除法</p>
+</div><div id="the-embarrassed-cryptography-素数筛法用bitset优化" class="slide section level2">
+<h1>The Embarrassed Cryptography 素数筛法，用bitset优化</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">const</span> <span class="dt">int</span> kMaxN = <span class="dv">1100000</span>;
+bitset&lt;kMaxN&gt; is_prime;
+vector&lt;<span class="dt">int</span>&gt; primes;</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">is_prime.set();
+is_prime[<span class="dv">0</span>] = is_prime[<span class="dv">1</span>] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">4</span>; i &lt; kMaxN; i += <span class="dv">2</span>) is_prime[i] = <span class="kw">false</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">3</span>; i * i &lt; kMaxN; ++i) <span class="kw">if</span> (is_prime[i]) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = i * i; j &lt; kMaxN; j += i) {
+    is_prime[j] = <span class="kw">false</span>;
+  }
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt; kMaxN; ++i) <span class="kw">if</span> (is_prime[i]) {
+  primes.push_back(i);
+}</code></pre>
+</div><div id="the-embarrassed-cryptography-大整数除普通整数压缩" class="slide section level2">
+<h1>The Embarrassed Cryptography 大整数除普通整数，压缩</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> n = strlen(input);
+n_num = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = n - <span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i -= <span class="dv">9</span>) {
+  ++n_num;
+  num[n_num - <span class="dv">1</span>] = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">8</span>; j &gt;= <span class="dv">0</span>; --j) <span class="kw">if</span> (i - j &gt;= <span class="dv">0</span>) {
+    num[n_num - <span class="dv">1</span>] = num[n_num - <span class="dv">1</span>] * <span class="dv">10</span> + input[i - j] - &#39;<span class="dv">0</span>&#39;;
+  }
+}
+<span class="co">// input: 从高到低</span>
+<span class="co">// num: 从低到高!</span></code></pre>
+</div>
+</body>
+</html>

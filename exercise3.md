@@ -1195,6 +1195,8 @@ struct Line {
 bool operator<(const Line& a, const Line& b) {
   int64 cross_value = cross(a.direction, b.direction);
   if (cross_value != 0) return cross_value < 0;
+  int64 cross_value2 = cross(a.s - b.s, a.t - b.s);
+  if (cross_value2 != 0) return cross_value2 < 0;
   if (a.get_min() != b.get_min()) return a.get_min() < b.get_min();
   return a.get_max() < b.get_max();
 }

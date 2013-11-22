@@ -1310,6 +1310,8 @@ int64 cross(<span class="dt">const</span> Point&amp; a, <span class="dt">const</
 <span class="dt">bool</span> <span class="kw">operator</span>&lt;(<span class="dt">const</span> Line&amp; a, <span class="dt">const</span> Line&amp; b) {
   int64 cross_value = cross(a.direction, b.direction);
   <span class="kw">if</span> (cross_value != <span class="dv">0</span>) <span class="kw">return</span> cross_value &lt; <span class="dv">0</span>;
+  int64 cross_value2 = cross(a.s - b.s, a.t - b.s);
+  <span class="kw">if</span> (cross_value2 != <span class="dv">0</span>) <span class="kw">return</span> cross_value2 &lt; <span class="dv">0</span>;
   <span class="kw">if</span> (a.get_min() != b.get_min()) <span class="kw">return</span> a.get_min() &lt; b.get_min();
   <span class="kw">return</span> a.get_max() &lt; b.get_max();
 }</code></pre>
