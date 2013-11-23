@@ -9,8 +9,28 @@
   <meta name="author" content="chyx111@qq.com" />
   <title>周练2（10月19日，4小时）</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
   <link rel="stylesheet" type="text/css" media="screen, projection, print"
     href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
   <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
     charset="utf-8" type="text/javascript"></script>
 </head>
@@ -21,6 +41,187 @@
 chyx111@qq.com
   </p>
 </div>
-<div id="uva-106-fermat-vs.-pythagoras-题意" class="titleslide slide section level1"><h1>UVA 106 Fermat vs. Pythagoras 题意</h1></div>
+<div id="uva-106-fermat-vs.-pythagoras" class="titleslide slide section level1"><h1>UVA 106 Fermat vs. Pythagoras</h1></div><div id="uva-106-fermat-vs.-pythagoras-题意" class="slide section level2">
+<h1>UVA 106 Fermat vs. Pythagoras 题意</h1>
+<p><span class="math">\(x, y, z \in N\)</span>，给定一个数n，找出所有的<span class="math">\(x, y, z \le n\)</span>，使得<span class="math">\(x^2 + y^2 = z^2\)</span></p>
+<p><span class="math">\(n \le 1000000\)</span></p>
+</div><div id="uva-106-fermat-vs.-pythagoras-解法1-枚举勾股数" class="slide section level2">
+<h1>UVA 106 Fermat vs. Pythagoras 解法1 枚举勾股数</h1>
+<div class="incremental">
+<p>直接枚举x, y, 复杂度为<span class="math">\(O(n^2)\)</span></p>
+</div>
+<div class="incremental">
+<p>勾股数的另一种表示：</p>
+<p><span class="math">\(x = m^2 - n^2, y = 2mn, z = m^2 + n^2\)</span>，m，n是任意正整数</p>
+</div>
+</div><div id="uva-106-fermat-vs.-pythagoras-解法2-生成勾股数" class="slide section level2">
+<h1>UVA 106 Fermat vs. Pythagoras 解法2 生成勾股数</h1>
+<div class="incremental">
+<div class="figure">
+<img src="Pythagorean.tree.svg" alt="Tree of primitive Pythagorean triples" /><p class="caption">Tree of primitive Pythagorean triples</p>
+</div>
+<p><a href="http://en.wikipedia.org/wiki/Tree_of_primitive_Pythagorean_triples">http://en.wikipedia.org/wiki/Tree_of_primitive_Pythagorean_triples</a></p>
+</div>
+<div class="incremental">
+<p>扩展题目</p>
+<p><a href="http://projecteuler.net/problem=223">ProjectEuler 223 <span class="math">\(a^2 + b^2=c^2 + 1\)</span></a></p>
+<p><a href="http://projecteuler.net/problem=224">ProjectEuler 224 <span class="math">\(a^2 + b^2=c^2 - 1\)</span></a></p>
+</div>
+</div>
+<div id="uva-107-the-cat-in-the-hat" class="titleslide slide section level1"><h1>UVA 107 The Cat in the Hat</h1></div><div id="uva-107-the-cat-in-the-hat-题意" class="slide section level2">
+<h1>UVA 107 The Cat in the Hat 题意</h1>
+<p>数学题，理解题意</p>
+<p>小猫的帽子里面有N只小小猫，小小猫的高度是小猫的<span class="math">\(\frac{1}{N + 1}\)</span></p>
+<p>小小猫的帽子里面也有N只小小小猫，依次类推</p>
+<p>最后一批小猫的高度是1，数量是n</p>
+<p>假设有K代</p>
+<p><span class="math">\((N+1)^K = h\)</span></p>
+<p><span class="math">\(N^K = n\)</span></p>
+</div><div id="uva-107-the-cat-in-the-hat-解法" class="slide section level2">
+<h1>UVA 107 The Cat in the Hat 解法</h1>
+<div class="incremental">
+<p>从1开始枚举K</p>
+<p>或者</p>
+</div>
+<div class="incremental">
+<p><span class="math">\((N+1)^K = h\)</span></p>
+<p><span class="math">\(N^K = n\)</span></p>
+<p><span class="math">\(lg(N + 1) / lg(N) = h / n\)</span></p>
+<p>二分求解N</p>
+</div>
+</div>
+<div id="uva-108---maximum-sum" class="titleslide slide section level1"><h1>UVA 108 - Maximum Sum</h1></div><div id="uva-108---maximum-sum-题意" class="slide section level2">
+<h1>UVA 108 - Maximum Sum 题意</h1>
+<p>给一个<span class="math">\(N \times N\)</span>矩阵，求最大子矩阵和</p>
+<div class="figure">
+<img src="http://uva.onlinejudge.org/external/1/108img2.gif" />
+</div>
+<div class="figure">
+<img src="http://uva.onlinejudge.org/external/1/108img3.gif" />
+</div>
+<p><span class="math">\(N \le 100\)</span></p>
+</div><div id="uva-108---maximum-sum-解法1" class="slide section level2">
+<h1>UVA 108 - Maximum Sum 解法1</h1>
+<p><span class="math">\(O(N^6) \rightarrow O(N^4)\)</span>暴力</p>
+</div><div id="uva-108---maximum-sum-解法2-最大子段和" class="slide section level2">
+<h1>UVA 108 - Maximum Sum 解法2 最大子段和</h1>
+<div class="incremental">
+<p>给定有n个整数(可能为负整数)组成的序列<span class="math">\(a_1,a_2,\cdots,a_n\)</span></p>
+<p>求该序列连续的子段和的最大值</p>
+<p>如果该序列的所有元素都是负整数时定义其最大子段和为0</p>
+<p>例如，当<span class="math">\((a_1, a_2, a_3, a_4, a_5)=(-5,11,-4,13,-4-2)\)</span>时， 最大子段和为11+(-4)+13=20</p>
+</div>
+<div class="incremental">
+<p>动态规划</p>
+<p>已知前n个数的最大子段和，那么前n+1个数的最大子段和有两种情况</p>
+<ul class="incremental">
+<li>子段和包含前面的数字</li>
+<li>只包含第n+1个数</li>
+</ul>
+<p>如果包含前面数字，则答案为第n个位置的最优子段和加上第n+1个数字</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> max_sum = <span class="dv">0</span>;
+<span class="dt">int</span> prev_sum = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  prev_sum = prev_sum + arr[i];
+  <span class="kw">if</span> (prev_sum &lt; <span class="dv">0</span>) prev_sum = <span class="dv">0</span>;
+  max_sum = max(max_sum, prev_sum);
+}</code></pre>
+<p>复杂度<span class="math">\(O(n)\)</span></p>
+</div>
+</div><div id="uva-108---maximum-sum-解法2" class="slide section level2">
+<h1>UVA 108 - Maximum Sum 解法2</h1>
+<p>枚举子矩阵的上下底，再做最大子段和</p>
+<p>复杂度<span class="math">\(O(n^3)\)</span></p>
+</div>
+<div id="uva-109-scud-busters" class="titleslide slide section level1"><h1>UVA 109 SCUD Busters</h1></div><div id="uva-109-scud-busters-题目大意" class="slide section level2">
+<h1>UVA 109 SCUD Busters 题目大意</h1>
+<p>世界由几个互不重叠领土但彼此敌对的国家组成，每个国家有一个发电站，负责给本国发电</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>给出每个国家的建筑数（包括发电站和房子数)，每个国家用最少的围墙将本国保护起来（凸包）</li>
+<li>现在有不定数量的飞毛腿导弹开始袭击这些国家，给出导弹落地点，落在某国区域内，某国直接玩完，以该国面积为大小的区域不能发电</li>
+<li>求出最后所有不能发电区域的总面积</li>
+</ol>
+<p><a href="http://blog.csdn.net/j_dark/article/details/8893234">http://blog.csdn.net/j_dark/article/details/8893234</a></p>
+</div><div id="uva-109-scud-busters-解法" class="slide section level2">
+<h1>UVA 109 SCUD Busters 解法</h1>
+<p>求出每个国家的凸包并计算面积——导弹挨个判定在不在凸包内——若在，则累加当前凸包面积</p>
+<p>若某国家之前被导弹袭击过，之后再被袭击的话，面积只能算一次</p>
+</div>
+<div id="uva-110-meta-loopless-sorts" class="titleslide slide section level1"><h1>UVA 110 Meta-Loopless Sorts</h1></div><div id="uva-110-meta-loopless-sorts-题目大意" class="slide section level2">
+<h1>UVA 110 Meta-Loopless Sorts 题目大意</h1>
+<div class="incremental">
+<p>生成一段pascal的排序程序，不允许有循环，递归调用</p>
+</div>
+<div class="incremental">
+<p>生成一段可以枚举所有排列的程序</p>
+<pre><code>begin sort(a, b, c)
+  if a &lt; b and b &lt; c return a, b, c
+  if a &lt; c and c &lt; b return a, c, b
+  if b &lt; a and a &lt; c return b, a, c
+  if b &lt; c and c &lt; a return b, c, a
+  if c &lt; a and a &lt; b return c, a, b
+  if c &lt; b and b &lt; a return c, b, a
+end</code></pre>
+</div>
+</div>
+<div id="uva-127-accordian-patience" class="titleslide slide section level1"><h1>UVA 127 &quot;Accordian&quot; Patience</h1></div><div id="uva-127-accordian-patience-题目大意" class="slide section level2">
+<h1>UVA 127 &quot;Accordian&quot; Patience 题目大意</h1>
+<p><a href="http://my.oschina.net/zenglingfan/blog/148410">http://my.oschina.net/zenglingfan/blog/148410</a></p>
+<p>移牌游戏,按以下规则:</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>从左向右, 考虑每张牌, 若某张牌与其左边第1张或左边第3张是同一个牌号或花色, 则就把这张牌移到左边的匹配牌上方, 并继续向左边移动, 直至左边第1张或第3张都不是符合的牌为止</li>
+<li>如果同时有两张以上的牌可以移动, 则总是移动最左边的牌</li>
+<li>如果既可以移到左边第1张也可以移到左边第3张, 则总是移到左边第3张上面</li>
+<li>如果某一列被移为空, 则把右边的牌合并过来</li>
+<li>每次只取一列中最顶上的牌进行比较</li>
+</ol>
+<p>当所有牌都不能移动时, 从左到右输出每一列包含的张数</p>
+</div><div id="uva-127-accordian-patience-解法" class="slide section level2">
+<h1>UVA 127 &quot;Accordian&quot; Patience 解法</h1>
+<ol class="incremental" style="list-style-type: decimal">
+<li>使用 list 存放每一列, 再使用 vector 存放所有的列</li>
+<li>每次比较时, 在 vector 里从左到右依次取出一列, 比较其最顶的牌与其左边第1张、第3张牌是否为同一分组,若是同一分组, 则按&quot;题意&quot;规则 1, 3 进行移动</li>
+<li>注意, 当一张牌移动完毕后, 应该从它移动到的牌的下一张开始重新循环, 而不是移动时的牌的下一张, 否则无法满足&quot;题意&quot;中的规则 2</li>
+</ol>
+</div>
+<div id="uva-130-roman-roulette" class="titleslide slide section level1"><h1>UVA 130 Roman Roulette</h1></div><div id="uva-130-roman-roulette-题目大意" class="slide section level2">
+<h1>UVA 130 Roman Roulette 题目大意</h1>
+<p>约瑟夫环</p>
+<p>有n个囚犯站成一个圆圈，准备处决</p>
+<p>首先从一个人开始，越过k-2个人（因为第一个人已经被越过），并杀掉第k个人</p>
+<p>接着，再越过k-1个人，并杀掉第k个人</p>
+<p>这个过程沿着圆圈一直进行，直到最终只剩下一个人留下，这个人就可以继续活着</p>
+<p>问题是，给定了n和k，一开始要站在什么地方才能避免被处决</p>
+</div><div id="uva-130-roman-roulette-解法" class="slide section level2">
+<h1>UVA 130 Roman Roulette 解法</h1>
+<p>分析通项公式</p>
+<p>本题过程过于复杂，数据量小(小于100人)，可以直接模拟</p>
+<p>用vector代表这个环即可</p>
+</div>
+<div id="uva-111-history-grading" class="titleslide slide section level1"><h1>UVA 111 History Grading</h1></div><div id="uva-111-history-grading-题目大意" class="slide section level2">
+<h1>UVA 111 History Grading 题目大意</h1>
+<p>有n个事件，每个事件发生的年份都不同</p>
+<p>输入n个事件发生的年份，输入学生作答时对于这n个事件的所排的年份</p>
+<p>问最长学生排对了几个，不用连续</p>
+</div><div id="uva-111-history-grading-解题思路" class="slide section level2">
+<h1>UVA 111 History Grading 解题思路</h1>
+<p>最长公共子序列</p>
+<p>动态规划</p>
+<p><span class="math">\[
+LCS\left(X_{i},Y_{j}\right) = \begin{cases}   \emptyset &amp; \mbox{ if }\ i = 0 \mbox{ or }  j = 0 \\   \textrm{  } LCS\left(X_{i-1},Y_{j-1}\right) +  1 &amp; \mbox{ if } x_i = y_j \\   \mbox{longest}\left(LCS\left(X_{i},Y_{j-1}\right),LCS\left(X_{i-1},Y_{j}\right)\right) &amp; \mbox{ if } x_i \ne y_j \\ \end{cases} 
+\]</span></p>
+<p><span class="math">\(O(n^2)\)</span></p>
+</div>
+<div id="uva-112-tree-summing" class="titleslide slide section level1"><h1>UVA 112 Tree Summing</h1></div><div id="uva-112-tree-summing-题目大意" class="slide section level2">
+<h1>UVA 112 Tree Summing 题目大意</h1>
+<p>确定一个由LISP的S表达式表示的树是否具有一个确定的性质</p>
+<div class="figure">
+<img src="uva112.png" />
+</div>
+<p>(5 (4 (11 (7 () ()) (2 () ()) ) ()) (8 (13 () ()) (4 () (1 () ()) ) ) )</p>
+</div><div id="uva-112-tree-summing-解法" class="slide section level2">
+<h1>UVA 112 Tree Summing 解法</h1>
+<p>用DFS或栈把树构造出来即可</p>
+</div>
 </body>
 </html>
