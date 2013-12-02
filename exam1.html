@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>上机练习解答</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">上机练习解答</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="题型" class="slide section level1">
+<h1>题型</h1>
+<ol class="incremental" start="1000" style="list-style-type: decimal">
+<li>A．Beautiful Sort 排序</li>
+<li>B．Merry Christmas 栈、队列</li>
+<li>C．Get High 排序，边界情况的处理</li>
+<li>D．A*B Problem 大整数乘法</li>
+<li>E．GCD and LCM 数论</li>
+<li>F．Snowy Roads 最小生成树</li>
+<li>G．Cannon <span class="math">\(5 \times 5\)</span>的棋盘，问组多能放多少个炮，使其互不受攻击。深搜</li>
+<li>H．Play Game 组合博弈，DP，四维</li>
+<li>I．Minimize the Maximum 最小化最大值，二分+贪心判断</li>
+<li>J．Simple Calculator 表达式计算，没有优先级，直接从左往右计算就行</li>
+</ol>
+</div>
+<div id="egcd-and-lcm-数论" class="slide section level1">
+<h1>1004 E．GCD and LCM 数论</h1>
+<p>给出G，L，问有多少对<span class="math">\((x,y,z)\)</span>满足<span class="math">\(lcm(x,y,z) = L\)</span>，<span class="math">\(gcd(x, y, z) = G\)</span></p>
+<p>将数字用<span class="math">\(\prod p_i ^{a_i}\)</span>的形式表示出来</p>
+</div>
+<div id="fsnowy-roads-最小生成树" class="slide section level1">
+<h1>1005 F．Snowy Roads 最小生成树</h1>
+<div class="incremental">
+<p><a href="http://www.csie.ntnu.edu.tw/~u91029/SpanningTree.html">Kruskal's Algorithm</a></p>
+<p>一、两棵MST，要合并成一棵MST时，以两棵MST之间权重最小的边进行连结，当然会是最好的</p>
+<p>二、三棵MST，要合并成一棵MST时，先连结其中两棵连结权重最小的MST，然后才连结第三棵，总是比较好</p>
+<p>三、一个单独的点，可以视作一棵MST</p>
+<p>由以上三点，可以归纳出一个贪心算法：以权重最小的边连结各棵MST，一定比较好</p>
+</div>
+<div class="incremental">
+<p>一、一开始图上每一个点，各自是一棵最小生成子树MST。</p>
+<p>二、图上所有边，依照权重大小，由小到大排序。</p>
+<p>三、依序尝试图上所有边，作为最小生成树（森林）上的边：</p>
+<ol class="incremental" style="list-style-type: decimal">
+<li>两端点分别位于两棵MST，也就是产生了桥：用这条边连接两棵MST，合并成一棵MST。这条边会是最小生成树（森林）上的边</li>
+<li>两端点皆位于同一棵MST，也就是产生了环：舍弃这条边。</li>
+</ol>
+<div class="figure">
+<img src="kruskal.png" />
+</div>
+</div>
+</div>
+<div id="fsnowy-roads-并查集" class="slide section level1">
+<h1>1005 F．Snowy Roads 并查集</h1>
+<div class="incremental">
+<p><a href="http://en.wikipedia.org/wiki/Disjoint-set_data_structure">并查集</a></p>
+<pre><code> function MakeSet(x)
+     x.parent := x
+
+ function Find(x)
+     if x.parent == x
+        return x
+     else
+        return Find(x.parent)
+
+ function Union(x, y)
+     xRoot := Find(x)
+     yRoot := Find(y)
+     xRoot.parent := yRoot</code></pre>
+</div>
+<div class="incremental">
+<pre><code>function Union(x, y)
+   if rand() % 2 == 0
+      Swap(x, y)
+   xRoot := Find(x)
+   yRoot := Find(y)
+   xRoot.parent := yRoot</code></pre>
+<pre><code> function Union(x, y)
+     xRoot := Find(x)
+     yRoot := Find(y)
+     if xRoot == yRoot
+         return
+
+     // x and y are not already in same set. Merge them.
+     if xRoot.rank &lt; yRoot.rank
+         xRoot.parent := yRoot
+     else if xRoot.rank &gt; yRoot.rank
+         yRoot.parent := xRoot
+     else
+         yRoot.parent := xRoot
+         xRoot.rank := xRoot.rank + 1</code></pre>
+</div>
+</div>
+</body>
+</html>
