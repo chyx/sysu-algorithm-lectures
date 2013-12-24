@@ -29,7 +29,7 @@ for (int j = 1; j <= 2000; ++j) {
 }
 
 for (int i = 2; i <= 10; ++i) {
-  for (int j = 1;j <= 2000; ++j) {
+  for (int j = 1; j <= 2000; ++j) {
     dp[i][j] = 0;
     for (int k = 1; k * 2 <= j; ++k) {
       dp[i][j] += dp[i -1 ][k];
