@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第六章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第六章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="lennys-lucky-lotto" class="titleslide slide section level1"><h1>1011 Lenny's Lucky Lotto</h1></div><div id="lennys-lucky-lotto-题目大意" class="slide section level2">
+<h1>1011 Lenny's Lucky Lotto 题目大意</h1>
+<p>给出N和M，问有多少个长度为N的序列，使得每个数的范围都在[1,M]之间， 并且序列中每一个数至少是前一个数的两倍</p>
+</div><div id="lennys-lucky-lotto-解题思路" class="slide section level2">
+<h1>1011 Lenny's Lucky Lotto 解题思路</h1>
+<p>动态规划</p>
+<p><span class="math">\(dp[i][j]\)</span>表示考虑前i位且第i位为j的方案</p>
+<p><span class="math">\[
+dp[i][j] = \sum_{1 \le k \le \frac{j}{2}} dp[i-1][k]
+\]</span></p>
+<p>先枚举位数i，再枚举最后一个数j，最后统计k</p>
+<p>时间复杂度<span class="math">\(O(N \times M \times M)\)</span></p>
+</div><div id="lennys-lucky-lotto-代码" class="slide section level2">
+<h1>1011 Lenny's Lucky Lotto 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>; j &lt;= <span class="dv">2000</span>; ++j) {
+  dp[<span class="dv">1</span>][j] = <span class="dv">1</span>;
+}
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt;= <span class="dv">10</span>; ++i) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>;j &lt;= <span class="dv">2000</span>; ++j) {
+    dp[i][j] = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">1</span>; k * <span class="dv">2</span> &lt;= j; ++k) {
+      dp[i][j] += dp[i -<span class="dv">1</span> ][k];
+    }
+  }
+}</code></pre>
+</div>
+<div id="tri-tiling" class="titleslide slide section level1"><h1>1121 Tri Tiling</h1></div><div id="tri-tiling-题目大意" class="slide section level2">
+<h1>1121 Tri Tiling 题目大意</h1>
+<p>用<span class="math">\(1 \times 2\)</span>的长方形铺满<span class="math">\(3 \times n\)</span>的长方形，有多少种方法</p>
+</div><div id="tri-tiling-解题思路" class="slide section level2">
+<h1>1121 Tri Tiling 解题思路</h1>
+<div class="figure">
+<img src="1121.png" />
+</div>
+<p>状态转移：</p>
+<div class="figure">
+<img src="1121_2.png" />
+</div>
+<div class="figure">
+<img src="1121_3.png" />
+</div>
+</div><div id="tri-tiling-代码" class="slide section level2">
+<h1>1121 Tri Tiling 代码</h1>
+<p>初始第0列是状态0，终止第n+1列是状态5</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">dp[<span class="dv">0</span>][<span class="dv">0</span>]=<span class="dv">1</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n + <span class="dv">1</span>; ++i) {
+  dp[i][<span class="dv">5</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">3</span>] += dp[i - <span class="dv">1</span>][<span class="dv">1</span>];
+  dp[i][<span class="dv">4</span>] += dp[i - <span class="dv">1</span>][<span class="dv">2</span>];
+  dp[i][<span class="dv">5</span>] += dp[i - <span class="dv">1</span>][<span class="dv">2</span>];
+  dp[i][<span class="dv">1</span>] += dp[i - <span class="dv">1</span>][<span class="dv">3</span>];
+  dp[i][<span class="dv">5</span>] += dp[i - <span class="dv">1</span>][<span class="dv">3</span>];
+  dp[i][<span class="dv">2</span>] += dp[i - <span class="dv">1</span>][<span class="dv">4</span>];
+  dp[i][<span class="dv">3</span>] += dp[i - <span class="dv">1</span>][<span class="dv">5</span>];
+  dp[i][<span class="dv">2</span>] += dp[i - <span class="dv">1</span>][<span class="dv">5</span>];
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">5</span>];
+}</code></pre>
+</div>
+<div id="atomic-car-race" class="titleslide slide section level1"><h1>1264 Atomic Car Race</h1></div><div id="atomic-car-race-题目大意" class="slide section level2">
+<h1>1264 Atomic Car Race 题目大意</h1>
+<p>在一次赛车比赛中，在检查点换轮胎需要花费一定时间<span class="math">\(b\)</span>，而速度与离上一次换轮胎的路程相关， 行走越远，速度越低</p>
+<p>问从起点到终点的最少时间</p>
+</div><div id="atomic-car-race-解题思路" class="slide section level2">
+<h1>1264 Atomic Car Race 解题思路</h1>
+<p>先求出两次换轮胎的地点之前行驶所需要的时间</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i){
+  <span class="dt">int</span> position = stop[i];
+  cost[i][i] = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> k = i; k &lt;= n; ++k) {
+    <span class="kw">if</span> (k &gt; i) cost[i][k] = cost[i][k - <span class="dv">1</span>];
+    <span class="kw">for</span> (; position &lt; stop[k]; ++position) {
+      <span class="kw">if</span> (position - stop[i] &gt;= r) {
+        cost[i][k] += <span class="dv">1</span> / (v - e * (position - stop[i] - r));
+      } <span class="kw">else</span> {
+        cost[i][k] += <span class="dv">1</span> / (v - f * (r - position + stop[i]));
+      }
+    }
+  }
+}</code></pre>
+</div><div id="atomic-car-race-用递归的方法进行动态规划" class="slide section level2">
+<h1>1264 Atomic Car Race 用递归的方法进行动态规划</h1>
+<p><span class="math">\(dp[i][j]\)</span> 表示到达第i个换轮胎点，上一次换轮胎位置是j时的消耗值</p>
+<p>初始状态有<span class="math">\(dp[1][0], dp[1][1]\)</span></p>
+<p>答案为<span class="math">\(dp[n][n] - b\)</span>（假设在最后一个位置换轮胎，但这一次换轮胎是没必要的）</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">dp[<span class="dv">1</span>][<span class="dv">0</span>] = cost[<span class="dv">0</span>][<span class="dv">1</span>];
+dp[<span class="dv">1</span>][<span class="dv">1</span>] = dp[<span class="dv">1</span>][<span class="dv">0</span>] + b;
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt;= n; ++i) {
+  <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; i; ++k) {
+    dp[i][k] = dp[i - <span class="dv">1</span>][k] + cost[k][i] - cost[k][i - <span class="dv">1</span>];
+  }
+  dp[i][i] = dp[i][<span class="dv">0</span>];
+  <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; i; ++k){
+    dp[i][i] = min(dp[i][k], dp[i][i]);
+  }
+  dp[i][i] += b;
+}</code></pre>
+</div>
+<div id="minimal" class="titleslide slide section level1"><h1>1828 Minimal</h1></div><div id="minimal-题目大意" class="slide section level2">
+<h1>1828 Minimal 题目大意</h1>
+<p>给出两个集合<span class="math">\(S_1\)</span>，<span class="math">\(S_2\)</span></p>
+<p>在<span class="math">\(S_2\)</span>中选出一些不重复的数与<span class="math">\(S_1\)</span>每个数匹配，使得匹配的数的差的绝对值尽量小</p>
+<p>集合中数的个数不超过500</p>
+</div><div id="minimal-解题思路" class="slide section level2">
+<h1>1828 Minimal 解题思路</h1>
+<p>首先证明，在<span class="math">\(S_1\)</span>中取两个数<span class="math">\(a_1\)</span>,<span class="math">\(b_1\)</span>，在<span class="math">\(S_2\)</span>中取两个数<span class="math">\(a_2\)</span>,<span class="math">\(b_2\)</span></p>
+<p>若<span class="math">\(a_1&lt;b_1\)</span>,<span class="math">\(a_2&lt;b_2\)</span>，则<span class="math">\(|a_1-a_2|+|b_1-b_2|&lt;|a_1-b_2|+|a_2-b_1|\)</span></p>
+<p>所以匹配的时候，先假定<span class="math">\(S_1\)</span>中的数字已经排序，那么可以知道，<span class="math">\(S_2\)</span>中的数字也是必须排好序的。</p>
+</div><div id="minimal-动态规划" class="slide section level2">
+<h1>1828 Minimal 动态规划</h1>
+<p><span class="math">\(dp[i][j]\)</span>表示<span class="math">\(S_1\)</span>中前i个数与<span class="math">\(S_2\)</span>中前j个数匹配时，第i个数以及之前的匹配数值差的绝对值之和</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">sort(s1, s1 + n);
+sort(s2, s2 + m);
+
+dp[<span class="dv">0</span>][<span class="dv">0</span>] = abs(s1[<span class="dv">0</span>] - s2[<span class="dv">0</span>]);
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; m; ++i) {
+  dp[<span class="dv">0</span>][i] = min(dp[<span class="dv">0</span>][i - <span class="dv">1</span>], abs(s1[<span class="dv">0</span>] - s2[i]));
+}
+
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; n; ++i) {
+  dp[i][i] = dp[i - <span class="dv">1</span>][i - <span class="dv">1</span>] + abs(s1[i] - s2[i]);
+  <span class="kw">for</span> (<span class="dt">int</span> j = i + <span class="dv">1</span>; j &lt; m; ++j) {
+    dp[i][j] = min(dp[i][j - <span class="dv">1</span>], dp[i - <span class="dv">1</span>][j - <span class="dv">1</span>] + abs(s1[i] - s2[j]));
+  }
+}</code></pre>
+</div>
+<div id="tiling-a-grid-with-dominoes" class="titleslide slide section level1"><h1>1527 Tiling a Grid With Dominoes</h1></div><div id="tiling-a-grid-with-dominoes-题目大意" class="slide section level2">
+<h1>1527 Tiling a Grid With Dominoes 题目大意</h1>
+<p>用<span class="math">\(1 \times 2\)</span>的长方形铺满<span class="math">\(4 \times N\)</span>的长方形，有多少种方法</p>
+</div><div id="tiling-a-grid-with-dominoes-解题思路" class="slide section level2">
+<h1>1527 Tiling a Grid With Dominoes 解题思路</h1>
+<p>和1121一样，找出不同的缺口</p>
+<p>用0表示缺口无方块，1表示有</p>
+<p>0:0000 1:0011 2:1100 3:1001 4:0110 5:1111</p>
+<p>状态转移：0-&gt;1, 0-&gt;2, 0-&gt;3, 0-&gt;5, 1-&gt;2, 1-&gt;0, 2-&gt;1, 2-&gt;0, 3-&gt;0, 3-&gt;4, 4-&gt;3, 5-&gt;0, 0-&gt;0</p>
+</div><div id="tiling-a-grid-with-dominoes-代码" class="slide section level2">
+<h1>1527 Tiling a Grid With Dominoes 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">dp[<span class="dv">0</span>][<span class="dv">0</span>]=<span class="dv">1</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= n + <span class="dv">1</span>; ++i) {
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">1</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">2</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">3</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">5</span>] += dp[i - <span class="dv">1</span>][<span class="dv">0</span>];
+  dp[i][<span class="dv">2</span>] += dp[i - <span class="dv">1</span>][<span class="dv">1</span>];
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">1</span>];
+  dp[i][<span class="dv">1</span>] += dp[i - <span class="dv">1</span>][<span class="dv">2</span>];
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">2</span>];
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">3</span>];
+  dp[i][<span class="dv">4</span>] += dp[i - <span class="dv">1</span>][<span class="dv">3</span>];
+  dp[i][<span class="dv">3</span>] += dp[i - <span class="dv">1</span>][<span class="dv">4</span>];
+  dp[i][<span class="dv">0</span>] += dp[i - <span class="dv">1</span>][<span class="dv">5</span>];
+}</code></pre>
+</div>
+<div id="过河" class="titleslide slide section level1"><h1>1148 过河</h1></div><div id="过河-题目大意" class="slide section level2">
+<h1>1148 过河 题目大意</h1>
+<p>桥的起点为0，终点为L，其中地有M个石子</p>
+<p>青蛙每次跳的范围为[S,T]，问要跳过桥最小踩到石子次数</p>
+<p><span class="math">\(1 \le L \le 10^9\)</span></p>
+<p><span class="math">\(1 \le S \le T \le 10\)</span></p>
+<p><span class="math">\(1 \le M \le 100\)</span></p>
+</div><div id="过河-解题思路" class="slide section level2">
+<h1>1148 过河 解题思路</h1>
+<div class="incremental">
+<p>L的值大太，直接按L的值进行动态规划不可行</p>
+</div>
+<div class="incremental">
+<p>分情况：若S和T相等，则踩到的石子数是固定的</p>
+<p>若S和T不相等，因为S和T的最大值为10，所以当两个石子相差太远是没有意义的，</p>
+<p>这里取的值为100，当石子距离相差100以上时，看作100，答案不变。</p>
+<p>压缩后桥长度不超过10000，直接动态规划即可</p>
+</div>
+</div><div id="过河-代码" class="slide section level2">
+<h1>1148 过河 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; m; ++i) {
+  delta[i] = rock[i + <span class="dv">1</span>] - rock[i];
+  <span class="kw">if</span> (delta[i] &gt; <span class="dv">100</span>) {
+    delta[i] = <span class="dv">100</span>;
+  }
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= m; ++i) {
+  rock[i] = rock[i - <span class="dv">1</span>] + delta[i - <span class="dv">1</span>];
+}
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= m; ++i) {
+  dp[rock[i]] = <span class="dv">1</span>;
+}
+
+can_reach[<span class="dv">0</span>] = <span class="dv">1</span>;
+L = rock[m] + <span class="dv">100</span>;
+<span class="kw">for</span> (<span class="dt">int</span> i = s; i &lt;= L; ++i) {
+  min_touched = <span class="dv">101</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> j = i - t; j &lt;= i - s; ++j) {
+    <span class="kw">if</span> (j &gt;= <span class="dv">0</span>) {
+      <span class="kw">if</span> (can_reach[j] &amp;&amp; dp[j] + dp[i] &lt; max) {
+        min_touched = dp[j] + dp[i];
+        can_reach[i] = <span class="dv">1</span>;
+      }
+    }
+  }
+  dp[i] = min_touched;
+}</code></pre>
+</div>
+<div id="tour" class="titleslide slide section level1"><h1>1163 Tour</h1></div><div id="tour-题目大意" class="slide section level2">
+<h1>1163 Tour 题目大意</h1>
+<p>有一个人要从起点开始经过所有目的地再回到起点</p>
+<p>他只能从起点（最左端的点），向右一直到达最右端的点，再返回起点，在这一次往返要经过所有的点</p>
+<p>求最短路程</p>
+</div><div id="tour-解题思路" class="slide section level2">
+<h1>1163 Tour 解题思路</h1>
+<p>一次往返可以看作从最左端点到最右端点的两条独立路径</p>
+<p>对所有点按从左到右排序后，用<span class="math">\(dp[i][j]\)</span>表示两条路径现在分别在i和j点。</p>
+</div><div id="tour-代码" class="slide section level2">
+<h1>1163 Tour 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">dp[<span class="dv">1</span>][<span class="dv">0</span>] = dist[<span class="dv">1</span>][<span class="dv">0</span>];
+<span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">2</span>; i &lt; n; ++i) {
+  dp[i][<span class="dv">0</span>] = dp[i - <span class="dv">1</span>][<span class="dv">0</span>] + dist[i][i - <span class="dv">1</span>];
+}
+<span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">1</span>; j &lt; n; ++j) {
+  dp[j + <span class="dv">1</span>][j] = dp[j][<span class="dv">0</span>] + dist[<span class="dv">0</span>][j<span class="dv">+1</span>];
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; j; ++i) {
+    dp[j + <span class="dv">1</span>][j] = min(dp[j + <span class="dv">1</span>][j], dp[j][i] + dist[i][j + <span class="dv">1</span>]);
+  }
+  <span class="kw">for</span> (<span class="dt">int</span> i = j + <span class="dv">2</span>; i &lt; n; ++i) {
+    dp[i][j] = dp[i - <span class="dv">1</span>][j] + dist[i][i - <span class="dv">1</span>];
+  }
+}</code></pre>
+</div>
+<div id="能量项链" class="titleslide slide section level1"><h1>1345 能量项链</h1></div><div id="能量项链-题目大意" class="slide section level2">
+<h1>1345 能量项链 题目大意</h1>
+<p>给出一串项链，每次可以选相邻两个珠子进行聚合，释放出一定的能量，并产生一个新珠子</p>
+<p>项链是头尾相接的</p>
+<p>求释放的能量的总和的最大值</p>
+<p>项链长度不超过100</p>
+</div><div id="能量项链-例子" class="slide section level2">
+<h1>1345 能量项链 例子</h1>
+<p>设N=4，4颗珠子的头标记与尾标记依次为(2，3) (3，5) (5，10) (10，2)</p>
+<p>我们用记号⊕表示两颗珠子的聚合操作，(j⊕ k)表示第j，k两颗珠子聚合后所释放的能量</p>
+<p>则第4、1两颗珠子聚合后释放的能量为：</p>
+<p>(4⊕ 1)=10 * 2 * 3=60。</p>
+<p>这一串项链可以得到最优值的一个聚合顺序所释放的总能量为</p>
+<p>((4⊕ 1)⊕ 2)⊕ 3）= 10 * 2 * 3 + 10 * 3 * 5+10 * 5 * 10 = 710</p>
+</div><div id="能量项链-解题思路" class="slide section level2">
+<h1>1345 能量项链 解题思路</h1>
+<div class="incremental">
+<p>每次聚合，都会使数字中一的个数字消失</p>
+<p>动态规划</p>
+<p>状态为[i,j]表示从i开始，按顺时针方向到j，这一段珠子所聚合得到的能量最大值</p>
+<p>状态转移：要求出[i,j]的值，则存在一个k在i和j之间， [i,j]的值为[i,k]的值与[k+1,j]的值与这次聚合所释放出的能量的总和，取最大值</p>
+</div>
+<div class="incremental">
+<p>长度较大的区间需要长度较小的区间得到，因此枚举顺序为区间的长度从小到大</p>
+</div>
+</div><div id="能量项链-代码" class="slide section level2">
+<h1>1345 能量项链 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> step = <span class="dv">1</span>; step &lt; n; ++step) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n * <span class="dv">2</span>; ++i) {
+    <span class="dt">int</span> j = i + step;
+    <span class="kw">if</span> (j &gt;= n * <span class="dv">2</span>) <span class="kw">break</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> k = i; k &lt; j; ++k) {
+      <span class="dt">int</span> better = dp[i][k] + dp[k + <span class="dv">1</span>][j] + weight[i] * weight[k + <span class="dv">1</span>] * weight[j + <span class="dv">1</span>];
+      dp[i][j] = max(dp[i][j], better);
+    }
+  }
+}</code></pre>
+</div>
+<div id="permutation" class="titleslide slide section level1"><h1>1687 Permutation</h1></div><div id="permutation-题目大意" class="slide section level2">
+<h1>1687 Permutation 题目大意</h1>
+<p>n个数的排列，可以在中间插入小于号和大于号，如1 3 5 4 2 变成 1&lt;3&lt;5&gt;4&gt;2</p>
+<p>现在问n个数其中有k个小于号的排列有多少个</p>
+<p><span class="math">\(n, k \le 100\)</span></p>
+</div><div id="permutation-解题思路" class="slide section level2">
+<h1>1687 Permutation 解题思路</h1>
+<p>用<span class="math">\(dp[i][j]\)</span>表示i个数的排列有j个小于号，现在要扩展到i+1个数的排列，即插入一个数要大于当前所有数</p>
+<p>当这个数插入位置为序列头或小于号中间时，排列比原来多出一个大于号</p>
+<p>当这个数插入位置为序列尾或大于号中间时，排列比原来多出一个小于号</p>
+</div><div id="permutation-解题思路-1" class="slide section level2">
+<h1>1687 Permutation 解题思路</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt; <span class="dv">100</span>; ++i) {
+  <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; i; ++j) {
+    dp[i + <span class="dv">1</span>][j] += dp[i][j] * (j + <span class="dv">1</span>);
+    dp[i + <span class="dv">1</span>][j] %= <span class="dv">2007</span>;
+    dp[i + <span class="dv">1</span>][j + <span class="dv">1</span>] += dp[i][j] * (i - j);
+    dp[i + <span class="dv">1</span>][j + <span class="dv">1</span>] % =<span class="dv">2007</span>;
+  }
+}</code></pre>
+</div>
+</body>
+</html>
