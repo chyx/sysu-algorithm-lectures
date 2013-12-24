@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="chyx111@qq.com" />
+  <title>算法分析习题选讲(第五章)</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" type="text/css" media="screen, projection, print"
+    href="http://www.w3.org/Talks/Tools/Slidy2/styles/slidy.css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">MathJax.Hub.Queue(["Typeset",MathJax.Hub]);</script>
+  <script src="http://www.w3.org/Talks/Tools/Slidy2/scripts/slidy.js"
+    charset="utf-8" type="text/javascript"></script>
+</head>
+<body>
+<div class="slide titlepage">
+  <h1 class="title">算法分析习题选讲(第五章)</h1>
+  <p class="author">
+chyx111@qq.com
+  </p>
+</div>
+<div id="sudoku" class="titleslide slide section level1"><h1>1317 Sudoku</h1></div><div id="sudoku-题目大意" class="slide section level2">
+<h1>1317 Sudoku 题目大意</h1>
+<p>给出一个未完成的数独，问这个数独有多少个解</p>
+<div class="figure">
+<img src="1317.png" />
+</div>
+</div><div id="sudoku-解题思路" class="slide section level2">
+<h1>1317 Sudoku 解题思路</h1>
+<div class="incremental">
+<p>用1-9的数字把空格填满，使得9行，9列以及9个小的3×3方格内都有1~9这9个数字</p>
+</div>
+<div class="incremental">
+<p>深度优先搜索+剪枝</p>
+</div>
+</div><div id="sudoku-暴力搜索" class="slide section level2">
+<h1>1317 Sudoku 暴力搜索</h1>
+<div class="incremental">
+<p>按照格子顺序，枚举每个格子可能出现的数字，如果发现矛盾则回溯，直到找出所有解</p>
+</div>
+<div class="incremental">
+<p>超时</p>
+</div>
+</div><div id="sudoku-剪枝" class="slide section level2">
+<h1>1317 Sudoku 剪枝</h1>
+<div class="incremental">
+<div class="figure">
+<img src="1317_2.jpg" />
+</div>
+<p>数独中的技巧</p>
+</div>
+<div class="incremental">
+<p>搜索时，对每个格子，根据同行同列和同小方格已有的数字，判断当前格子可能填上的数字，如果只有一个数字可填，则可以马上填上</p>
+<p>仍然超时</p>
+</div>
+</div><div id="sudoku-剪枝2" class="slide section level2">
+<h1>1317 Sudoku 剪枝2</h1>
+<p>如果有个数字在某一行某一列某个小方格里面只找到1个位置，则可以马上填上</p>
+<p><a href="http://soj.me/viewsource.php?sid=80678">http://soj.me/viewsource.php?sid=80678</a></p>
+</div><div id="sudoku-更强大的算法" class="slide section level2">
+<h1>1317 Sudoku 更强大的算法</h1>
+<p><a href="http://en.wikipedia.org/wiki/Dancing_Links">http://en.wikipedia.org/wiki/Dancing_Links</a></p>
+</div>
+<div id="脱离地牢" class="titleslide slide section level1"><h1>1215 脱离地牢</h1></div><div id="脱离地牢-题目大意" class="slide section level2">
+<h1>1215 脱离地牢 题目大意</h1>
+<p>有两个人在一个地牢里，里面有墙壁也有熔浆</p>
+<p>当一个人向某个方向移动时，另一个人会向另一个方向移动</p>
+<p>如果遇到墙壁则不能前进，如到熔浆则任务失败</p>
+<p>问使两个人相遇最少需要多少步</p>
+<pre><code>5 5
+#####
+#H..#
+#.!.#
+#.#P#
+#####
+WNSE</code></pre>
+<pre><code>Paris行走方案为NNWWS，每步过后Helen位置在(2,2), (2,2), (3,2), (4,2), (3,2)</code></pre>
+</div><div id="脱离地牢-解题思路" class="slide section level2">
+<h1>1215 脱离地牢 解题思路</h1>
+<p>从初始状态开始进行bfs，状态为两个人分别的位置</p>
+<p>转移：</p>
+<p>一个人向东南西北四个方向移动，同时另外一个人也跟着移动，到达新状态</p>
+<p><a href="http://soj.me/viewsource.php?sid=87055">http://soj.me/viewsource.php?sid=87055</a></p>
+</div>
+<div id="the-game-of-efil" class="titleslide slide section level1"><h1>1171 The Game of Efil</h1></div><div id="the-game-of-efil-题目大意" class="slide section level2">
+<h1>1171 The Game of Efil 题目大意</h1>
+<p>一块<span class="math">\(m \times n\)</span>大小的板上，有一些细菌</p>
+<p>如果一个细菌的八个方向上邻居细菌数是2或3，则在下一个回合它能保留下来，否则它会消失</p>
+<p>如果有一个空格的邻居细菌数为3，则下一回合长出新的细菌</p>
+<p>板的上下边是连通的，左右边是连通的 (torus)</p>
+<p>给出一个板的当前状态，问上一个回合的状态有多少不同的情况</p>
+<p><span class="math">\(m \times n \le 16\)</span></p>
+</div><div id="the-game-of-efil-解题思路" class="slide section level2">
+<h1>1171 The Game of Efil 解题思路</h1>
+<p>枚举出每种状态，按照规则生成下一步状态，并与输入状态比较，相等则答案数加一</p>
+<p>因为最多有16个格子，因此最多有<span class="math">\(2^{16}\)</span>个状态</p>
+<p>二进制暴力枚举所有状态即可。</p>
+</div><div id="the-game-of-efil-代码" class="slide section level2">
+<h1>1171 The Game of Efil 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">vector&lt;vector&lt;<span class="dt">int</span>&gt; &gt; dest(n, vector&lt;<span class="dt">int</span>&gt;(m, <span class="dv">0</span>));
+vector&lt;vector&lt;<span class="dt">int</span>&gt; &gt; curr(n, vector&lt;<span class="dt">int</span>&gt;(m, <span class="dv">0</span>));
+vector&lt;vector&lt;<span class="dt">int</span>&gt; &gt; next_state(n, vector&lt;<span class="dt">int</span>&gt;(m, <span class="dv">0</span>));</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> ans = <span class="dv">0</span>;
+<span class="kw">for</span> (<span class="dt">int</span> msk = (<span class="dv">1</span> &lt;&lt; (n * m)) - <span class="dv">1</span>; msk &gt;= <span class="dv">0</span>; --msk) {
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; ++j) {
+    <span class="kw">if</span> (msk &amp; (<span class="dv">1</span> &lt;&lt; (i * m + j))) {
+      curr[i][j] = <span class="dv">1</span>;
+    } <span class="kw">else</span> {
+      curr[i][j] = <span class="dv">0</span>;
+    }
+  }
+
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; m; ++j) {
+    <span class="dt">int</span> sum = <span class="dv">0</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> dx = -<span class="dv">1</span>; dx &lt;= <span class="dv">1</span>; ++dx) {
+      <span class="kw">for</span> (<span class="dt">int</span> dy = -<span class="dv">1</span>; dy &lt;= <span class="dv">1</span>; ++dy) {
+        <span class="kw">if</span> (dx == <span class="dv">0</span> &amp;&amp; dy == <span class="dv">0</span>) <span class="kw">continue</span>;
+        sum += curr[(i + dx + n) % n][(j + dy + m) % m];
+      }
+    }
+    <span class="kw">if</span> (curr[i][j] == <span class="dv">1</span> &amp;&amp; (sum == <span class="dv">2</span> || sum == <span class="dv">3</span>)) {
+      next_state[i][j] = <span class="dv">1</span>;  <span class="co">// survive</span>
+    } <span class="kw">else</span> <span class="kw">if</span> (curr[i][j] == <span class="dv">0</span> &amp;&amp; sum == <span class="dv">3</span>) {
+      next_state[i][j] = <span class="dv">1</span>;  <span class="co">// birth</span>
+    } <span class="kw">else</span> {
+      next_state[i][j] = <span class="dv">0</span>;
+    }
+  }
+
+  <span class="kw">if</span> (next_state == dest) ++ans;
+}</code></pre>
+</div>
+<div id="新红黑树" class="titleslide slide section level1"><h1>1219 新红黑树</h1></div><div id="新红黑树-题目大意" class="slide section level2">
+<h1>1219 新红黑树 题目大意</h1>
+<div class="incremental">
+<p>一棵树由红枝和黑枝组成的树，A和B轮流砍树，A只砍红枝，B只砍黑枝</p>
+<p>砍枝后不与根相连的枝都去掉。每个树枝上有权值，砍掉的枝的权值加到自己的分数上</p>
+<p>A想使A-B之差越高越好，B想它越低越好。在最佳策略下A-B之差</p>
+</div>
+<div class="incremental">
+<p>树枝树不超过20</p>
+</div>
+</div><div id="新红黑树-解题思路" class="slide section level2">
+<h1>1219 新红黑树 解题思路</h1>
+<p>博弈题，可以看作在博弈树上进行深搜，并根据两人的策略取最大值或最小值</p>
+<p>博弈状态有重复，状态只包括，当前剩下的树枝，和轮到谁砍树枝</p>
+<p>使用记忆化搜索</p>
+<p>预处理砍掉每个树枝会使哪些其它树枝消失</p>
+</div><div id="新红黑树-代码预处理" class="slide section level2">
+<h1>1219 新红黑树 代码，预处理</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> Edge {
+  <span class="dt">int</span> from, to, color, weight;
+};
+<span class="dt">int</span> dfs(<span class="dt">int</span> x, <span class="dt">int</span> parent) {
+  <span class="dt">int</span> edges_in_tree = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; G[x].size(); ++i) {
+    <span class="dt">int</span> edge_id = G[x][i];
+    <span class="dt">int</span> to = edges[edge_id].to ^ edges[edge_id].from ^ x;
+    <span class="kw">if</span> (to == parent) <span class="kw">continue</span>;
+    <span class="dt">int</span> edges_in_subtree = dfs(to, x);
+
+    child_edges[edge_id] = (<span class="dv">1</span> &lt;&lt; edge_id) ^ edges_in_subtree;
+    edges_in_tree ^= child_edges[edge_id];
+  }
+  <span class="kw">return</span> edges_in_tree;
+}</code></pre>
+</div><div id="新红黑树-代码最小最大博弈" class="slide section level2">
+<h1>1219 新红黑树 代码，最小最大博弈</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> mem[<span class="dv">1</span> &lt;&lt; <span class="dv">20</span>][<span class="dv">2</span>];
+<span class="dt">int</span> min_max(<span class="dt">int</span> tree, <span class="dt">int</span> player) {  <span class="co">// player = 1 or -1</span>
+  <span class="kw">if</span> (tree == <span class="dv">0</span>) <span class="kw">return</span> <span class="dv">0</span>;
+  <span class="dt">int</span> &amp;max_difference = mem[tree][(player + <span class="dv">1</span>) / <span class="dv">2</span>];
+  <span class="kw">if</span> (max_difference != <span class="bn">0xcccccccc</span>) <span class="kw">return</span> max_difference;
+
+  <span class="kw">for</span> (<span class="dt">int</span> cut = <span class="dv">0</span>; cut &lt; num_edges; ++cut) <span class="kw">if</span> ((<span class="dv">1</span> &lt;&lt; cut) &amp; tree) {
+    <span class="kw">if</span> (edges[cut].color != player) <span class="kw">continue</span>;
+
+    <span class="dt">int</span> new_tree = tree &amp; ~child_edges[cut];
+    max_difference = max(max_difference, edges[cut].weight - min_max(new_tree, player * -<span class="dv">1</span>));
+  }
+  <span class="kw">if</span> (max_difference == <span class="bn">0xcccccccc</span>) {
+    max_difference = -min_max(tree, player * -<span class="dv">1</span>);
+  }
+  <span class="kw">return</span> max_difference;
+}
+
+memset(mem, <span class="bn">0xcc</span>, <span class="kw">sizeof</span> (mem));
+printf(<span class="st">&quot;%d</span><span class="ch">\n</span><span class="st">&quot;</span>, min_max((<span class="dv">1</span> &lt;&lt; num_edges) - <span class="dv">1</span>, <span class="dv">1</span>));</code></pre>
+</div>
+<div id="inverso" class="titleslide slide section level1"><h1>1048 Inverso</h1></div><div id="inverso-题目大意" class="slide section level2">
+<h1>1048 Inverso 题目大意</h1>
+<p>给出一个<span class="math">\(3 \times 3\)</span>棋盘，每个格子是黑色或白色</p>
+<p>每个格子有一个按钮，按这个按钮会使自己和周围8个方向的格子颜色反转</p>
+<p>问最少需要多少步使所有格子变成白色，输出最小的序列</p>
+</div><div id="inverso-解题思路" class="slide section level2">
+<h1>1048 Inverso 解题思路</h1>
+<p>任何一个按钮按两次以上都是没用的，因为按两次的作用互相抵消了</p>
+<p>枚举每个格子按或者不按，判断是否能使所有格子变成白色，如果可以，则取所有方案的最小值</p>
+</div><div id="inverso-代码" class="slide section level2">
+<h1>1048 Inverso 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">char</span> ans[<span class="dv">10</span>], ans[<span class="dv">10</span>];
+<span class="dt">void</span> dfs(<span class="dt">int</span> position, <span class="dt">int</span> cnt) {
+  <span class="kw">if</span> (position &gt; <span class="dv">9</span>) {
+    cand[cnt] = <span class="dv">0</span>;
+    <span class="kw">if</span> (allwhite() &amp;&amp; better(cand, ans)) {
+      strcpy(ans, cand);
+    }
+    <span class="kw">return</span>;
+  }
+  <span class="co">// Case 1:</span>
+  dfs(position + <span class="dv">1</span>, cnt);
+  <span class="co">// Case 2:</span>
+  flip(position);
+  cand[cnt] = position + &#39;<span class="dv">0</span>&#39;;
+  dfs(position + <span class="dv">1</span>, cnt + <span class="dv">1</span>);
+}</code></pre>
+</div>
+<div id="飞越原野" class="titleslide slide section level1"><h1>1135 飞越原野</h1></div><div id="飞越原野-题目大意" class="slide section level2">
+<h1>1135 飞越原野 题目大意</h1>
+<p>在<span class="math">\(m \times n\)</span>的平面上，有一个德鲁伊，可以用1的时间向四个方向走一步， 或用1的时间向四个方向飞任意距离</p>
+<p>飞行降落点和行走必须在平地上</p>
+<p>飞行的总距离有限制。问从(1,1)飞到(m,n)的最短时间。</p>
+<pre><code>4 4 2
+PLLP
+PPLP
+PPPP
+PLLP</code></pre>
+</div><div id="飞越原野-解题思路" class="slide section level2">
+<h1>1135 飞越原野 解题思路</h1>
+<div class="incremental">
+<p>BFS</p>
+</div>
+<div class="incremental">
+<p>状态为当前所在格子坐标(x,y)，当前可用飞行距离d</p>
+<p>初始状态 (0, 0, d) 终止状态 (m, n, x)，其中x可以为任意非负整数。</p>
+<p>每个状态，可以向四个方向走一步，或向四个方向飞任意距离，都消耗时间1</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> State {
+  <span class="dt">int</span> x, y, d, s;
+};
+queue&lt;State&gt; q;
+<span class="dt">int</span> dx[<span class="dv">4</span>] = {<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, -<span class="dv">1</span>};
+<span class="dt">int</span> dy[<span class="dv">4</span>] = {<span class="dv">1</span>, <span class="dv">0</span>, -<span class="dv">1</span>, <span class="dv">0</span>};</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> bfs() {
+  q.push(State(<span class="dv">1</span>,<span class="dv">1</span>,D,<span class="dv">0</span>));
+  <span class="kw">while</span> (!q.empty()) {
+    State curr = q.top(); q.pop();
+    <span class="kw">if</span> (curr.x == m &amp;&amp; curr.y == n) <span class="kw">return</span> curr.s;
+    <span class="kw">for</span> (<span class="dt">int</span> k = <span class="dv">0</span>; k &lt; <span class="dv">4</span>; ++k) {
+      State new_State = walk(curr, k);
+      <span class="kw">if</span> (valid(new_State)) q.push(new_State);
+      <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">1</span>; i &lt;= curr.d; i++) {
+        new_State = fly(curr, k, i);
+        <span class="kw">if</span> (valid(new_State)) q.push(new_State);
+      }
+    }
+  }
+}
+
+
+State walk(State old, <span class="dt">int</span> k) {
+  old.x += dx[k];
+  old.y += dy[k];
+  ++old.s;
+  <span class="kw">return</span> old;
+}
+
+State fly(State old, <span class="dt">int</span> k, <span class="dt">int</span> step) {
+  old.x += dx[k] * step;
+  old.y += dy[k] * step;
+  old.d -= step;
+  ++old.s;
+  <span class="kw">return</span> old;
+}
+
+<span class="dt">bool</span> valid(State state) {
+  <span class="kw">if</span> (state.x &lt; <span class="dv">1</span> || state.x &gt; m || state.y &lt; <span class="dv">1</span>|| state.y &gt; n) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">if</span> (graph[state.x][state.y] == &#39;L&#39;) <span class="kw">return</span> <span class="kw">false</span>;
+  <span class="kw">if</span> (visit[state.x][state.y][state.d]) <span class="kw">return</span> <span class="kw">false</span>;
+  visit[state.x][state.y][state.d]=<span class="kw">true</span>;
+  <span class="kw">return</span> <span class="kw">true</span>;
+}</code></pre>
+</div>
+</div>
+<div id="simple-puzzle" class="titleslide slide section level1"><h1>1107 Simple Puzzle</h1></div><div id="simple-puzzle-题目大意" class="slide section level2">
+<h1>1107 Simple Puzzle 题目大意</h1>
+<p>给出n个数，每个数有k个数字，现在把这n个数写成n行，并且对齐成k列</p>
+<p>在每个数中擦去一个数字，并且擦去的数字的列要不相同，得到n个不完整的数</p>
+<p>现在给出这n个不完整的数和初始n个数的和，求这个n个数</p>
+</div><div id="simple-puzzle-解题思路" class="slide section level2">
+<h1>1107 Simple Puzzle 解题思路</h1>
+<p>枚举n个数中每个数缺失的位，并且缺失的位应该填上的数字</p>
+<p>然后检查所有数的和是否和输入相等，相等则记下</p>
+<p>枚举用dfs</p>
+<p>对所有答案排序输出</p>
+</div><div id="simple-puzzle-代码" class="slide section level2">
+<h1>1107 Simple Puzzle 代码</h1>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> dfs(<span class="dt">int</span> m) {
+  <span class="kw">if</span> (m &gt;= n) {
+    check();
+    <span class="kw">return</span>;
+  }
+
+  <span class="dt">int</span> old_number = numbers[m];
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; k; ++i) {
+    <span class="kw">if</span> (exist[i]) <span class="kw">continue</span>;
+    exist[i] = <span class="kw">true</span>;
+    <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt;= <span class="dv">9</span>; ++j) {
+      numbers[m] = add_digit(old_number, i, j);
+      dfs(m + <span class="dv">1</span>);
+    }
+    exist[i] = <span class="kw">false</span>;
+  }
+  numbers[m] = old_number;
+}</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">int</span> add_digit(<span class="dt">int</span> x, <span class="dt">int</span> pos, <span class="dt">int</span> digit) {
+  <span class="dt">int</span> z = __gnu_cxx::power(<span class="dv">10</span>, pos);
+  <span class="dt">int</span> y = x % z;
+  x /= z;
+  <span class="kw">return</span> (x * <span class="dv">10</span> + digit) * z + y;
+}
+
+
+<span class="dt">void</span> check() {
+  <span class="dt">int</span> sum = <span class="dv">0</span>;
+  <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+    sum += numbers[i];
+  }
+  <span class="kw">if</span> (sum == sum_expected) {
+    memcpy(ans[cnt], numbers, <span class="kw">sizeof</span>(<span class="dt">int</span>) * n);
+    ++cnt;
+  }
+}</code></pre>
+</div>
+</body>
+</html>

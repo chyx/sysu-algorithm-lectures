@@ -2,6 +2,7 @@ pandoc -t slidy -s exercise1.md -o exercise1.html --mathjax -i
 pandoc -t slidy -s exercise2.md -o exercise2.html --mathjax -i
 pandoc -t slidy -s exercise3.md -o exercise3.html --mathjax -i
 pandoc -t slidy -s exercise4.md -o exercise4.html --mathjax -i
+pandoc -t slidy -s exercise5.md -o exercise5.html --mathjax -i
 pandoc -t slidy -s train1.md -o train1.html --mathjax -i
 pandoc -t slidy -s train2.md -o train2.html --mathjax -i
 pandoc -t slidy -s train3.md -o train3.html --mathjax -i
